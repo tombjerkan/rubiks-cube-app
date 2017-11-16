@@ -31,7 +31,8 @@ public class ScanCubeActivity extends FragmentActivity
 
         DisplayResultFragment resultFragment = new DisplayResultFragment();
         Bundle arguments = new Bundle();
-        arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT, matToBitmap(image));
+        arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
+                matToBitmap(cubeScanner.edgeImage()));
         resultFragment.setArguments(arguments);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
