@@ -27,7 +27,7 @@ public class ScanCubeActivity extends FragmentActivity
 
     @Override
     public void onImageCaptured(Mat image) {
-        mOriginalImage = image;
+        cubeScanner = new CubeScanner(image);
 
         DisplayResultFragment resultFragment = new DisplayResultFragment();
         Bundle arguments = new Bundle();
@@ -46,5 +46,5 @@ public class ScanCubeActivity extends FragmentActivity
         return bitmap;
     }
 
-    private Mat mOriginalImage;
+    private CubeScanner cubeScanner;
 }
