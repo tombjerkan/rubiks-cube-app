@@ -7,6 +7,8 @@ import org.opencv.core.Scalar;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +21,7 @@ public class CubeScanner {
         findLines();
         findOrthogonalLines();
         combineLines();
+        findCentreLines();
     }
 
     public Mat originalImage() {
@@ -41,6 +44,10 @@ public class CubeScanner {
         return mCombinedLineImage;
     }
 
+    public Mat centreLineImage() {
+        return mCentreLineImage;
+    }
+
     public Mat stepImage(Step step) {
         switch(step) {
             case EDGES:
@@ -51,6 +58,8 @@ public class CubeScanner {
                 return orthogonalLineImage();
             case COMBINED_LINES:
                 return combinedLineImage();
+            case CENTRE_LINES:
+                return centreLineImage();
             default:
                 return originalImage();
         }
@@ -60,7 +69,8 @@ public class CubeScanner {
         EDGES,
         LINES,
         ORTHOGONAL_LINES,
-        COMBINED_LINES;
+        COMBINED_LINES,
+        CENTRE_LINES;
 
         private Step nextStep;
 
@@ -68,7 +78,8 @@ public class CubeScanner {
             EDGES.nextStep = LINES;
             LINES.nextStep = ORTHOGONAL_LINES;
             ORTHOGONAL_LINES.nextStep = COMBINED_LINES;
-            COMBINED_LINES.nextStep = null;
+            COMBINED_LINES.nextStep = CENTRE_LINES;
+            CENTRE_LINES.nextStep = null;
         }
 
         public Step nextStep() {
@@ -135,10 +146,46 @@ public class CubeScanner {
         mCombinedLineImage = drawLines(mCombinedLines);
     }
 
+    private void findCentreLines() {
+        List<Line> horizontalLines = mCombinedLines.stream()
+                .filter(line -> line.isHorizontal())
+                .collect(Collectors.toList());
+
+        List<Line> verticalLines = mCombinedLines.stream()
+                .filter(line -> line.isVertical())
+                .collect(Collectors.toList());
+
+        if (horizontalLines.size() != 4 || verticalLines.size() != 4) {
+            return;
+        }
+
+        // Sorts lines by distance away from origin to get left-to-right and top-to-bottom order
+        horizontalLines.sort((line1, line2) -> (int) (line1.rho() - line2.rho()));
+        verticalLines.sort((line1, line2) -> (int) (line1.rho() - line2.rho()));
+
+        Line topCentreHorizontal = averageLines(horizontalLines.get(0), horizontalLines.get(1));
+        Line middleCentreHorizontal = averageLines(horizontalLines.get(1), horizontalLines.get(2));
+        Line bottomCentreHorizontal = averageLines(horizontalLines.get(2), horizontalLines.get(3));
+
+        Line leftCentreVertical = averageLines(verticalLines.get(0), verticalLines.get(1));
+        Line middleCentreVertical = averageLines(verticalLines.get(1), verticalLines.get(2));
+        Line rightCentreVertical = averageLines(verticalLines.get(2), verticalLines.get(3));
+
+        mCentreLines = new ArrayList<>(Arrays.asList(
+                topCentreHorizontal, middleCentreHorizontal, bottomCentreHorizontal,
+                leftCentreVertical, middleCentreVertical, rightCentreVertical));
+
+        mCentreLineImage = drawLines(mCentreLines);
+    }
+
     private Line averageLines(List<Line> lines) {
         return new Line(
                 lines.stream().mapToDouble(line -> line.rho()).sum() / lines.size(),
                 lines.stream().mapToDouble(line ->line.theta()).sum() / lines.size());
+    }
+
+    private Line averageLines(Line line1, Line line2) {
+        return averageLines(Arrays.asList(line1, line2));
     }
 
     private Mat drawLines(List<Line> lines) {
@@ -205,10 +252,12 @@ public class CubeScanner {
     private Mat mLineImage;
     private Mat mOrthogonalLineImage;
     private Mat mCombinedLineImage;
+    private Mat mCentreLineImage;
 
     List<Line> mLines;
     List<Line> mOrthogonalLines;
     List<Line> mCombinedLines;
+    List<Line> mCentreLines;
 
     private static final int CANNY_THRESHOLD_1 = 0;
     private static final int CANNY_THRESHOLD_2 = 50;
