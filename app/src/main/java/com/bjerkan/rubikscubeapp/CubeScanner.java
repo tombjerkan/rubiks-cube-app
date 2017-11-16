@@ -254,10 +254,10 @@ public class CubeScanner {
     private Mat mCombinedLineImage;
     private Mat mCentreLineImage;
 
-    List<Line> mLines;
-    List<Line> mOrthogonalLines;
-    List<Line> mCombinedLines;
-    List<Line> mCentreLines;
+    private List<Line> mLines;
+    private List<Line> mOrthogonalLines;
+    private List<Line> mCombinedLines;
+    private List<Line> mCentreLines;
 
     private static final int CANNY_THRESHOLD_1 = 10;
     private static final int CANNY_THRESHOLD_2 = 25;
