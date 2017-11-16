@@ -18,6 +18,7 @@ public class CubeScanner {
         findEdges();
         findLines();
         findOrthogonalLines();
+        combineLines();
     }
 
     public Mat originalImage() {
@@ -36,6 +37,10 @@ public class CubeScanner {
         return mOrthogonalLineImage;
     }
 
+    public Mat combinedLineImage() {
+        return mCombinedLineImage;
+    }
+
     public Mat stepImage(Step step) {
         switch(step) {
             case EDGES:
@@ -44,6 +49,8 @@ public class CubeScanner {
                 return lineImage();
             case ORTHOGONAL_LINES:
                 return orthogonalLineImage();
+            case COMBINED_LINES:
+                return combinedLineImage();
             default:
                 return originalImage();
         }
@@ -52,14 +59,16 @@ public class CubeScanner {
     public enum Step {
         EDGES,
         LINES,
-        ORTHOGONAL_LINES;
+        ORTHOGONAL_LINES,
+        COMBINED_LINES;
 
         private Step nextStep;
 
         static {
             EDGES.nextStep = LINES;
             LINES.nextStep = ORTHOGONAL_LINES;
-            ORTHOGONAL_LINES.nextStep = null;
+            ORTHOGONAL_LINES.nextStep = COMBINED_LINES;
+            COMBINED_LINES.nextStep = null;
         }
 
         public Step nextStep() {
@@ -93,6 +102,43 @@ public class CubeScanner {
                 .collect(Collectors.toList());
 
         mOrthogonalLineImage = drawLines(mOrthogonalLines);
+    }
+
+    private void combineLines() {
+        boolean[] lineHandled = new boolean[mOrthogonalLines.size()];
+        for (int i = 0; i < lineHandled.length; ++i) {
+            lineHandled[i] = false;
+        }
+
+        mCombinedLines = new LinkedList<>();
+        for (int lineIndex = 0; lineIndex < mOrthogonalLines.size(); lineIndex++) {
+            if (!lineHandled[lineIndex]) {
+                List<Line> similarLines = new LinkedList<>();
+
+                similarLines.add(mOrthogonalLines.get(lineIndex));
+                lineHandled[lineIndex] = true;
+
+                for (int otherLineIndex = 0; otherLineIndex < mOrthogonalLines.size();
+                     otherLineIndex++) {
+                    if (mOrthogonalLines.get(lineIndex).isSimilar(
+                            mOrthogonalLines.get(otherLineIndex))) {
+                        similarLines.add(mOrthogonalLines.get(otherLineIndex));
+                        lineHandled[otherLineIndex] = true;
+                    }
+                }
+
+                Line averageLine = averageLines(similarLines);
+                mCombinedLines.add(averageLine);
+            }
+        }
+
+        mCombinedLineImage = drawLines(mCombinedLines);
+    }
+
+    private Line averageLines(List<Line> lines) {
+        return new Line(
+                lines.stream().mapToDouble(line -> line.rho()).sum() / lines.size(),
+                lines.stream().mapToDouble(line ->line.theta()).sum() / lines.size());
     }
 
     private Mat drawLines(List<Line> lines) {
@@ -145,6 +191,11 @@ public class CubeScanner {
             return isHorizontal() || isVertical();
         }
 
+        public boolean isSimilar(Line otherLine) {
+            return Math.abs(mRho - otherLine.mRho) < SIMILARITY_RHO_THRESHOLD &&
+                    Math.abs(mTheta - otherLine.mTheta) < SIMILARITY_THETA_THRESHOLD;
+        }
+
         private final double mRho;
         private final double mTheta;
     }
@@ -153,12 +204,16 @@ public class CubeScanner {
     private Mat mEdgeImage;
     private Mat mLineImage;
     private Mat mOrthogonalLineImage;
+    private Mat mCombinedLineImage;
 
     List<Line> mLines;
     List<Line> mOrthogonalLines;
+    List<Line> mCombinedLines;
 
     private static final int CANNY_THRESHOLD_1 = 0;
     private static final int CANNY_THRESHOLD_2 = 50;
     private static final int HOUGH_THRESHOLD = 100;
     private static final double ORTHOGONAL_THRESHOLD = Math.PI/36;
+    private static final double SIMILARITY_RHO_THRESHOLD = 100;
+    private static final double SIMILARITY_THETA_THRESHOLD = Math.PI / 18;
 }
