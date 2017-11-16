@@ -9,6 +9,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CubeScanner {
     public CubeScanner(Mat cubeImage) {
@@ -16,6 +17,7 @@ public class CubeScanner {
 
         findEdges();
         findLines();
+        findOrthogonalLines();
     }
 
     public Mat originalImage() {
@@ -30,12 +32,18 @@ public class CubeScanner {
         return mLineImage;
     }
 
+    public Mat orthogonalLineImage() {
+        return mOrthogonalLineImage;
+    }
+
     public Mat stepImage(Step step) {
         switch(step) {
             case EDGES:
                 return edgeImage();
             case LINES:
                 return lineImage();
+            case ORTHOGONAL_LINES:
+                return orthogonalLineImage();
             default:
                 return originalImage();
         }
@@ -43,13 +51,15 @@ public class CubeScanner {
 
     public enum Step {
         EDGES,
-        LINES;
+        LINES,
+        ORTHOGONAL_LINES;
 
         private Step nextStep;
 
         static {
             EDGES.nextStep = LINES;
-            LINES.nextStep = null;
+            LINES.nextStep = ORTHOGONAL_LINES;
+            ORTHOGONAL_LINES.nextStep = null;
         }
 
         public Step nextStep() {
@@ -68,13 +78,21 @@ public class CubeScanner {
         Mat linesMatrix = new Mat();
         Imgproc.HoughLines(mEdgeImage, linesMatrix, 1, Math.PI/180, HOUGH_THRESHOLD);
 
-        List<Line> lines = new LinkedList<>();
+        mLines = new LinkedList<>();
         for (int lineIndex = 0; lineIndex < linesMatrix.rows(); lineIndex++) {
             double[] matrixLine = linesMatrix.get(lineIndex, 0);
-            lines.add(new Line(matrixLine[0], matrixLine[1]));
+            mLines.add(new Line(matrixLine[0], matrixLine[1]));
         }
 
-        mLineImage = drawLines(lines);
+        mLineImage = drawLines(mLines);
+    }
+
+    private void findOrthogonalLines() {
+        mOrthogonalLines = mLines.stream()
+                .filter(line -> line.isOrthogonal())
+                .collect(Collectors.toList());
+
+        mOrthogonalLineImage = drawLines(mOrthogonalLines);
     }
 
     private Mat drawLines(List<Line> lines) {
@@ -114,6 +132,19 @@ public class CubeScanner {
             return mTheta;
         }
 
+        public boolean isHorizontal() {
+            return (mTheta > (Math.PI / 2) - ORTHOGONAL_THRESHOLD) &&
+                    (mTheta < (Math.PI / 2) + ORTHOGONAL_THRESHOLD);
+        }
+
+        public boolean isVertical() {
+            return (mTheta > -ORTHOGONAL_THRESHOLD) && (mTheta < ORTHOGONAL_THRESHOLD);
+        }
+
+        public boolean isOrthogonal() {
+            return isHorizontal() || isVertical();
+        }
+
         private final double mRho;
         private final double mTheta;
     }
@@ -121,8 +152,13 @@ public class CubeScanner {
     private Mat mOriginalImage;
     private Mat mEdgeImage;
     private Mat mLineImage;
+    private Mat mOrthogonalLineImage;
+
+    List<Line> mLines;
+    List<Line> mOrthogonalLines;
 
     private static final int CANNY_THRESHOLD_1 = 0;
     private static final int CANNY_THRESHOLD_2 = 50;
     private static final int HOUGH_THRESHOLD = 100;
+    private static final double ORTHOGONAL_THRESHOLD = Math.PI/36;
 }
