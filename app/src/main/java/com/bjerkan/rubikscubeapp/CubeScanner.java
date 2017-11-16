@@ -9,6 +9,7 @@ import org.opencv.imgproc.Imgproc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class CubeScanner {
         combineLines();
         findCentreLines();
         findCentrePoints();
+        findColours();
     }
 
     public Mat originalImage() {
@@ -51,6 +53,10 @@ public class CubeScanner {
 
     public Mat centrePointImage() {
         return mCentrePointImage;
+    }
+
+    public List<RubiksColour> squareColours() {
+        return mSquareColours;
     }
 
     public Mat stepImage(Step step) {
@@ -244,6 +250,68 @@ public class CubeScanner {
         return image;
     }
 
+    private void findColours() {
+        final Mat hsvImage = new Mat(mOriginalImage.size(), CvType.CV_8UC3);
+        Imgproc.cvtColor(mOriginalImage, hsvImage, Imgproc.COLOR_RGB2HSV, 3);
+
+        List<Double> centrePointColourHues = mCentrePoints.stream()
+                .map(point -> hsvImage.get((int) point.y, (int) point.x)[0])
+                .collect(Collectors.toList());
+
+        List<RubiksColour> squareColours = centrePointColourHues.stream().map(hue ->
+                Arrays.asList(RubiksColour.values())
+                        .stream()
+                        .map(rubiksColour -> new ColourSimilarity(rubiksColour,
+                                hueSimilarity(hue, rubiksColour.hue)))
+                        .max(Comparator.comparing(ColourSimilarity::similarity))
+                        .get()
+                        .colour()
+        ).collect(Collectors.toList());
+    }
+
+    private class ColourSimilarity {
+        public ColourSimilarity(RubiksColour colour, double similarity) {
+            mColour = colour;
+            mSimilarity = similarity;
+        }
+
+        public RubiksColour colour() {
+            return mColour;
+        }
+
+        public double similarity() {
+            return mSimilarity;
+        }
+
+        private final RubiksColour mColour;
+        private final double mSimilarity;
+    }
+
+    private double hueSimilarity(double hue1, double hue2) {
+        // Hue wraps around from 180. to 0. so must take this into account
+        return 90. - Math.min(Math.abs(hue1 - hue2), 180. - Math.abs(hue1 - hue2));
+    }
+
+    private enum RubiksColour {
+        WHITE,
+        GREEN,
+        RED,
+        BLUE,
+        ORANGE,
+        YELLOW;
+
+        private double hue;
+
+        static {
+            WHITE.hue = 0.;
+            GREEN.hue = 74.;
+            RED.hue = 174.;
+            BLUE.hue = 108.;
+            ORANGE.hue = 11.;
+            YELLOW.hue = 25.;
+        }
+    }
+
     private class Line {
         public Line(double rho, double theta) {
             // Ensure similar lines have numerically close values
@@ -317,6 +385,7 @@ public class CubeScanner {
     private List<Line> mCombinedLines;
     private List<Line> mCentreLines;
     private List<Point> mCentrePoints;
+    private List<RubiksColour> mSquareColours;
 
     private static final int CANNY_THRESHOLD_1 = 10;
     private static final int CANNY_THRESHOLD_2 = 25;
