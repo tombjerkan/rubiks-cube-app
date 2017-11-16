@@ -9,7 +9,8 @@ import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
 public class ScanCubeActivity extends FragmentActivity
-        implements CaptureImageFragment.OnImageCapturedListener {
+        implements CaptureImageFragment.OnImageCapturedListener,
+                   DisplayResultFragment.NextStepRequestListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,16 +30,36 @@ public class ScanCubeActivity extends FragmentActivity
     public void onImageCaptured(Mat image) {
         cubeScanner = new CubeScanner(image);
 
+        currentStep = CubeScanner.Step.EDGES;
+
         DisplayResultFragment resultFragment = new DisplayResultFragment();
         Bundle arguments = new Bundle();
         arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
-                matToBitmap(cubeScanner.lineImage()));
+                matToBitmap(cubeScanner.edgeImage()));
         resultFragment.setArguments(arguments);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, resultFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void nextStep() {
+        if (currentStep.nextStep() != null) {
+            currentStep = currentStep.nextStep();
+
+            DisplayResultFragment resultFragment = new DisplayResultFragment();
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
+                    matToBitmap(cubeScanner.stepImage(currentStep)));
+            resultFragment.setArguments(arguments);
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.container, resultFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 
     private Bitmap matToBitmap(Mat image) {
@@ -48,4 +69,5 @@ public class ScanCubeActivity extends FragmentActivity
     }
 
     private CubeScanner cubeScanner;
+    private CubeScanner.Step currentStep;
 }

@@ -1,11 +1,13 @@
 package com.bjerkan.rubikscubeapp;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 
 public class DisplayResultFragment extends Fragment {
@@ -20,8 +22,31 @@ public class DisplayResultFragment extends Fragment {
         ImageView resultImageView = view.findViewById(R.id.resultImage);
         resultImageView.setImageBitmap(resultImage);
 
+        Button nextStep = view.findViewById(R.id.btnNextStep);
+        nextStep.setOnClickListener((View onClickView) -> {
+            mNextStepCallback.nextStep();
+        });
+
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mNextStepCallback = (NextStepRequestListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() +
+                    " must implement NextStepRequestListener");
+        }
+    }
+
+    public interface NextStepRequestListener {
+        void nextStep();
+    }
+
     public static final String IMAGE_ARGUMENT = "com.bjerkan.rubikscubeapp.IMAGE_ARGUMENT";
+
+    private NextStepRequestListener mNextStepCallback;
 }

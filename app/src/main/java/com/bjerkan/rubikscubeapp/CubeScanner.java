@@ -30,6 +30,33 @@ public class CubeScanner {
         return mLineImage;
     }
 
+    public Mat stepImage(Step step) {
+        switch(step) {
+            case EDGES:
+                return edgeImage();
+            case LINES:
+                return lineImage();
+            default:
+                return originalImage();
+        }
+    }
+
+    public enum Step {
+        EDGES,
+        LINES;
+
+        private Step nextStep;
+
+        static {
+            EDGES.nextStep = LINES;
+            LINES.nextStep = null;
+        }
+
+        public Step nextStep() {
+            return nextStep;
+        }
+    }
+
     private void findEdges() {
         mEdgeImage = new Mat(mOriginalImage.size(), CvType.CV_8UC1);
         Imgproc.cvtColor(mOriginalImage, mEdgeImage, Imgproc.COLOR_BGR2GRAY, 4);
