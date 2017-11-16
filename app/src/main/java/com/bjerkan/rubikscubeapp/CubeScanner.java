@@ -259,8 +259,8 @@ public class CubeScanner {
     List<Line> mCombinedLines;
     List<Line> mCentreLines;
 
-    private static final int CANNY_THRESHOLD_1 = 0;
-    private static final int CANNY_THRESHOLD_2 = 50;
+    private static final int CANNY_THRESHOLD_1 = 10;
+    private static final int CANNY_THRESHOLD_2 = 25;
     private static final int HOUGH_THRESHOLD = 100;
     private static final double ORTHOGONAL_THRESHOLD = Math.PI/36;
     private static final double SIMILARITY_RHO_THRESHOLD = 100;
