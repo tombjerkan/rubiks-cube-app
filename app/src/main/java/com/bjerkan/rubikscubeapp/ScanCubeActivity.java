@@ -1,9 +1,9 @@
 package com.bjerkan.rubikscubeapp;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
-public class ScanCubeActivity extends AppCompatActivity {
+public class ScanCubeActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
