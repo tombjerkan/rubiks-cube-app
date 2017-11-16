@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RubiksCubeApp</string>
+    <string name="capture_image">Scan</string>
 </resources>

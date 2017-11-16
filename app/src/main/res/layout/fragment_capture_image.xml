@@ -14,4 +14,11 @@
         opencv:show_fps="false"
         opencv:camera_id="any" />
 
+    <Button
+        android:id="@+id/btnCaptureImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|center_vertical"
+        android:text="@string/capture_image" />
+
 </FrameLayout>

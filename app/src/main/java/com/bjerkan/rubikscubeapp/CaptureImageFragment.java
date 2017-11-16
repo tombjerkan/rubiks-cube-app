@@ -1,11 +1,13 @@
 package com.bjerkan.rubikscubeapp;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -25,9 +27,27 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
 
+        Button captureImage = view.findViewById(R.id.btnCaptureImage);
+        captureImage.setOnClickListener((View onClickView) -> {
+            if (mLastFrame != null) {
+                mImageCapturedCallback.onImageCaptured(mLastFrame.rgba());
+            }
+        });
+
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mImageCapturedCallback = (OnImageCapturedListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() +
+                    " must implement OnImageCapturedListener");
+        }
+    }
 
     @Override
     public void onPause()
@@ -62,7 +82,12 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     }
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+        mLastFrame = inputFrame;
         return inputFrame.rgba();
+    }
+
+    public interface OnImageCapturedListener {
+        void onImageCaptured(Mat image);
     }
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(getActivity()) {
@@ -82,4 +107,8 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     };
 
     private CameraBridgeViewBase mOpenCvCameraView;
+
+    private OnImageCapturedListener mImageCapturedCallback;
+
+    private CameraBridgeViewBase.CvCameraViewFrame mLastFrame = null;
 }
