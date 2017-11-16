@@ -6,11 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.bjerkan.rubikscubeapp.ScanCubeActivity">
 
-    <fragment android:name="com.bjerkan.rubikscubeapp.CaptureImageFragment"
-        android:id="@+id/captureImageFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
