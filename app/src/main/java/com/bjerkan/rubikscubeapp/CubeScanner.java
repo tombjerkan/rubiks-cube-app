@@ -22,6 +22,7 @@ public class CubeScanner {
         findOrthogonalLines();
         combineLines();
         findCentreLines();
+        findCentrePoints();
     }
 
     public Mat originalImage() {
@@ -48,6 +49,10 @@ public class CubeScanner {
         return mCentreLineImage;
     }
 
+    public Mat centrePointImage() {
+        return mCentrePointImage;
+    }
+
     public Mat stepImage(Step step) {
         switch(step) {
             case EDGES:
@@ -60,6 +65,8 @@ public class CubeScanner {
                 return combinedLineImage();
             case CENTRE_LINES:
                 return centreLineImage();
+            case CENTRE_POINTS:
+                return centrePointImage();
             default:
                 return originalImage();
         }
@@ -70,7 +77,8 @@ public class CubeScanner {
         LINES,
         ORTHOGONAL_LINES,
         COMBINED_LINES,
-        CENTRE_LINES;
+        CENTRE_LINES,
+        CENTRE_POINTS;
 
         private Step nextStep;
 
@@ -79,7 +87,8 @@ public class CubeScanner {
             LINES.nextStep = ORTHOGONAL_LINES;
             ORTHOGONAL_LINES.nextStep = COMBINED_LINES;
             COMBINED_LINES.nextStep = CENTRE_LINES;
-            CENTRE_LINES.nextStep = null;
+            CENTRE_LINES.nextStep = CENTRE_POINTS;
+            CENTRE_POINTS.nextStep = null;
         }
 
         public Step nextStep() {
@@ -205,6 +214,36 @@ public class CubeScanner {
         return image;
     }
 
+    private void findCentrePoints() {
+        Point topLeftCentre = mCentreLines.get(0).intersection(mCentreLines.get(3));
+        Point topMiddleCentre = mCentreLines.get(0).intersection(mCentreLines.get(4));
+        Point topRightCentre = mCentreLines.get(0).intersection(mCentreLines.get(5));
+
+        Point middleLeftCentre = mCentreLines.get(1).intersection(mCentreLines.get(3));
+        Point middleMiddleCentre = mCentreLines.get(1).intersection(mCentreLines.get(4));
+        Point middleRightCentre = mCentreLines.get(1).intersection(mCentreLines.get(5));
+
+        Point bottomLeftCentre = mCentreLines.get(2).intersection(mCentreLines.get(3));
+        Point bottomMiddleCentre = mCentreLines.get(2).intersection(mCentreLines.get(4));
+        Point bottomRightCentre = mCentreLines.get(2).intersection(mCentreLines.get(5));
+
+        mCentrePoints = new ArrayList<>(Arrays.asList(
+                topLeftCentre, topMiddleCentre, topRightCentre,
+                middleLeftCentre, middleMiddleCentre, middleRightCentre,
+                bottomLeftCentre, bottomMiddleCentre, bottomRightCentre));
+
+        mCentrePointImage = drawPoints(mCentrePoints);
+    }
+
+    private Mat drawPoints(List<Point> points) {
+        Mat image = mOriginalImage.clone();
+        for (Point point : points) {
+            Imgproc.circle(image, point, 5, new Scalar(255, 0, 255));
+        }
+
+        return image;
+    }
+
     private class Line {
         public Line(double rho, double theta) {
             // Ensure similar lines have numerically close values
@@ -243,6 +282,24 @@ public class CubeScanner {
                     Math.abs(mTheta - otherLine.mTheta) < SIMILARITY_THETA_THRESHOLD;
         }
 
+        public Point intersection(Line otherLine) {
+            double cosTheta = Math.cos(mTheta);
+            double sinTheta = Math.sin(mTheta);
+            double otherCosTheta = Math.cos(otherLine.mTheta);
+            double otherSinTheta = Math.sin(otherLine.mTheta);
+
+            double det = cosTheta * otherSinTheta - sinTheta * otherCosTheta;
+
+            if (det == 0) {
+                return null;
+            }
+
+            double x = (otherSinTheta * mRho - sinTheta * otherLine.mRho) / det;
+            double y = (cosTheta * otherLine.mRho - otherCosTheta * mRho) / det;
+
+            return new Point(x, y);
+        }
+
         private final double mRho;
         private final double mTheta;
     }
@@ -253,11 +310,13 @@ public class CubeScanner {
     private Mat mOrthogonalLineImage;
     private Mat mCombinedLineImage;
     private Mat mCentreLineImage;
+    private Mat mCentrePointImage;
 
     private List<Line> mLines;
     private List<Line> mOrthogonalLines;
     private List<Line> mCombinedLines;
     private List<Line> mCentreLines;
+    private List<Point> mCentrePoints;
 
     private static final int CANNY_THRESHOLD_1 = 10;
     private static final int CANNY_THRESHOLD_2 = 25;
