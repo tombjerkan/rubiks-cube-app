@@ -80,7 +80,7 @@ public class CubeScanner {
         mEdgeImage = new Mat(mOriginalImage.size(), CvType.CV_8UC1);
         Imgproc.cvtColor(mOriginalImage, mEdgeImage, Imgproc.COLOR_BGR2GRAY, 4);
         Imgproc.GaussianBlur(mEdgeImage, mEdgeImage, new Size(5, 5), 0);
-        Imgproc.Canny(mEdgeImage, mEdgeImage, 0, 50);
+        Imgproc.Canny(mEdgeImage, mEdgeImage, CANNY_THRESHOLD_1, CANNY_THRESHOLD_2);
     }
 
     private void findLines() {
