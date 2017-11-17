@@ -9,6 +9,10 @@ import android.widget.Toast;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ScanCubeActivity extends FragmentActivity
         implements CaptureImageFragment.OnImageCapturedListener,
                    DisplayResultFragment.NextStepRequestListener {
@@ -17,6 +21,8 @@ public class ScanCubeActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_cube);
+
+        currentFace = CubeFace.startFace;
 
         if (savedInstanceState == null) {
             CaptureImageFragment fragment = new CaptureImageFragment();
@@ -35,6 +41,8 @@ public class ScanCubeActivity extends FragmentActivity
             Toast.makeText(this, "Scan Failed", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        faceColours.put(currentFace, cubeScanner.squareColours());
 
         currentStep = CubeScanner.Step.EDGES;
 
@@ -65,6 +73,14 @@ public class ScanCubeActivity extends FragmentActivity
             transaction.replace(R.id.container, resultFragment);
             transaction.addToBackStack(null);
             transaction.commit();
+        } else if (currentFace.nextFace != null) {
+            currentFace = currentFace.nextFace;
+
+            CaptureImageFragment captureImageFragment = new CaptureImageFragment();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.container, captureImageFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         }
     }
 
@@ -75,5 +91,28 @@ public class ScanCubeActivity extends FragmentActivity
     }
 
     private CubeScanner cubeScanner;
+    private CubeFace currentFace;
     private CubeScanner.Step currentStep;
+
+    private enum CubeFace {
+        FRONT,
+        BACK,
+        LEFT,
+        RIGHT,
+        TOP,
+        BOTTOM;
+
+        private static final CubeFace startFace = FRONT;
+
+        private CubeFace nextFace;
+        static {
+            FRONT.nextFace = LEFT;
+            LEFT.nextFace = BACK;
+            BACK.nextFace = RIGHT;
+            RIGHT.nextFace = TOP;
+            TOP.nextFace = BOTTOM;
+        }
+    }
+
+    private Map<CubeFace, List<CubeScanner.RubiksColour>> faceColours = new HashMap<>();
 }

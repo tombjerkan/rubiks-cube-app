@@ -331,7 +331,7 @@ public class CubeScanner {
         return 90. - Math.min(Math.abs(hue1 - hue2), 180. - Math.abs(hue1 - hue2));
     }
 
-    private enum RubiksColour {
+    public enum RubiksColour {
         WHITE,
         GREEN,
         RED,
