@@ -274,19 +274,22 @@ public class CubeScanner {
         final Mat hsvImage = new Mat(mOriginalImage.size(), CvType.CV_8UC3);
         Imgproc.cvtColor(mOriginalImage, hsvImage, Imgproc.COLOR_RGB2HSV, 3);
 
-        List<Double> centrePointColourHues = mCentrePoints.stream()
-                .map(point -> hsvImage.get((int) point.y, (int) point.x)[0])
-                .collect(Collectors.toList());
+        mSquareColours = mCentrePoints.stream().map(point -> {
+            double[] hsvColour = hsvImage.get((int) point.y, (int) point.x);
 
-        mSquareColours = centrePointColourHues.stream().map(hue ->
-                Arrays.asList(RubiksColour.values())
-                        .stream()
-                        .map(rubiksColour -> new ColourSimilarity(rubiksColour,
-                                hueSimilarity(hue, rubiksColour.hue)))
-                        .max(Comparator.comparing(ColourSimilarity::similarity))
-                        .get()
-                        .colour()
-        ).collect(Collectors.toList());
+            // Mark colours with low saturation as white.
+            if (hsvColour[1] < 50.) {
+                return RubiksColour.WHITE;
+            }
+
+            return Arrays.asList(RubiksColour.values()).stream()
+                    .filter(colour -> colour != RubiksColour.WHITE)
+                    .map(rubiksColour -> new ColourSimilarity(
+                            rubiksColour, hueSimilarity(hsvColour[0], rubiksColour.hue)))
+                    .max(Comparator.comparing(ColourSimilarity::similarity))
+                    .get()
+                    .colour();
+        }).collect(Collectors.toList());
 
         drawColourImage();
     }
