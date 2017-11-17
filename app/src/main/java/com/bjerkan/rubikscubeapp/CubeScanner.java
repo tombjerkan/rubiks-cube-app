@@ -67,6 +67,10 @@ public class CubeScanner {
         return mCentrePointImage;
     }
 
+    public Mat coloursImage() {
+        return mColoursImage;
+    }
+
     public List<RubiksColour> squareColours() {
         return mSquareColours;
     }
@@ -85,6 +89,8 @@ public class CubeScanner {
                 return centreLineImage();
             case CENTRE_POINTS:
                 return centrePointImage();
+            case CENTRE_COLOURS:
+                return coloursImage();
             default:
                 return originalImage();
         }
@@ -96,7 +102,8 @@ public class CubeScanner {
         ORTHOGONAL_LINES,
         COMBINED_LINES,
         CENTRE_LINES,
-        CENTRE_POINTS;
+        CENTRE_POINTS,
+        CENTRE_COLOURS;
 
         private Step nextStep;
 
@@ -106,7 +113,8 @@ public class CubeScanner {
             ORTHOGONAL_LINES.nextStep = COMBINED_LINES;
             COMBINED_LINES.nextStep = CENTRE_LINES;
             CENTRE_LINES.nextStep = CENTRE_POINTS;
-            CENTRE_POINTS.nextStep = null;
+            CENTRE_POINTS.nextStep = CENTRE_COLOURS;
+            CENTRE_COLOURS.nextStep = null;
         }
 
         public Step nextStep() {
@@ -270,7 +278,7 @@ public class CubeScanner {
                 .map(point -> hsvImage.get((int) point.y, (int) point.x)[0])
                 .collect(Collectors.toList());
 
-        List<RubiksColour> squareColours = centrePointColourHues.stream().map(hue ->
+        mSquareColours = centrePointColourHues.stream().map(hue ->
                 Arrays.asList(RubiksColour.values())
                         .stream()
                         .map(rubiksColour -> new ColourSimilarity(rubiksColour,
@@ -279,6 +287,22 @@ public class CubeScanner {
                         .get()
                         .colour()
         ).collect(Collectors.toList());
+
+        drawColourImage();
+    }
+
+    private void drawColourImage() {
+        mColoursImage = new Mat(300, 300, CvType.CV_8UC4);
+
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                Point start = new Point(x * 100, y * 100);
+                Point end = new Point((x + 1) * 100 - 1, (y + 1) * 100 - 1);
+                Scalar colour = mSquareColours.get((y * 3) + x).rgb;
+
+                Imgproc.rectangle(mColoursImage, start, end, colour, -1);
+            }
+        }
     }
 
     private class ColourSimilarity {
@@ -313,6 +337,7 @@ public class CubeScanner {
         YELLOW;
 
         private double hue;
+        private Scalar rgb;
 
         static {
             WHITE.hue = 0.;
@@ -321,6 +346,13 @@ public class CubeScanner {
             BLUE.hue = 108.;
             ORANGE.hue = 11.;
             YELLOW.hue = 25.;
+
+            WHITE.rgb = new Scalar(255., 255., 255.);
+            GREEN.rgb = new Scalar(0., 155., 72.);
+            RED.rgb = new Scalar(183., 18., 52.);
+            BLUE.rgb = new Scalar(0., 70., 173.);
+            ORANGE.rgb = new Scalar(255., 88., 0.);
+            YELLOW.rgb = new Scalar(255., 213., 0.);
         }
     }
 
@@ -393,6 +425,7 @@ public class CubeScanner {
     private Mat mCombinedLineImage;
     private Mat mCentreLineImage;
     private Mat mCentrePointImage;
+    private Mat mColoursImage;
 
     private List<Line> mLines;
     private List<Line> mOrthogonalLines;
