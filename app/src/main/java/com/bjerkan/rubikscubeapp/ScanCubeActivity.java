@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.Toast;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
@@ -29,6 +30,11 @@ public class ScanCubeActivity extends FragmentActivity
     @Override
     public void onImageCaptured(Mat image) {
         cubeScanner = new CubeScanner(image);
+
+        if (!cubeScanner.wasSuccessful()) {
+            Toast.makeText(this, "Scan Failed", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         currentStep = CubeScanner.Step.EDGES;
 

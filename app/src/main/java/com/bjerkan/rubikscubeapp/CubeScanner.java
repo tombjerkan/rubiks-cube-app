@@ -23,8 +23,20 @@ public class CubeScanner {
         findOrthogonalLines();
         combineLines();
         findCentreLines();
+
+        if (mCentreLines == null) {
+            mSuccessful = false;
+            return;
+        }
+
         findCentrePoints();
         findColours();
+
+        mSuccessful = true;
+    }
+
+    public boolean wasSuccessful() {
+        return mSuccessful;
     }
 
     public Mat originalImage() {
@@ -371,6 +383,8 @@ public class CubeScanner {
         private final double mRho;
         private final double mTheta;
     }
+
+    private boolean mSuccessful;
 
     private Mat mOriginalImage;
     private Mat mEdgeImage;
