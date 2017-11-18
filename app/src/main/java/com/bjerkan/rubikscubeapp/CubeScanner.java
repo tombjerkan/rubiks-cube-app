@@ -340,7 +340,7 @@ public class CubeScanner {
         YELLOW;
 
         private double hue;
-        private Scalar rgb;
+        public Scalar rgb;
 
         static {
             WHITE.hue = 0.;
