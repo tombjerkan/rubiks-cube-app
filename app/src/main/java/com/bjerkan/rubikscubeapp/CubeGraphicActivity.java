@@ -4,31 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.view.View;
 
 public class CubeGraphicActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cube_graphic);
 
-        glView = new CubeSurfaceView(this);
-        setContentView(glView);
+        cubeSurfaceView = findViewById(R.id.cubeSurfaceView);
     }
 
-    private class CubeSurfaceView extends GLSurfaceView {
-
-        private final CubeRenderer cubeRenderer;
-
-        public CubeSurfaceView(Context context){
-            super(context);
-
-            // Create an OpenGL ES 2.0 context
-            setEGLContextClientVersion(1);
-
-            cubeRenderer = new CubeRenderer();
-            setRenderer(cubeRenderer);
-        }
+    public void turn(View view) {
+        cubeSurfaceView.model().front_inv();
     }
 
-    private GLSurfaceView glView;
+    private CubeSurfaceView cubeSurfaceView;
 }

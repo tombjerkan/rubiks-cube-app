@@ -1,5 +1,7 @@
 package com.bjerkan.rubikscubeapp;
 
+import android.os.SystemClock;
+
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -47,5 +49,73 @@ public class RubiksCubeModel {
         }
     }
 
-    RubiksFace[] faces = new RubiksFace[6];
+    public void animate() {
+        if (!animating) {
+            return;
+        }
+
+        long timeElapsed = SystemClock.uptimeMillis() - startTime;
+
+        if (timeElapsed >= ANIMATION_TIME) {
+            animating = false;
+            commitRotation();
+        } else {
+            tempRotation(timeElapsed);
+        }
+    }
+
+    private void commitRotation() {
+        switch (animationType) {
+            case FRONT_INV: {
+                faces[0].commitFaceRotation(Axis.Z, Direction.ANTICLOCKWISE);
+                faces[1].commitRightColumnRotation(Axis.Z, Direction.ANTICLOCKWISE);
+                faces[3].commitLeftColumnRotation(Axis.Z, Direction.ANTICLOCKWISE);
+                faces[4].commitBottomRowRotation(Axis.Z, Direction.ANTICLOCKWISE);
+                faces[5].commitTopRowRotation(Axis.Z, Direction.ANTICLOCKWISE);
+            }
+        }
+    }
+
+    private void tempRotation(long timeElapsed) {
+        float angleToRotate = ((float) timeElapsed / ANIMATION_TIME) * 90f;
+
+        switch (animationType) {
+            case FRONT_INV: {
+                faces[0].tempFaceRotation(Axis.Z, Direction.ANTICLOCKWISE, angleToRotate);
+                faces[1].tempRightColumnRotation(Axis.Z, Direction.ANTICLOCKWISE, angleToRotate);
+                faces[3].tempLeftColumnRotation(Axis.Z, Direction.ANTICLOCKWISE, angleToRotate);
+                faces[4].tempBottomRowRotation(Axis.Z, Direction.ANTICLOCKWISE, angleToRotate);
+                faces[5].tempTopRowRotation(Axis.Z, Direction.ANTICLOCKWISE, angleToRotate);
+            }
+        }
+    }
+
+    public void front_inv() {
+        if (!animating) {
+            animating = true;
+            startTime = SystemClock.uptimeMillis();
+            animationType = Animation.FRONT_INV;
+        }
+    }
+
+    private enum Animation {
+        FRONT_INV
+    }
+
+    public enum Axis {
+        X, Y, Z
+    }
+
+    public enum Direction {
+        CLOCKWISE,
+        ANTICLOCKWISE
+    }
+
+    private RubiksFace[] faces = new RubiksFace[6];
+
+    private boolean animating = false;
+    private long startTime;
+    private Animation animationType;
+
+    private static final int ANIMATION_TIME = 1500;
 }

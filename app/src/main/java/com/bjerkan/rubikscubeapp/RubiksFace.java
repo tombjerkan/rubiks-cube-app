@@ -64,6 +64,76 @@ public class RubiksFace {
         }
     }
 
+    public void commitFaceRotation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction dir) {
+        for (Square[] squareColumn : squares) {
+            for (Square square : squareColumn) {
+                square.commitRotation(axis, dir);
+            }
+        }
+    }
+
+    public void commitLeftColumnRotation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction dir) {
+        for (Square square : squares[0]) {
+            square.commitRotation(axis, dir);
+        }
+    }
+
+    public void commitRightColumnRotation(RubiksCubeModel.Axis axis,
+                                          RubiksCubeModel.Direction dir) {
+        for (Square square : squares[2]) {
+            square.commitRotation(axis, dir);
+        }
+    }
+
+    public void commitTopRowRotation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction dir) {
+        squares[0][0].commitRotation(axis, dir);
+        squares[1][0].commitRotation(axis, dir);
+        squares[2][0].commitRotation(axis, dir);
+    }
+
+    public void commitBottomRowRotation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction dir) {
+        squares[0][2].commitRotation(axis, dir);
+        squares[1][2].commitRotation(axis, dir);
+        squares[2][2].commitRotation(axis, dir);
+    }
+
+    public void tempFaceRotation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction dir,
+                                 float angle) {
+        for (Square[] squareColumn : squares) {
+            for (Square square : squareColumn) {
+                square.tempRotation(axis, dir, angle);
+            }
+        }
+    }
+
+    public void tempLeftColumnRotation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction dir,
+                                       float angle) {
+        for (Square square : squares[0]) {
+            square.tempRotation(axis, dir, angle);
+        }
+    }
+
+    public void tempRightColumnRotation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction dir,
+                                        float angle) {
+        for (Square square : squares[2]) {
+            square.tempRotation(axis, dir, angle);
+        }
+    }
+
+    public void tempTopRowRotation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction dir,
+                                   float angle) {
+        squares[0][0].tempRotation(axis, dir, angle);
+        squares[1][0].tempRotation(axis, dir, angle);
+        squares[2][0].tempRotation(axis, dir, angle);
+    }
+
+    public void tempBottomRowRotation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction dir,
+                                      float angle) {
+        squares[0][2].tempRotation(axis, dir, angle);
+        squares[1][2].tempRotation(axis, dir, angle);
+        squares[2][2].tempRotation(axis, dir, angle);
+    }
+
     private float[] rubiksColourToFloatArray(CubeScanner.RubiksColour colour) {
         return new float[] {
                 (float) colour.rgb.val[0] / 255f,

@@ -38,6 +38,7 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
+        model.animate();
         model.draw(gl);
 
         gl.glLoadIdentity();
@@ -60,6 +61,10 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
+    }
+
+    public RubiksCubeModel model() {
+        return model;
     }
 
     private RubiksCubeModel model;
