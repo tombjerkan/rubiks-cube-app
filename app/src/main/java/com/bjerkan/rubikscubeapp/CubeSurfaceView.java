@@ -28,8 +28,4 @@ class CubeSurfaceView extends GLSurfaceView {
         cubeRenderer = new CubeRenderer();
         setRenderer(cubeRenderer);
     }
-
-    public RubiksCubeModel model() {
-        return cubeRenderer.model();
-    }
 }

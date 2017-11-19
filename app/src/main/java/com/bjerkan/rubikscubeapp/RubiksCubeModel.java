@@ -1,7 +1,6 @@
 package com.bjerkan.rubikscubeapp;
 
-import android.os.SystemClock;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -9,113 +8,113 @@ import javax.microedition.khronos.opengles.GL10;
 public class RubiksCubeModel {
 
     public RubiksCubeModel(
-            List<CubeScanner.RubiksColour> frontColoursList,
-            List<CubeScanner.RubiksColour> leftColoursList,
-            List<CubeScanner.RubiksColour> backColoursList,
-            List<CubeScanner.RubiksColour> rightColoursList,
-            List<CubeScanner.RubiksColour> topColoursList,
-            List<CubeScanner.RubiksColour> bottomColoursList) {
-        float[] frontTopLeft = {-3f, 3f, 3f};
-        float[] frontTopRight = {3f, 3f, 3f};
-        float[] frontBottomRight = {3f, -3f, 3f};
-        float[] frontBottomLeft = {-3f, -3f, 3f};
-        float[] backTopLeft = {3f, 3f, -3f};
-        float[] backTopRight = {-3f, 3f, -3f};
-        float[] backBottomRight = {-3f, -3f, -3f};
-        float[] backBottomLeft = {3f, -3f, -3f};
+            List<CubeScanner.RubiksColour> frontColours,
+            List<CubeScanner.RubiksColour> leftColours,
+            List<CubeScanner.RubiksColour> backColours,
+            List<CubeScanner.RubiksColour> rightColours,
+            List<CubeScanner.RubiksColour> topColours,
+            List<CubeScanner.RubiksColour> bottomColours) {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                for (int z = 0; z < 3; z++) {
+                    float centreX = (x - 1) * SUBCUBE_SIZE;
+                    float centreY = (1 - y) * SUBCUBE_SIZE;
+                    float centreZ = (1 - z) * SUBCUBE_SIZE;
+                    subCubes[x][y][z] = new Cube(centreX, centreY, centreZ, SUBCUBE_SIZE);
+                }
+            }
+        }
 
-        faces[0] = new RubiksFace(frontColoursList,
-                frontTopLeft, frontTopRight, frontBottomRight, frontBottomLeft);
-
-        faces[1] = new RubiksFace(leftColoursList,
-                backTopRight, frontTopLeft, frontBottomLeft, backBottomRight);
-
-        faces[2] = new RubiksFace(backColoursList,
-                backTopLeft, backTopRight, backBottomRight, backBottomLeft);
-
-        faces[3] = new RubiksFace(rightColoursList,
-                frontTopRight, backTopLeft, backBottomLeft, frontBottomRight);
-
-        faces[4] = new RubiksFace(topColoursList,
-                backTopRight, backTopLeft, frontTopRight, frontTopLeft);
-
-        faces[5] = new RubiksFace(bottomColoursList,
-                frontBottomLeft, frontBottomRight, backBottomLeft, backBottomRight);
+        for (int colourIndex = 0; colourIndex < 3 * 3; colourIndex++) {
+            frontSubCubes().get(colourIndex).setFrontColour(frontColours.get(colourIndex));
+            leftSubCubes().get(colourIndex).setLeftColour(leftColours.get(colourIndex));
+            backSubCubes().get(colourIndex).setBackColour(backColours.get(colourIndex));
+            rightSubCubes().get(colourIndex).setRightColour(rightColours.get(colourIndex));
+            topSubCubes().get(colourIndex).setTopColour(topColours.get(colourIndex));
+            bottomSubCubes().get(colourIndex).setBottomColour(bottomColours.get(colourIndex));
+        }
     }
 
     public void draw(GL10 gl) {
-        for (RubiksFace face : faces) {
-            face.draw(gl);
-        }
+        allSubCubes().forEach(cube -> cube.draw(gl));
     }
 
-    public void animate() {
-        if (!animating) {
-            return;
-        }
-
-        long timeElapsed = SystemClock.uptimeMillis() - startTime;
-
-        if (timeElapsed >= ANIMATION_TIME) {
-            animating = false;
-            commitRotation();
-        } else {
-            tempRotation(timeElapsed);
-        }
-    }
-
-    private void commitRotation() {
-        switch (animationType) {
-            case FRONT_INV: {
-                faces[0].commitFaceRotation(Axis.Z, Direction.ANTICLOCKWISE);
-                faces[1].commitRightColumnRotation(Axis.Z, Direction.ANTICLOCKWISE);
-                faces[3].commitLeftColumnRotation(Axis.Z, Direction.ANTICLOCKWISE);
-                faces[4].commitBottomRowRotation(Axis.Z, Direction.ANTICLOCKWISE);
-                faces[5].commitTopRowRotation(Axis.Z, Direction.ANTICLOCKWISE);
+    private List<Cube> allSubCubes() {
+        List<Cube> allSubCubes = new ArrayList<>(3 * 3 * 3);
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                for (int z = 0; z < 3; z++) {
+                    allSubCubes.add(subCubes[x][y][z]);
+                }
             }
         }
+
+        return allSubCubes;
     }
 
-    private void tempRotation(long timeElapsed) {
-        float angleToRotate = ((float) timeElapsed / ANIMATION_TIME) * 90f;
-
-        switch (animationType) {
-            case FRONT_INV: {
-                faces[0].tempFaceRotation(Axis.Z, Direction.ANTICLOCKWISE, angleToRotate);
-                faces[1].tempRightColumnRotation(Axis.Z, Direction.ANTICLOCKWISE, angleToRotate);
-                faces[3].tempLeftColumnRotation(Axis.Z, Direction.ANTICLOCKWISE, angleToRotate);
-                faces[4].tempBottomRowRotation(Axis.Z, Direction.ANTICLOCKWISE, angleToRotate);
-                faces[5].tempTopRowRotation(Axis.Z, Direction.ANTICLOCKWISE, angleToRotate);
+    private List<Cube> frontSubCubes() {
+        List<Cube> frontSubCubes = new ArrayList<>(3 * 3);
+        for (int y = 0; y < 3; y++) {
+            for (int x = 0; x < 3; x++) {
+                frontSubCubes.add(subCubes[x][y][0]);
             }
         }
+        return frontSubCubes;
     }
 
-    public void front_inv() {
-        if (!animating) {
-            animating = true;
-            startTime = SystemClock.uptimeMillis();
-            animationType = Animation.FRONT_INV;
+    private List<Cube> leftSubCubes() {
+        List<Cube> leftSubCubes = new ArrayList<>(3 * 3);
+        for (int y = 0; y < 3; y++) {
+            for (int z = 2; z >= 0; z--) {
+                leftSubCubes.add(subCubes[0][y][z]);
+            }
         }
+        return leftSubCubes;
     }
 
-    private enum Animation {
-        FRONT_INV
+    private List<Cube> backSubCubes() {
+        List<Cube> backSubCubes = new ArrayList<>(3 * 3);
+        for (int y = 0; y < 3; y++) {
+            for (int x = 2; x >= 0; x--) {
+                backSubCubes.add(subCubes[x][y][2]);
+            }
+        }
+        return backSubCubes;
     }
 
-    public enum Axis {
-        X, Y, Z
+    private List<Cube> rightSubCubes() {
+        List<Cube> rightSubCubes = new ArrayList<>(3 * 3);
+        for (int y = 0; y < 3; y++) {
+            for (int z = 0; z < 3; z++) {
+                rightSubCubes.add(subCubes[2][y][z]);
+            }
+        }
+        return rightSubCubes;
     }
 
-    public enum Direction {
-        CLOCKWISE,
-        ANTICLOCKWISE
+    private List<Cube> topSubCubes() {
+        List<Cube> topSubCubes = new ArrayList<>(3 * 3);
+        for (int z = 2; z >= 0; z--) {
+            for (int x = 0; x < 3; x++) {
+                topSubCubes.add(subCubes[x][0][z]);
+            }
+        }
+        return topSubCubes;
     }
 
-    private RubiksFace[] faces = new RubiksFace[6];
+    private List<Cube> bottomSubCubes() {
+        List<Cube> bottomSubCubes = new ArrayList<>(3 * 3);
+        for (int z = 0; z < 3; z++) {
+            for (int x = 0; x < 3; x++) {
+                bottomSubCubes.add(subCubes[x][2][z]);
+            }
+        }
+        return bottomSubCubes;
+    }
 
-    private boolean animating = false;
-    private long startTime;
-    private Animation animationType;
+    // (x, y, z) z = 0 is front, x = 0 is left, y = 0 is top
+    private Cube[][][] subCubes = new Cube[3][3][3];
 
-    private static final int ANIMATION_TIME = 1500;
+    private static final float CUBE_SIZE = 6f;
+    private static final float SUBCUBE_SIZE = CUBE_SIZE / 3f;
 }

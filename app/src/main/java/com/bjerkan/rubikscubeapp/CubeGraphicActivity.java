@@ -16,9 +16,5 @@ public class CubeGraphicActivity extends Activity {
         cubeSurfaceView = findViewById(R.id.cubeSurfaceView);
     }
 
-    public void turn(View view) {
-        cubeSurfaceView.model().front_inv();
-    }
-
     private CubeSurfaceView cubeSurfaceView;
 }

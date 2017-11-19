@@ -3,8 +3,7 @@ package com.bjerkan.rubikscubeapp;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -18,19 +17,14 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
         gl.glEnable(GL10.GL_DEPTH_TEST);
         gl.glDepthFunc(GL10.GL_LEQUAL);
 
-        List<CubeScanner.RubiksColour> colours = Arrays.asList(
-                CubeScanner.RubiksColour.BLUE,
-                CubeScanner.RubiksColour.RED,
-                CubeScanner.RubiksColour.GREEN,
-                CubeScanner.RubiksColour.WHITE,
-                CubeScanner.RubiksColour.ORANGE,
-                CubeScanner.RubiksColour.RED,
-                CubeScanner.RubiksColour.GREEN,
-                CubeScanner.RubiksColour.BLUE,
-                CubeScanner.RubiksColour.YELLOW
+        model = new RubiksCubeModel(
+                Collections.nCopies(9, CubeScanner.RubiksColour.WHITE),
+                Collections.nCopies(9, CubeScanner.RubiksColour.RED),
+                Collections.nCopies(9, CubeScanner.RubiksColour.YELLOW),
+                Collections.nCopies(9, CubeScanner.RubiksColour.ORANGE),
+                Collections.nCopies(9, CubeScanner.RubiksColour.GREEN),
+                Collections.nCopies(9, CubeScanner.RubiksColour.BLUE)
         );
-
-        model = new RubiksCubeModel(colours, colours, colours, colours, colours, colours);
     }
 
     @Override
@@ -38,7 +32,6 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glLoadIdentity();
 
-        model.animate();
         model.draw(gl);
 
         gl.glLoadIdentity();
@@ -61,10 +54,6 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-    }
-
-    public RubiksCubeModel model() {
-        return model;
     }
 
     private RubiksCubeModel model;
