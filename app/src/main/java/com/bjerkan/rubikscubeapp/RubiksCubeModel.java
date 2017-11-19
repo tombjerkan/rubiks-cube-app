@@ -50,72 +50,198 @@ public class RubiksCubeModel {
         long startTime = SystemClock.uptimeMillis();
         frontSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Z, Direction.CLOCKWISE));
+
+        frontCubeSwap();
     }
 
     public void frontInv() {
         long startTime = SystemClock.uptimeMillis();
         frontSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Z, Direction.ANTICLOCKWISE));
+
+        frontCubeSwap();
+        frontCubeSwap();
+        frontCubeSwap();
+    }
+
+    private void frontCubeSwap() {
+        Cube temp = subCubes[0][0][0];
+        subCubes[0][0][0] = subCubes[0][2][0];
+        subCubes[0][2][0] = subCubes[2][2][0];
+        subCubes[2][2][0] = subCubes[2][0][0];
+        subCubes[2][0][0] = temp;
+
+        temp = subCubes[1][0][0];
+        subCubes[1][0][0] = subCubes[0][1][0];
+        subCubes[0][1][0] = subCubes[1][2][0];
+        subCubes[1][2][0] = subCubes[2][1][0];
+        subCubes[2][1][0] = temp;
     }
 
     public void left() {
         long startTime = SystemClock.uptimeMillis();
         leftSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.X, Direction.ANTICLOCKWISE));
+
+        leftCubeSwap();
     }
 
     public void leftInv() {
         long startTime = SystemClock.uptimeMillis();
         leftSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.X, Direction.CLOCKWISE));
+
+        leftCubeSwap();
+        leftCubeSwap();
+        leftCubeSwap();
+    }
+
+    private void leftCubeSwap() {
+        Cube temp = subCubes[0][0][2];
+        subCubes[0][0][2] = subCubes[0][2][2];
+        subCubes[0][2][2] = subCubes[0][2][0];
+        subCubes[0][2][0] = subCubes[0][0][0];
+        subCubes[0][0][0] = temp;
+
+        temp = subCubes[0][0][1];
+        subCubes[0][0][1] = subCubes[0][1][2];
+        subCubes[0][1][2] = subCubes[0][2][1];
+        subCubes[0][2][1] = subCubes[0][1][0];
+        subCubes[0][1][0] = temp;
     }
 
     public void right() {
         long startTime = SystemClock.uptimeMillis();
         rightSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.X, Direction.CLOCKWISE));
+
+        rightCubeSwap();
     }
 
     public void rightInv() {
         long startTime = SystemClock.uptimeMillis();
         rightSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.X, Direction.ANTICLOCKWISE));
+
+        rightCubeSwap();
+        rightCubeSwap();
+        rightCubeSwap();
+    }
+
+    private void rightCubeSwap() {
+        Cube temp = subCubes[2][0][0];
+        subCubes[2][0][0] = subCubes[2][2][0];
+        subCubes[2][2][0] = subCubes[2][2][2];
+        subCubes[2][2][2] = subCubes[2][0][2];
+        subCubes[2][0][2] = temp;
+
+        temp = subCubes[2][0][1];
+        subCubes[2][0][1] = subCubes[2][1][0];
+        subCubes[2][1][0] = subCubes[2][2][1];
+        subCubes[2][2][1] = subCubes[2][1][2];
+        subCubes[2][1][2] = temp;
     }
 
     public void top() {
         long startTime = SystemClock.uptimeMillis();
         topSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.CLOCKWISE));
+
+        topCubeSwap();
     }
 
     public void topInv() {
         long startTime = SystemClock.uptimeMillis();
         topSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.ANTICLOCKWISE));
+
+        topCubeSwap();
+        topCubeSwap();
+        topCubeSwap();
+    }
+
+    private void topCubeSwap() {
+        Cube temp = subCubes[0][0][2];
+        subCubes[0][0][2] = subCubes[0][0][0];
+        subCubes[0][0][0] = subCubes[2][0][0];
+        subCubes[2][0][0] = subCubes[2][0][2];
+        subCubes[2][0][2] = temp;
+
+        temp = subCubes[1][0][2];
+        subCubes[1][0][2] = subCubes[0][0][1];
+        subCubes[0][0][1] = subCubes[1][0][0];
+        subCubes[1][0][0] = subCubes[2][0][1];
+        subCubes[2][0][1] = temp;
     }
 
     public void bottom() {
         long startTime = SystemClock.uptimeMillis();
         bottomSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.ANTICLOCKWISE));
+
+        bottomCubeSwap();
     }
 
     public void bottomInv() {
         long startTime = SystemClock.uptimeMillis();
         bottomSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.CLOCKWISE));
+
+        bottomCubeSwap();
+        bottomCubeSwap();
+        bottomCubeSwap();
+    }
+
+    private void bottomCubeSwap() {
+        Cube temp = subCubes[0][2][0];
+        subCubes[0][2][0] = subCubes[0][2][2];
+        subCubes[0][2][2] = subCubes[2][2][2];
+        subCubes[2][2][2] = subCubes[2][2][0];
+        subCubes[2][2][0] = temp;
+
+        temp = subCubes[1][2][0];
+        subCubes[1][2][0] = subCubes[0][2][1];
+        subCubes[0][2][1] = subCubes[1][2][2];
+        subCubes[1][2][2] = subCubes[2][2][1];
+        subCubes[2][2][1] = temp;
     }
 
     public void rotate() {
         long startTime = SystemClock.uptimeMillis();
         allSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.CLOCKWISE));
+
+        rotateCubeSwap();
     }
 
     public void rotateInv() {
         long startTime = SystemClock.uptimeMillis();
         allSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.ANTICLOCKWISE));
+
+        rotateCubeSwap();
+        rotateCubeSwap();
+        rotateCubeSwap();
+    }
+
+    private void rotateCubeSwap() {
+        topCubeSwap();
+        bottomCubeSwap();
+        bottomCubeSwap();
+        bottomCubeSwap();
+
+        // Middle cube swap
+        Cube temp = subCubes[0][1][2];
+        subCubes[0][1][2] = subCubes[0][1][0];
+        subCubes[0][1][0] = subCubes[2][1][0];
+        subCubes[2][1][0] = subCubes[2][1][2];
+        subCubes[2][1][2] = temp;
+
+        temp = subCubes[1][1][2];
+        subCubes[1][1][2] = subCubes[0][1][1];
+        subCubes[0][1][1] = subCubes[1][1][0];
+        subCubes[1][1][0] = subCubes[2][1][1];
+        subCubes[2][1][1] = temp;
     }
 
     public enum Axis {
@@ -126,7 +252,6 @@ public class RubiksCubeModel {
         CLOCKWISE,
         ANTICLOCKWISE
     }
-
 
     private List<Cube> allSubCubes() {
         List<Cube> allSubCubes = new ArrayList<>(3 * 3 * 3);
