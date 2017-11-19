@@ -16,15 +16,6 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
         gl.glClearDepthf(1.0f);
         gl.glEnable(GL10.GL_DEPTH_TEST);
         gl.glDepthFunc(GL10.GL_LEQUAL);
-
-        model = new RubiksCubeModel(
-                Collections.nCopies(9, CubeScanner.RubiksColour.WHITE),
-                Collections.nCopies(9, CubeScanner.RubiksColour.RED),
-                Collections.nCopies(9, CubeScanner.RubiksColour.YELLOW),
-                Collections.nCopies(9, CubeScanner.RubiksColour.ORANGE),
-                Collections.nCopies(9, CubeScanner.RubiksColour.GREEN),
-                Collections.nCopies(9, CubeScanner.RubiksColour.BLUE)
-        );
     }
 
     @Override
@@ -54,6 +45,10 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
 
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
+    }
+
+    public void setModel(RubiksCubeModel model) {
+        this.model = model;
     }
 
     private RubiksCubeModel model;
