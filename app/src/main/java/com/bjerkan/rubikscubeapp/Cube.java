@@ -69,7 +69,7 @@ class Cube {
     }
 
     public boolean isAnimating() {
-        return true;
+        return animating;
     }
 
     public void setFrontColour(CubeScanner.RubiksColour colour) {
