@@ -1,6 +1,9 @@
 package com.bjerkan.rubikscubeapp;
 
+import com.google.common.collect.Lists;
+
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -40,20 +43,16 @@ class Cube {
 
             if (timeElapsed > ANIMATION_TIME) {
                 animating = false;
+                animationHistory.add(new Animation(animationAxis, animationDirection));
             } else {
                 float angleToRotate = ((float) timeElapsed / ANIMATION_TIME) * 90f;
-                if (animationDirection == RubiksCubeModel.Direction.CLOCKWISE) {
-                    angleToRotate = -angleToRotate;
-                }
-
-                if (animationAxis == RubiksCubeModel.Axis.X) {
-                    gl.glRotatef(angleToRotate, 1f, 0f, 0f);
-                } else if (animationAxis == RubiksCubeModel.Axis.Y) {
-                    gl.glRotatef(angleToRotate, 0f, 1f, 0f);
-                } else {
-                    gl.glRotatef(angleToRotate, 0f, 0f, 1f);
-                }
+                rotate(gl, animationAxis, animationDirection, angleToRotate);
             }
+        }
+
+        // Transformation matrices must be applied in reverse to give desired order
+        for (Animation animation : Lists.reverse(animationHistory)) {
+            rotate(gl, animation.axis, animation.direction, 90f);
         }
 
         squares().forEach(square -> square.draw(gl));
@@ -96,6 +95,21 @@ class Cube {
         bottomSquare.setColour(colour);
     }
 
+    private void rotate(GL10 gl, RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction,
+                        float angle) {
+        if (direction == RubiksCubeModel.Direction.CLOCKWISE) {
+            angle = -angle;
+        }
+
+        if (axis == RubiksCubeModel.Axis.X) {
+            gl.glRotatef(angle, 1f, 0f, 0f);
+        } else if (axis == RubiksCubeModel.Axis.Y) {
+            gl.glRotatef(angle, 0f, 1f, 0f);
+        } else {
+            gl.glRotatef(angle, 0f, 0f, 1f);
+        }
+    }
+
     private List<Square> squares() {
         return Arrays.asList(
                 frontSquare, leftSquare, backSquare, rightSquare, topSquare, bottomSquare);
@@ -114,4 +128,16 @@ class Cube {
     private RubiksCubeModel.Direction animationDirection;
 
     private static final int ANIMATION_TIME = 1000;
+
+    private List<Animation> animationHistory = new LinkedList<>();
+
+    private class Animation {
+        public Animation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction) {
+            this.axis = axis;
+            this.direction = direction;
+        }
+
+        public RubiksCubeModel.Axis axis;
+        public RubiksCubeModel.Direction direction;
+    }
 }
