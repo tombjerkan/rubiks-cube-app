@@ -1,5 +1,7 @@
 package com.bjerkan.rubikscubeapp;
 
+import android.os.SystemClock;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +38,95 @@ public class RubiksCubeModel {
     }
 
     public void draw(GL10 gl) {
-        allSubCubes().forEach(cube -> cube.draw(gl));
+        long currentTime = SystemClock.uptimeMillis();
+        allSubCubes().forEach(cube -> cube.draw(gl, currentTime));
     }
+
+    public boolean currentlyAnimating() {
+        return allSubCubes().stream().anyMatch(subCube -> subCube.isAnimating());
+    }
+
+    public void front() {
+        long startTime = SystemClock.uptimeMillis();
+        frontSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.Z, Direction.CLOCKWISE));
+    }
+
+    public void frontInv() {
+        long startTime = SystemClock.uptimeMillis();
+        frontSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.Z, Direction.ANTICLOCKWISE));
+    }
+
+    public void left() {
+        long startTime = SystemClock.uptimeMillis();
+        leftSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.X, Direction.ANTICLOCKWISE));
+    }
+
+    public void leftInv() {
+        long startTime = SystemClock.uptimeMillis();
+        leftSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.X, Direction.CLOCKWISE));
+    }
+
+    public void right() {
+        long startTime = SystemClock.uptimeMillis();
+        rightSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.X, Direction.CLOCKWISE));
+    }
+
+    public void rightInv() {
+        long startTime = SystemClock.uptimeMillis();
+        rightSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.X, Direction.ANTICLOCKWISE));
+    }
+
+    public void top() {
+        long startTime = SystemClock.uptimeMillis();
+        topSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.Y, Direction.CLOCKWISE));
+    }
+
+    public void topInv() {
+        long startTime = SystemClock.uptimeMillis();
+        topSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.Y, Direction.ANTICLOCKWISE));
+    }
+
+    public void bottom() {
+        long startTime = SystemClock.uptimeMillis();
+        bottomSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.Y, Direction.ANTICLOCKWISE));
+    }
+
+    public void bottomInv() {
+        long startTime = SystemClock.uptimeMillis();
+        bottomSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.Y, Direction.CLOCKWISE));
+    }
+
+    public void rotate() {
+        long startTime = SystemClock.uptimeMillis();
+        allSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.Y, Direction.CLOCKWISE));
+    }
+
+    public void rotateInv() {
+        long startTime = SystemClock.uptimeMillis();
+        allSubCubes().forEach(subCube -> subCube.startAnimation(
+                startTime, Axis.Y, Direction.ANTICLOCKWISE));
+    }
+
+    public enum Axis {
+        X, Y, Z
+    }
+
+    public enum Direction {
+        CLOCKWISE,
+        ANTICLOCKWISE
+    }
+
 
     private List<Cube> allSubCubes() {
         List<Cube> allSubCubes = new ArrayList<>(3 * 3 * 3);

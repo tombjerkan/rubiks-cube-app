@@ -32,8 +32,44 @@ class Cube {
                 backBottomRight);
     }
 
-    public void draw(GL10 gl) {
+    public void draw(GL10 gl, long drawStartTime) {
+        gl.glPushMatrix();
+
+        if (animating) {
+            long timeElapsed = drawStartTime - animationStartTime;
+
+            if (timeElapsed > ANIMATION_TIME) {
+                animating = false;
+            } else {
+                float angleToRotate = ((float) timeElapsed / ANIMATION_TIME) * 90f;
+                if (animationDirection == RubiksCubeModel.Direction.CLOCKWISE) {
+                    angleToRotate = -angleToRotate;
+                }
+
+                if (animationAxis == RubiksCubeModel.Axis.X) {
+                    gl.glRotatef(angleToRotate, 1f, 0f, 0f);
+                } else if (animationAxis == RubiksCubeModel.Axis.Y) {
+                    gl.glRotatef(angleToRotate, 0f, 1f, 0f);
+                } else {
+                    gl.glRotatef(angleToRotate, 0f, 0f, 1f);
+                }
+            }
+        }
+
         squares().forEach(square -> square.draw(gl));
+        gl.glPopMatrix();
+    }
+
+    public void startAnimation(long animationStartTime, RubiksCubeModel.Axis axis,
+                               RubiksCubeModel.Direction direction) {
+        animating = true;
+        this.animationStartTime = animationStartTime;
+        animationAxis = axis;
+        animationDirection = direction;
+    }
+
+    public boolean isAnimating() {
+        return true;
     }
 
     public void setFrontColour(CubeScanner.RubiksColour colour) {
@@ -71,4 +107,11 @@ class Cube {
     private Square rightSquare;
     private Square topSquare;
     private Square bottomSquare;
+
+    private boolean animating = false;
+    private long animationStartTime;
+    private RubiksCubeModel.Axis animationAxis;
+    private RubiksCubeModel.Direction animationDirection;
+
+    private static final int ANIMATION_TIME = 1000;
 }
