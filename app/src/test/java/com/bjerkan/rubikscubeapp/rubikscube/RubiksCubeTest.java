@@ -448,11 +448,6 @@ public class RubiksCubeTest {
                 RED, BLUE, YELLOW)));
     }
 
-    @Test
-    public void test_combinedActions() {
-
-    }
-
     private RubiksCube createCube() {
         List<RubiksColour> frontColours = Arrays.asList(
                 YELLOW, GREEN, WHITE,
