@@ -8,7 +8,7 @@ import com.bjerkan.rubikscubeapp.cubegraphic.RubiksCubeModel;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-public class CubeRenderer implements GLSurfaceView.Renderer {
+class CubeRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         gl.glClearColor(0.0f, 0.0f, 0.0f, 1f);
@@ -47,7 +47,7 @@ public class CubeRenderer implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
     }
 
-    public void setModel(RubiksCubeModel model) {
+    void setModel(RubiksCubeModel model) {
         this.model = model;
     }
 
