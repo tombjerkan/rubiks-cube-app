@@ -10,7 +10,7 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL10;
 
 class Cube {
-    public Cube(float centreX, float centreY, float centreZ, float sideLength) {
+    Cube(float centreX, float centreY, float centreZ, float sideLength) {
         float leftX = centreX - (sideLength / 2f);
         float rightX = centreX + (sideLength / 2f);
         float bottomY = centreY - (sideLength / 2f);
@@ -36,7 +36,7 @@ class Cube {
                 backBottomRight);
     }
 
-    public void draw(GL10 gl, long drawStartTime) {
+    void draw(GL10 gl, long drawStartTime) {
         gl.glPushMatrix();
 
         if (animating) {
@@ -60,7 +60,7 @@ class Cube {
         gl.glPopMatrix();
     }
 
-    public void startAnimation(long animationStartTime, RubiksCubeModel.Axis axis,
+    void startAnimation(long animationStartTime, RubiksCubeModel.Axis axis,
                                RubiksCubeModel.Direction direction) {
         animating = true;
         this.animationStartTime = animationStartTime;
@@ -68,31 +68,31 @@ class Cube {
         animationDirection = direction;
     }
 
-    public boolean isAnimating() {
+    boolean isAnimating() {
         return animating;
     }
 
-    public void setFrontColour(CubeScanner.RubiksColour colour) {
+    void setFrontColour(CubeScanner.RubiksColour colour) {
         frontSquare.setColour(colour);
     }
 
-    public void setLeftColour(CubeScanner.RubiksColour colour) {
+    void setLeftColour(CubeScanner.RubiksColour colour) {
         leftSquare.setColour(colour);
     }
 
-    public void setBackColour(CubeScanner.RubiksColour colour) {
+    void setBackColour(CubeScanner.RubiksColour colour) {
         backSquare.setColour(colour);
     }
 
-    public void setRightColour(CubeScanner.RubiksColour colour) {
+    void setRightColour(CubeScanner.RubiksColour colour) {
         rightSquare.setColour(colour);
     }
 
-    public void setTopColour(CubeScanner.RubiksColour colour) {
+    void setTopColour(CubeScanner.RubiksColour colour) {
         topSquare.setColour(colour);
     }
 
-    public void setBottomColour(CubeScanner.RubiksColour colour) {
+    void setBottomColour(CubeScanner.RubiksColour colour) {
         bottomSquare.setColour(colour);
     }
 
@@ -133,12 +133,12 @@ class Cube {
     private List<Animation> animationHistory = new LinkedList<>();
 
     private class Animation {
-        public Animation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction) {
+        Animation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction) {
             this.axis = axis;
             this.direction = direction;
         }
 
-        public RubiksCubeModel.Axis axis;
-        public RubiksCubeModel.Direction direction;
+        RubiksCubeModel.Axis axis;
+        RubiksCubeModel.Direction direction;
     }
 }
