@@ -19,7 +19,7 @@ public class Solver {
         solveTopCorners(cube);
     }
 
-    public static void solveBottomEdges(RubiksCube cube) {
+    static void solveBottomEdges(RubiksCube cube) {
         while (!bottomEdgesOnTop(cube)) {
             if (cube.bottomFace().topMiddle() == cube.bottomFace().middle()) {
                 while (cube.topFace().bottomMiddle() == cube.bottomFace().middle()) {
@@ -74,7 +74,7 @@ public class Solver {
                 cube.topFace().bottomMiddle() == cube.bottomFace().middle();
     }
 
-    public static void solveBottomCorners(RubiksCube cube) {
+    static void solveBottomCorners(RubiksCube cube) {
         while (!bottomFaceComplete(cube)) {
             handleBottomCorner(cube);
             handleTopCorner(cube);
@@ -166,7 +166,7 @@ public class Solver {
                 cube.bottomFace().middle()).collect(Collectors.toSet());
     }
 
-    public static void solveSecondRow(RubiksCube cube) {
+    static void solveSecondRow(RubiksCube cube) {
         for (int face = 0; face < 4; face++) {
             if (secondRowBelongsOnRow(cube)) {
                 while (topEdgeBelongsInSecondRow(cube)) {
@@ -218,7 +218,7 @@ public class Solver {
         return topEdgeColours.equals(frontLeftFaceColours);
     }
 
-    public static void solveTopEdges(RubiksCube cube) {
+    static void solveTopEdges(RubiksCube cube) {
         getTopCross(cube);
         alignTopEdges(cube);
     }
@@ -315,7 +315,7 @@ public class Solver {
                 cube.rightFace().topMiddle() == cube.rightFace().middle();
     }
 
-    public static void solveTopCorners(RubiksCube cube) {
+    static void solveTopCorners(RubiksCube cube) {
         positionCorners(cube);
         orientCorners(cube);
         correctRows(cube);
