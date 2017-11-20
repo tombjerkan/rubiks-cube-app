@@ -7,7 +7,8 @@ import android.view.View;
 import com.bjerkan.rubikscubeapp.CubeScanner;
 import com.bjerkan.rubikscubeapp.R;
 
-import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class CubeGraphicActivity extends Activity {
 
@@ -17,16 +18,22 @@ public class CubeGraphicActivity extends Activity {
         setContentView(R.layout.activity_cube_graphic);
 
         rubiksCubeModel = new RubiksCubeModel(
-                Collections.nCopies(9, CubeScanner.RubiksColour.WHITE),
-                Collections.nCopies(9, CubeScanner.RubiksColour.RED),
-                Collections.nCopies(9, CubeScanner.RubiksColour.YELLOW),
-                Collections.nCopies(9, CubeScanner.RubiksColour.ORANGE),
-                Collections.nCopies(9, CubeScanner.RubiksColour.GREEN),
-                Collections.nCopies(9, CubeScanner.RubiksColour.BLUE)
+                asColourList(getIntent().getStringArrayListExtra(FRONT_COLOURS_ARGUMENT)),
+                asColourList(getIntent().getStringArrayListExtra(LEFT_COLOURS_ARGUMENT)),
+                asColourList(getIntent().getStringArrayListExtra(BACK_COLOURS_ARGUMENT)),
+                asColourList(getIntent().getStringArrayListExtra(RIGHT_COLOURS_ARGUMENT)),
+                asColourList(getIntent().getStringArrayListExtra(TOP_COLOURS_ARGUMENT)),
+                asColourList(getIntent().getStringArrayListExtra(BOTTOM_COLOURS_ARGUMENT))
         );
 
         CubeSurfaceView cubeSurfaceView = findViewById(R.id.cubeSurfaceView);
         cubeSurfaceView.setModel(rubiksCubeModel);
+    }
+
+    private List<CubeScanner.RubiksColour> asColourList(List<String> colourNames) {
+        return colourNames.stream()
+                .map(CubeScanner.RubiksColour::valueOf)
+                .collect(Collectors.toList());
     }
 
     public void front(View view) {
@@ -76,6 +83,13 @@ public class CubeGraphicActivity extends Activity {
     public void rotateInv(View view) {
         rubiksCubeModel.rotateInv();
     }
+
+    public static final String FRONT_COLOURS_ARGUMENT = "com.bjerkan.FRONT_COLOURS_ARGUMENT";
+    public static final String LEFT_COLOURS_ARGUMENT = "com.bjerkan.LEFT_COLOURS_ARGUMENT";
+    public static final String BACK_COLOURS_ARGUMENT = "com.bjerkan.BACK_COLOURS_ARGUMENT";
+    public static final String RIGHT_COLOURS_ARGUMENT = "com.bjerkan.RIGHT_COLOURS_ARGUMENT";
+    public static final String TOP_COLOURS_ARGUMENT = "com.bjerkan.TOP_COLOURS_ARGUMENT";
+    public static final String BOTTOM_COLOURS_ARGUMENT = "com.bjerkan.BOTTOM_COLOURS_ARGUMENT";
 
     private RubiksCubeModel rubiksCubeModel;
 }

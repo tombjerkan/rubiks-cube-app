@@ -1,17 +1,22 @@
 package com.bjerkan.rubikscubeapp;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
+import com.bjerkan.rubikscubeapp.cubegraphic.CubeGraphicActivity;
+
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ScanCubeActivity extends FragmentActivity
         implements CaptureImageFragment.OnImageCapturedListener,
@@ -54,7 +59,6 @@ public class ScanCubeActivity extends FragmentActivity
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, resultFragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -71,7 +75,6 @@ public class ScanCubeActivity extends FragmentActivity
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.container, resultFragment);
-            transaction.addToBackStack(null);
             transaction.commit();
         } else if (currentFace.nextFace != null) {
             currentFace = currentFace.nextFace;
@@ -79,9 +82,41 @@ public class ScanCubeActivity extends FragmentActivity
             CaptureImageFragment captureImageFragment = new CaptureImageFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.container, captureImageFragment);
-            transaction.addToBackStack(null);
             transaction.commit();
+        } else {
+            showCubeGraphic();
         }
+    }
+
+    private void showCubeGraphic() {
+        Intent cubeGraphicIntent = new Intent(this, CubeGraphicActivity.class);
+
+        ArrayList<String> frontColours = asIntentArgument(faceColours.get(CubeFace.FRONT));
+        ArrayList<String> leftColours = asIntentArgument(faceColours.get(CubeFace.LEFT));
+        ArrayList<String> backColours = asIntentArgument(faceColours.get(CubeFace.BACK));
+        ArrayList<String> rightColours = asIntentArgument(faceColours.get(CubeFace.RIGHT));
+        ArrayList<String> topColours = asIntentArgument(faceColours.get(CubeFace.TOP));
+        ArrayList<String> bottomColours = asIntentArgument(faceColours.get(CubeFace.BOTTOM));
+
+        cubeGraphicIntent.putStringArrayListExtra(
+                CubeGraphicActivity.FRONT_COLOURS_ARGUMENT, frontColours);
+        cubeGraphicIntent.putStringArrayListExtra(
+                CubeGraphicActivity.LEFT_COLOURS_ARGUMENT, leftColours);
+        cubeGraphicIntent.putStringArrayListExtra(
+                CubeGraphicActivity.BACK_COLOURS_ARGUMENT, backColours);
+        cubeGraphicIntent.putStringArrayListExtra(
+                CubeGraphicActivity.RIGHT_COLOURS_ARGUMENT, rightColours);
+        cubeGraphicIntent.putStringArrayListExtra(
+                CubeGraphicActivity.TOP_COLOURS_ARGUMENT, topColours);
+        cubeGraphicIntent.putStringArrayListExtra(
+                CubeGraphicActivity.BOTTOM_COLOURS_ARGUMENT, bottomColours);
+
+        startActivity(cubeGraphicIntent);
+    }
+
+    // Convert list of enums to ArrayList of Strings so that it can be passed in an intent
+    private ArrayList<String> asIntentArgument(List<CubeScanner.RubiksColour> colours) {
+        return colours.stream().map(Enum::name).collect(Collectors.toCollection(ArrayList::new));
     }
 
     private Bitmap matToBitmap(Mat image) {
