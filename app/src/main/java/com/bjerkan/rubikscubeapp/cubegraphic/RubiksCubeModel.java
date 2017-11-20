@@ -45,7 +45,7 @@ class RubiksCubeModel {
     }
 
     boolean currentlyAnimating() {
-        return allSubCubes().stream().anyMatch(subCube -> subCube.isAnimating());
+        return allSubCubes().stream().anyMatch(Cube::isAnimating);
     }
 
     void front() {
