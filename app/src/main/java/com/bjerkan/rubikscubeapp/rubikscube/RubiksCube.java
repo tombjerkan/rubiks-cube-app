@@ -22,7 +22,7 @@ public class RubiksCube {
         bottom = new RubiksCubeFace(bottomColours);
     }
 
-    public void rotate() {
+    public RubiksCube rotate() {
         RubiksCubeFace previousFront = new RubiksCubeFace(front);
         front = right;
         right = back;
@@ -31,15 +31,19 @@ public class RubiksCube {
 
         top = top.rotated();
         bottom = bottom.rotatedInv();
+
+        return this;
     }
 
-    public void rotateInv() {
+    public RubiksCube rotateInv() {
         rotate();
         rotate();
         rotate();
+
+        return this;
     }
 
-    public void front() {
+    public RubiksCube front() {
         front = front.rotated();
 
         RubiksCubeFace previousLeft = new RubiksCubeFace(left);
@@ -47,15 +51,19 @@ public class RubiksCube {
         bottom.replaceTopRow(Lists.reverse(right.leftColumn()));
         right.replaceLeftColumn(top.bottomRow());
         top.replaceBottomRow(Lists.reverse(previousLeft.rightColumn()));
+
+        return this;
     }
 
-    public void frontInv() {
+    public RubiksCube frontInv() {
         front();
         front();
         front();
+
+        return this;
     }
 
-    public void left() {
+    public RubiksCube left() {
         left = left.rotated();
 
         RubiksCubeFace previousFront = new RubiksCubeFace(front);
@@ -63,15 +71,19 @@ public class RubiksCube {
         top.replaceLeftColumn(Lists.reverse(back.rightColumn()));
         back.replaceRightColumn(Lists.reverse(bottom.leftColumn()));
         bottom.replaceLeftColumn(previousFront.leftColumn());
+
+        return this;
     }
 
-    public void leftInv() {
+    public RubiksCube leftInv() {
         left();
         left();
         left();
+
+        return this;
     }
 
-    public void right() {
+    public RubiksCube right() {
         right = right.rotated();
 
         RubiksCubeFace previousFront = new RubiksCubeFace(front);
@@ -79,15 +91,19 @@ public class RubiksCube {
         bottom.replaceRightColumn(Lists.reverse(back.leftColumn()));
         back.replaceLeftColumn(Lists.reverse(top.rightColumn()));
         top.replaceRightColumn(previousFront.rightColumn());
+
+        return this;
     }
 
-    public void rightInv() {
+    public RubiksCube rightInv() {
         right();
         right();
         right();
+
+        return this;
     }
 
-    public void top() {
+    public RubiksCube top() {
         top = top.rotated();
 
         RubiksCubeFace previousFront = new RubiksCubeFace(front);
@@ -95,15 +111,19 @@ public class RubiksCube {
         right.replaceTopRow(back.topRow());
         back.replaceTopRow(left.topRow());
         left.replaceTopRow(previousFront.topRow());
+
+        return this;
     }
 
-    public void topInv() {
+    public RubiksCube topInv() {
         top();
         top();
         top();
+
+        return this;
     }
 
-    public void bottom() {
+    public RubiksCube bottom() {
         bottom = bottom.rotated();
 
         RubiksCubeFace previousFront = new RubiksCubeFace(front);
@@ -111,12 +131,16 @@ public class RubiksCube {
         left.replaceBottomRow(back.bottomRow());
         back.replaceBottomRow(right.bottomRow());
         right.replaceBottomRow(previousFront.bottomRow());
+
+        return this;
     }
 
-    public void bottomInv() {
+    public RubiksCube bottomInv() {
         bottom();
         bottom();
         bottom();
+
+        return this;
     }
 
     public RubiksCubeFace frontFace() {
