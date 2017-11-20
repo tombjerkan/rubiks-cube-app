@@ -10,9 +10,9 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class RubiksCubeModel {
+class RubiksCubeModel {
 
-    public RubiksCubeModel(
+    RubiksCubeModel(
             List<CubeScanner.RubiksColour> frontColours,
             List<CubeScanner.RubiksColour> leftColours,
             List<CubeScanner.RubiksColour> backColours,
@@ -40,16 +40,16 @@ public class RubiksCubeModel {
         }
     }
 
-    public void draw(GL10 gl) {
+    void draw(GL10 gl) {
         long currentTime = SystemClock.uptimeMillis();
         allSubCubes().forEach(cube -> cube.draw(gl, currentTime));
     }
 
-    public boolean currentlyAnimating() {
+    boolean currentlyAnimating() {
         return allSubCubes().stream().anyMatch(subCube -> subCube.isAnimating());
     }
 
-    public void front() {
+    void front() {
         long startTime = SystemClock.uptimeMillis();
         frontSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Z, Direction.CLOCKWISE));
@@ -57,7 +57,7 @@ public class RubiksCubeModel {
         frontCubeSwap();
     }
 
-    public void frontInv() {
+    void frontInv() {
         long startTime = SystemClock.uptimeMillis();
         frontSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Z, Direction.ANTICLOCKWISE));
@@ -81,7 +81,7 @@ public class RubiksCubeModel {
         subCubes[2][1][0] = temp;
     }
 
-    public void left() {
+    void left() {
         long startTime = SystemClock.uptimeMillis();
         leftSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.X, Direction.ANTICLOCKWISE));
@@ -113,7 +113,7 @@ public class RubiksCubeModel {
         subCubes[0][1][0] = temp;
     }
 
-    public void right() {
+    void right() {
         long startTime = SystemClock.uptimeMillis();
         rightSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.X, Direction.CLOCKWISE));
@@ -121,7 +121,7 @@ public class RubiksCubeModel {
         rightCubeSwap();
     }
 
-    public void rightInv() {
+    void rightInv() {
         long startTime = SystemClock.uptimeMillis();
         rightSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.X, Direction.ANTICLOCKWISE));
@@ -145,7 +145,7 @@ public class RubiksCubeModel {
         subCubes[2][1][2] = temp;
     }
 
-    public void top() {
+    void top() {
         long startTime = SystemClock.uptimeMillis();
         topSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.CLOCKWISE));
@@ -153,7 +153,7 @@ public class RubiksCubeModel {
         topCubeSwap();
     }
 
-    public void topInv() {
+    void topInv() {
         long startTime = SystemClock.uptimeMillis();
         topSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.ANTICLOCKWISE));
@@ -177,7 +177,7 @@ public class RubiksCubeModel {
         subCubes[2][0][1] = temp;
     }
 
-    public void bottom() {
+    void bottom() {
         long startTime = SystemClock.uptimeMillis();
         bottomSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.ANTICLOCKWISE));
@@ -185,7 +185,7 @@ public class RubiksCubeModel {
         bottomCubeSwap();
     }
 
-    public void bottomInv() {
+    void bottomInv() {
         long startTime = SystemClock.uptimeMillis();
         bottomSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.CLOCKWISE));
@@ -209,7 +209,7 @@ public class RubiksCubeModel {
         subCubes[2][2][1] = temp;
     }
 
-    public void rotate() {
+    void rotate() {
         long startTime = SystemClock.uptimeMillis();
         allSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.CLOCKWISE));
@@ -217,7 +217,7 @@ public class RubiksCubeModel {
         rotateCubeSwap();
     }
 
-    public void rotateInv() {
+    void rotateInv() {
         long startTime = SystemClock.uptimeMillis();
         allSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.Y, Direction.ANTICLOCKWISE));
