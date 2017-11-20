@@ -57,7 +57,7 @@ class RubiksCubeFace {
     }
 
     public RubiksCubeFace replaceTopRow(List<RubiksColour> colours) {
-        return replaceTopRow(colours.get(0), colours.get(1), colours.get(0));
+        return replaceTopRow(colours.get(0), colours.get(1), colours.get(2));
     }
 
     public RubiksCubeFace replaceBottomRow(
@@ -69,7 +69,7 @@ class RubiksCubeFace {
     }
 
     public RubiksCubeFace replaceBottomRow(List<RubiksColour> colours) {
-        return replaceBottomRow(colours.get(0), colours.get(1), colours.get(0));
+        return replaceBottomRow(colours.get(0), colours.get(1), colours.get(2));
     }
 
     public RubiksCubeFace replaceLeftColumn(
@@ -81,7 +81,7 @@ class RubiksCubeFace {
     }
 
     public RubiksCubeFace replaceLeftColumn(List<RubiksColour> colours) {
-        return replaceLeftColumn(colours.get(0), colours.get(1), colours.get(0));
+        return replaceLeftColumn(colours.get(0), colours.get(1), colours.get(2));
     }
 
     public RubiksCubeFace replaceRightColumn(
@@ -93,7 +93,7 @@ class RubiksCubeFace {
     }
 
     public RubiksCubeFace replaceRightColumn(List<RubiksColour> colours) {
-        return replaceRightColumn(colours.get(0), colours.get(1), colours.get(0));
+        return replaceRightColumn(colours.get(0), colours.get(1), colours.get(2));
     }
 
     public List<RubiksColour> topRow() {
@@ -146,6 +146,28 @@ class RubiksCubeFace {
 
     public RubiksColour bottomRight() {
         return bottomRight;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+
+        if (!(other instanceof RubiksCubeFace)) {
+            return false;
+        }
+
+        RubiksCubeFace otherFace = (RubiksCubeFace) other;
+        return topLeft == otherFace.topLeft &&
+                topMiddle == otherFace.topMiddle &&
+                topRight == otherFace.topRight &&
+                middleLeft == otherFace.middleLeft &&
+                middle == otherFace.middle &&
+                middleRight == otherFace.middleRight &&
+                bottomLeft == otherFace.bottomLeft &&
+                bottomMiddle == otherFace.bottomMiddle &&
+                bottomRight == otherFace.bottomRight;
     }
 
     private final RubiksColour topLeft;
