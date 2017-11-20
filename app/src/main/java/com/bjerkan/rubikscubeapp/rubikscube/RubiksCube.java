@@ -8,7 +8,7 @@ import java.util.List;
 
 public class RubiksCube {
 
-    public RubiksCube(
+    RubiksCube(
             List<CubeScanner.RubiksColour> frontColours,
             List<CubeScanner.RubiksColour> leftColours,
             List<CubeScanner.RubiksColour> backColours,
@@ -23,13 +23,13 @@ public class RubiksCube {
         bottom = new RubiksCubeFace(bottomColours);
     }
 
-    public RubiksCube rotate() {
+    RubiksCube rotate() {
         rotateAction();
         history.add(Action.ROTATE);
         return this;
     }
 
-    public RubiksCube rotateInv() {
+    RubiksCube rotateInv() {
         rotateAction();
         rotateAction();
         rotateAction();
@@ -37,7 +37,7 @@ public class RubiksCube {
         return this;
     }
 
-    private void rotateAction() {
+    void rotateAction() {
         RubiksCubeFace previousFront = new RubiksCubeFace(front);
         front = right;
         right = back;
@@ -48,13 +48,13 @@ public class RubiksCube {
         bottom = bottom.rotatedInv();
     }
 
-    public RubiksCube front() {
+    RubiksCube front() {
         frontAction();
         history.add(Action.FRONT);
         return this;
     }
 
-    public RubiksCube frontInv() {
+    RubiksCube frontInv() {
         frontAction();
         frontAction();
         frontAction();
@@ -72,13 +72,13 @@ public class RubiksCube {
         top = top.replaceBottomRow(Lists.reverse(previousLeft.rightColumn()));
     }
 
-    public RubiksCube left() {
+    RubiksCube left() {
         leftAction();
         history.add(Action.LEFT);
         return this;
     }
 
-    public RubiksCube leftInv() {
+    RubiksCube leftInv() {
         leftAction();
         leftAction();
         leftAction();
@@ -96,13 +96,13 @@ public class RubiksCube {
         bottom = bottom.replaceLeftColumn(previousFront.leftColumn());
     }
 
-    public RubiksCube right() {
+    RubiksCube right() {
         rightAction();
         history.add(Action.RIGHT);
         return this;
     }
 
-    public RubiksCube rightInv() {
+    RubiksCube rightInv() {
         rightAction();
         rightAction();
         rightAction();
@@ -120,13 +120,13 @@ public class RubiksCube {
         top = top.replaceRightColumn(previousFront.rightColumn());
     }
 
-    public RubiksCube top() {
+    RubiksCube top() {
         topAction();
         history.add(Action.TOP);
         return this;
     }
 
-    public RubiksCube topInv() {
+    RubiksCube topInv() {
         topAction();
         topAction();
         topAction();
@@ -144,13 +144,13 @@ public class RubiksCube {
         left = left.replaceTopRow(previousFront.topRow());
     }
 
-    public RubiksCube bottom() {
+    RubiksCube bottom() {
         bottomAction();
         history.add(Action.BOTTOM);
         return this;
     }
 
-    public RubiksCube bottomInv() {
+    RubiksCube bottomInv() {
         bottomAction();
         bottomAction();
         bottomAction();
@@ -168,31 +168,31 @@ public class RubiksCube {
         right = right.replaceBottomRow(previousFront.bottomRow());
     }
 
-    public RubiksCubeFace frontFace() {
+    RubiksCubeFace frontFace() {
         return front;
     }
 
-    public RubiksCubeFace leftFace() {
+    RubiksCubeFace leftFace() {
         return left;
     }
 
-    public RubiksCubeFace backFace() {
+    RubiksCubeFace backFace() {
         return back;
     }
 
-    public RubiksCubeFace rightFace() {
+    RubiksCubeFace rightFace() {
         return right;
     }
 
-    public RubiksCubeFace topFace() {
+    RubiksCubeFace topFace() {
         return top;
     }
 
-    public RubiksCubeFace bottomFace() {
+    RubiksCubeFace bottomFace() {
         return bottom;
     }
 
-    public List<Action> history() {
+    List<Action> history() {
         return history;
     }
 
