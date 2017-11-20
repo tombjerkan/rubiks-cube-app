@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.bjerkan.rubikscubeapp.CubeScanner;
-import com.bjerkan.rubikscubeapp.CubeSurfaceView;
 import com.bjerkan.rubikscubeapp.R;
 
 import java.util.Collections;
