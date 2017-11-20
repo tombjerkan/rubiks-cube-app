@@ -8,8 +8,8 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class Square {
-    public Square(float[] topLeftVertex, float[] topRightVertex,
+class Square {
+    Square(float[] topLeftVertex, float[] topRightVertex,
                   float[] bottomRightVertex, float[] bottomLeftVertex) {
         float[] vertexArray = {
                 topLeftVertex[0], topLeftVertex[1], topLeftVertex[2],
@@ -38,7 +38,7 @@ public class Square {
         colour[2] = 0f;
     }
 
-    public void draw(GL10 gl) {
+    void draw(GL10 gl) {
         gl.glFrontFace(GL10.GL_CW);
 
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
@@ -52,7 +52,7 @@ public class Square {
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     }
 
-    public void setColour(CubeScanner.RubiksColour colour) {
+    void setColour(CubeScanner.RubiksColour colour) {
         this.colour[0] = (float) colour.rgb.val[0] / 255f;
         this.colour[1] = (float) colour.rgb.val[1] / 255f;
         this.colour[2] = (float) colour.rgb.val[2] / 255f;
