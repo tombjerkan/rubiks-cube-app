@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 class RubiksCubeFace {
-    public RubiksCubeFace(
+    RubiksCubeFace(
             RubiksColour topLeft,
             RubiksColour topMiddle,
             RubiksColour topRight,
@@ -27,28 +27,28 @@ class RubiksCubeFace {
         this.bottomRight = bottomRight;
     }
 
-    public RubiksCubeFace(List<RubiksColour> colours) {
+    RubiksCubeFace(List<RubiksColour> colours) {
         this(colours.get(0), colours.get(1), colours.get(2), colours.get(3), colours.get(4),
                 colours.get(5), colours.get(6), colours.get(7), colours.get(8));
     }
 
-    public RubiksCubeFace(RubiksCubeFace face) {
+    RubiksCubeFace(RubiksCubeFace face) {
         this(face.topLeft, face.topMiddle, face.topRight, face.middleLeft, face.middle,
                 face.middleRight, face.bottomLeft, face.bottomMiddle, face.bottomRight);
     }
 
-    public RubiksCubeFace rotated() {
+    RubiksCubeFace rotated() {
         return new RubiksCubeFace(
                 bottomLeft(), middleLeft(), topLeft(),
                 bottomMiddle(), middle(), topMiddle(),
                 bottomRight(), middleRight(), topRight());
     }
 
-    public RubiksCubeFace rotatedInv() {
+    RubiksCubeFace rotatedInv() {
         return rotated().rotated().rotated();
     }
 
-    public RubiksCubeFace replaceTopRow(
+    RubiksCubeFace replaceTopRow(
             RubiksColour newTopLeft, RubiksColour newTopMiddle, RubiksColour newTopRight) {
         return new RubiksCubeFace(
                 newTopLeft, newTopMiddle, newTopRight,
@@ -56,11 +56,11 @@ class RubiksCubeFace {
                 bottomLeft, bottomMiddle, bottomRight);
     }
 
-    public RubiksCubeFace replaceTopRow(List<RubiksColour> colours) {
+    RubiksCubeFace replaceTopRow(List<RubiksColour> colours) {
         return replaceTopRow(colours.get(0), colours.get(1), colours.get(2));
     }
 
-    public RubiksCubeFace replaceBottomRow(
+    RubiksCubeFace replaceBottomRow(
             RubiksColour newBottomLeft, RubiksColour newBottomMiddle, RubiksColour newBottomRight) {
         return new RubiksCubeFace(
                 topLeft, topMiddle, topRight,
@@ -68,11 +68,11 @@ class RubiksCubeFace {
                 newBottomLeft, newBottomMiddle, newBottomRight);
     }
 
-    public RubiksCubeFace replaceBottomRow(List<RubiksColour> colours) {
+    RubiksCubeFace replaceBottomRow(List<RubiksColour> colours) {
         return replaceBottomRow(colours.get(0), colours.get(1), colours.get(2));
     }
 
-    public RubiksCubeFace replaceLeftColumn(
+    RubiksCubeFace replaceLeftColumn(
             RubiksColour newTopLeft, RubiksColour newMiddleLeft, RubiksColour newBottomLeft) {
         return new RubiksCubeFace(
                 newTopLeft, topMiddle, topRight,
@@ -80,11 +80,11 @@ class RubiksCubeFace {
                 newBottomLeft, bottomMiddle, bottomRight);
     }
 
-    public RubiksCubeFace replaceLeftColumn(List<RubiksColour> colours) {
+    RubiksCubeFace replaceLeftColumn(List<RubiksColour> colours) {
         return replaceLeftColumn(colours.get(0), colours.get(1), colours.get(2));
     }
 
-    public RubiksCubeFace replaceRightColumn(
+    RubiksCubeFace replaceRightColumn(
             RubiksColour newTopRight, RubiksColour newMiddleRight, RubiksColour newBottomRight) {
         return new RubiksCubeFace(
                 topLeft, topMiddle, newTopRight,
@@ -92,59 +92,59 @@ class RubiksCubeFace {
                 bottomLeft, bottomMiddle, newBottomRight);
     }
 
-    public RubiksCubeFace replaceRightColumn(List<RubiksColour> colours) {
+    RubiksCubeFace replaceRightColumn(List<RubiksColour> colours) {
         return replaceRightColumn(colours.get(0), colours.get(1), colours.get(2));
     }
 
-    public List<RubiksColour> topRow() {
+    List<RubiksColour> topRow() {
         return Arrays.asList(topLeft, topMiddle, topRight);
     }
 
-    public List<RubiksColour> bottomRow() {
+    List<RubiksColour> bottomRow() {
         return Arrays.asList(bottomLeft, bottomMiddle, bottomRight);
     }
 
-    public List<RubiksColour> leftColumn() {
+    List<RubiksColour> leftColumn() {
         return Arrays.asList(topLeft, middleLeft, bottomLeft);
     }
 
-    public List<RubiksColour> rightColumn() {
+    List<RubiksColour> rightColumn() {
         return Arrays.asList(topRight, middleRight, bottomRight);
     }
 
-    public RubiksColour topLeft() {
+    RubiksColour topLeft() {
         return topLeft;
     }
 
-    public RubiksColour topMiddle() {
+    RubiksColour topMiddle() {
         return topMiddle;
     }
 
-    public RubiksColour topRight() {
+    RubiksColour topRight() {
         return topRight;
     }
 
-    public RubiksColour middleLeft() {
+    RubiksColour middleLeft() {
         return middleLeft;
     }
 
-    public RubiksColour middle() {
+    RubiksColour middle() {
         return middle;
     }
 
-    public RubiksColour middleRight() {
+    RubiksColour middleRight() {
         return middleRight;
     }
 
-    public RubiksColour bottomLeft() {
+    RubiksColour bottomLeft() {
         return bottomLeft;
     }
 
-    public RubiksColour bottomMiddle() {
+    RubiksColour bottomMiddle() {
         return bottomMiddle;
     }
 
-    public RubiksColour bottomRight() {
+    RubiksColour bottomRight() {
         return bottomRight;
     }
 
