@@ -59,7 +59,6 @@ public class ScanCubeActivity extends FragmentActivity
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.container, resultFragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -76,7 +75,6 @@ public class ScanCubeActivity extends FragmentActivity
 
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.container, resultFragment);
-            transaction.addToBackStack(null);
             transaction.commit();
         } else if (currentFace.nextFace != null) {
             currentFace = currentFace.nextFace;
@@ -84,7 +82,6 @@ public class ScanCubeActivity extends FragmentActivity
             CaptureImageFragment captureImageFragment = new CaptureImageFragment();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.container, captureImageFragment);
-            transaction.addToBackStack(null);
             transaction.commit();
         } else {
             showCubeGraphic();
