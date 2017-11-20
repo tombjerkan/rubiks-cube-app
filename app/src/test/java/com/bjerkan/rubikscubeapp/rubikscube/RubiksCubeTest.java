@@ -10,6 +10,18 @@ import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.ORANGE;
 import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.RED;
 import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.WHITE;
 import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.YELLOW;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.BOTTOM;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.BOTTOM_INV;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.FRONT;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.FRONT_INV;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.LEFT;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.LEFT_INV;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.RIGHT;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.RIGHT_INV;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.ROTATE;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.ROTATE_INV;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.TOP;
+import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.TOP_INV;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
@@ -446,6 +458,17 @@ public class RubiksCubeTest {
                 WHITE, RED, RED,
                 GREEN, WHITE, BLUE,
                 RED, BLUE, YELLOW)));
+    }
+
+    @Test
+    public void test_historyIsStoredCorrectly() {
+        RubiksCube cube = createCube();
+        cube.front().topInv().rotate().bottom().left().rightInv().frontInv().top().bottomInv()
+                .right().rotateInv().leftInv();
+
+        assertTrue(cube.history().equals(Arrays.asList(
+                FRONT, TOP_INV, ROTATE, BOTTOM, LEFT, RIGHT_INV, FRONT_INV, TOP, BOTTOM_INV, RIGHT,
+                ROTATE_INV, LEFT_INV)));
     }
 
     private RubiksCube createCube() {
