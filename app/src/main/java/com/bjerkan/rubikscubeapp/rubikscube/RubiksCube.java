@@ -8,7 +8,7 @@ import java.util.List;
 
 public class RubiksCube {
 
-    RubiksCube(
+    public RubiksCube(
             List<CubeScanner.RubiksColour> frontColours,
             List<CubeScanner.RubiksColour> leftColours,
             List<CubeScanner.RubiksColour> backColours,
