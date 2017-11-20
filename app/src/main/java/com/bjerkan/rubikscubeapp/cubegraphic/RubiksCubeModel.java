@@ -3,7 +3,6 @@ package com.bjerkan.rubikscubeapp.cubegraphic;
 import android.os.SystemClock;
 
 import com.bjerkan.rubikscubeapp.CubeScanner;
-import com.bjerkan.rubikscubeapp.cubegraphic.Cube;
 
 import java.util.ArrayList;
 import java.util.List;
