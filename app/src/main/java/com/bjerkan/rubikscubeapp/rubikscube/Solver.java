@@ -129,11 +129,6 @@ public class Solver {
 
     private static void handleTopCorner(RubiksCube cube) {
         if (topCornerColours(cube).contains(cube.bottomFace().middle())) {
-            Set<RubiksColour> frontLeftBottomColourSet = Stream.of(
-                    cube.frontFace().middle(),
-                    cube.leftFace().middle(),
-                    cube.bottomFace().middle()).collect(Collectors.toSet());
-
             while (!topCornerColours(cube).equals(frontLeftBottomFaceColours(cube))) {
                 cube.top().rotateInv();
             }
