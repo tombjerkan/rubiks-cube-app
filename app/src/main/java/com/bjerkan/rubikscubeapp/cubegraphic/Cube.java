@@ -1,5 +1,6 @@
-package com.bjerkan.rubikscubeapp;
+package com.bjerkan.rubikscubeapp.cubegraphic;
 
+import com.bjerkan.rubikscubeapp.CubeScanner;
 import com.google.common.collect.Lists;
 
 import java.util.Arrays;

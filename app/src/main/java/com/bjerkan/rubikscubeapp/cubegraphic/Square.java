@@ -1,4 +1,6 @@
-package com.bjerkan.rubikscubeapp;
+package com.bjerkan.rubikscubeapp.cubegraphic;
+
+import com.bjerkan.rubikscubeapp.CubeScanner;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

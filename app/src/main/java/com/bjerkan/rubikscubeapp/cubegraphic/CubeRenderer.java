@@ -1,9 +1,9 @@
-package com.bjerkan.rubikscubeapp;
+package com.bjerkan.rubikscubeapp.cubegraphic;
 
 import android.opengl.GLSurfaceView;
 import android.opengl.GLU;
 
-import java.util.Collections;
+import com.bjerkan.rubikscubeapp.cubegraphic.RubiksCubeModel;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

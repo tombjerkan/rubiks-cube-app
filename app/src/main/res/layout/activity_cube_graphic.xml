@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.bjerkan.rubikscubeapp.CubeSurfaceView
+    <com.bjerkan.rubikscubeapp.cubegraphic.CubeSurfaceView
         android:id="@+id/cubeSurfaceView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

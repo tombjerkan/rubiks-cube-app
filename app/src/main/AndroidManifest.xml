@@ -22,7 +22,7 @@
             android:name=".ScanCubeActivity"
             android:screenOrientation="landscape">
         </activity>
-        <activity android:name=".CubeGraphicActivity"
+        <activity android:name=".cubegraphic.CubeGraphicActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

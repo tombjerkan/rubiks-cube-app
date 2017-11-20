@@ -1,4 +1,4 @@
-package com.bjerkan.rubikscubeapp;
+package com.bjerkan.rubikscubeapp.cubegraphic;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
