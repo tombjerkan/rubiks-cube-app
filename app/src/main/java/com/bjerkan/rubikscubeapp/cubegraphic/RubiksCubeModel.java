@@ -88,7 +88,7 @@ class RubiksCubeModel {
         leftCubeSwap();
     }
 
-    public void leftInv() {
+    void leftInv() {
         long startTime = SystemClock.uptimeMillis();
         leftSubCubes().forEach(subCube -> subCube.startAnimation(
                 startTime, Axis.X, Direction.CLOCKWISE));
