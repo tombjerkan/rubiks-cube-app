@@ -11,12 +11,13 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Solver {
-    public static void solve(RubiksCube cube) {
+    public static List<RubiksCube.Action> solve(RubiksCube cube) {
         solveBottomEdges(cube);
         solveBottomCorners(cube);
         solveSecondRow(cube);
         solveTopEdges(cube);
         solveTopCorners(cube);
+        return cube.history();
     }
 
     static void solveBottomEdges(RubiksCube cube) {
