@@ -44,10 +44,10 @@ class Cube {
 
             if (timeElapsed > ANIMATION_TIME) {
                 animating = false;
-                animationHistory.add(new Animation(animationAxis, animationDirection));
+                animationHistory.add(currentAnimation);
             } else {
                 float angleToRotate = ((float) timeElapsed / ANIMATION_TIME) * 90f;
-                rotate(gl, animationAxis, animationDirection, angleToRotate);
+                rotate(gl, currentAnimation.axis, currentAnimation.direction, angleToRotate);
             }
         }
 
@@ -64,8 +64,7 @@ class Cube {
                                RubiksCubeModel.Direction direction) {
         animating = true;
         this.animationStartTime = animationStartTime;
-        animationAxis = axis;
-        animationDirection = direction;
+        currentAnimation = new Animation(axis, direction);
     }
 
     void setFrontColour(Colour colour) {
@@ -121,8 +120,7 @@ class Cube {
 
     private boolean animating = false;
     private long animationStartTime;
-    private RubiksCubeModel.Axis animationAxis;
-    private RubiksCubeModel.Direction animationDirection;
+    private Animation currentAnimation;
 
     static final int ANIMATION_TIME = 1000;
 
