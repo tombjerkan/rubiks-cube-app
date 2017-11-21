@@ -25,6 +25,7 @@ class RubiksCubeModel {
                     float centreY = (1 - y) * SUBCUBE_SIZE;
                     float centreZ = (1 - z) * SUBCUBE_SIZE;
                     subCubes[x][y][z] = new Cube(centreX, centreY, centreZ, SUBCUBE_SIZE);
+                    subCubes[x][y][z].setAnimationTime(ANIMATION_TIME);
                 }
             }
         }
@@ -43,7 +44,7 @@ class RubiksCubeModel {
         long timeElapsed = SystemClock.uptimeMillis() - startTime;
         allSubCubes().forEach(cube -> cube.draw(gl, timeElapsed));
 
-        if (animating && timeElapsed > Cube.ANIMATION_TIME) {
+        if (animating && timeElapsed > ANIMATION_TIME) {
             animating = false;
             if (animationListener != null) {
                 animationListener.animationFinished();
@@ -315,6 +316,7 @@ class RubiksCubeModel {
     private static final float CUBE_SIZE = 6f;
     private static final float SUBCUBE_SIZE = CUBE_SIZE / 3f;
 
+    private static final int ANIMATION_TIME = 1000;
     private boolean animating = false;
     private long startTime;
     private AnimationFinishedListener animationListener;

@@ -40,11 +40,11 @@ class Cube {
         gl.glPushMatrix();
 
         if (animating) {
-            if (timeElapsed > ANIMATION_TIME) {
+            if (timeElapsed > animationTime) {
                 animating = false;
                 animationHistory.add(currentAnimation);
             } else {
-                float angleToRotate = ((float) timeElapsed / ANIMATION_TIME) * 90f;
+                float angleToRotate = ((float) timeElapsed / animationTime) * 90f;
                 rotate(gl, currentAnimation.axis, currentAnimation.direction, angleToRotate);
             }
         }
@@ -87,6 +87,10 @@ class Cube {
         bottomSquare.setColour(colour);
     }
 
+    void setAnimationTime(int animationTime) {
+        this.animationTime = animationTime;
+    }
+
     private void rotate(GL10 gl, RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction,
                         float angle) {
         if (direction == RubiksCubeModel.Direction.CLOCKWISE) {
@@ -117,7 +121,8 @@ class Cube {
     private boolean animating = false;
     private Animation currentAnimation;
 
-    static final int ANIMATION_TIME = 1000;
+    private int animationTime = DEFAULT_ANIMATION_TIME;
+    private static final int DEFAULT_ANIMATION_TIME = 1000;
 
     private List<Animation> animationHistory = new LinkedList<>();
 
