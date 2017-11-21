@@ -32,8 +32,7 @@ public class ScanCubeActivity extends FragmentActivity
         currentFace = CubeFace.startFace;
 
         if (savedInstanceState == null) {
-            CaptureImageFragment fragment = new CaptureImageFragment();
-            setFragment(fragment);
+            setFragment(new CaptureImageFragment());
         }
     }
 
@@ -59,9 +58,7 @@ public class ScanCubeActivity extends FragmentActivity
             showResultFragment();
         } else if (currentFace.nextFace != null) {
             currentFace = currentFace.nextFace;
-
-            CaptureImageFragment captureImageFragment = new CaptureImageFragment();
-            setFragment(captureImageFragment);
+            setFragment(new CaptureImageFragment());
         } else {
             showCubeGraphic();
         }
