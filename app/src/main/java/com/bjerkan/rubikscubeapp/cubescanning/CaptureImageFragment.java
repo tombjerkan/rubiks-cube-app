@@ -56,8 +56,9 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     {
         super.onPause();
 
-        if (cameraView != null)
+        if (cameraView != null) {
             cameraView.disableView();
+        }
     }
 
     @Override
@@ -76,8 +77,9 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     public void onDestroy() {
         super.onDestroy();
 
-        if (cameraView != null)
+        if (cameraView != null) {
             cameraView.disableView();
+        }
     }
 
     public void onCameraViewStarted(int width, int height) {
