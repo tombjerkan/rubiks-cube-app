@@ -25,9 +25,9 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_capture_image, container, false);
 
-        mOpenCvCameraView = view.findViewById(R.id.cameraView);
-        mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
-        mOpenCvCameraView.setCvCameraViewListener(this);
+        cameraView = view.findViewById(R.id.cameraView);
+        cameraView.setVisibility(SurfaceView.VISIBLE);
+        cameraView.setCvCameraViewListener(this);
 
         Button captureImage = view.findViewById(R.id.btnCaptureImage);
         captureImage.setOnClickListener((View onClickView) -> {
@@ -55,8 +55,8 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     public void onPause()
     {
         super.onPause();
-        if (mOpenCvCameraView != null)
-            mOpenCvCameraView.disableView();
+        if (cameraView != null)
+            cameraView.disableView();
     }
 
     @Override
@@ -73,8 +73,8 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
 
     public void onDestroy() {
         super.onDestroy();
-        if (mOpenCvCameraView != null)
-            mOpenCvCameraView.disableView();
+        if (cameraView != null)
+            cameraView.disableView();
     }
 
     public void onCameraViewStarted(int width, int height) {
@@ -98,7 +98,7 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
                 {
-                    mOpenCvCameraView.enableView();
+                    cameraView.enableView();
                 } break;
                 default:
                 {
@@ -108,9 +108,9 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
         }
     };
 
-    private CameraBridgeViewBase mOpenCvCameraView;
+    private CameraBridgeViewBase cameraView;
 
-    private OnImageCapturedListener mImageCapturedCallback;
+    private OnImageCapturedListener imageCapturedCallback;
 
-    private CameraBridgeViewBase.CvCameraViewFrame mLastFrame = null;
+    private CameraBridgeViewBase.CvCameraViewFrame lastFrame = null;
 }
