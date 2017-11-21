@@ -52,20 +52,12 @@ class RubiksCubeModel {
     }
 
     void front() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        frontSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Z, Direction.CLOCKWISE));
-
+        startAnimation(frontSubCubes(), Axis.Z, Direction.CLOCKWISE);
         frontCubeSwap();
     }
 
     void frontInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        frontSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Z, Direction.ANTICLOCKWISE));
-
+        startAnimation(frontSubCubes(), Axis.Z, Direction.ANTICLOCKWISE);
         frontCubeSwap();
         frontCubeSwap();
         frontCubeSwap();
@@ -86,20 +78,12 @@ class RubiksCubeModel {
     }
 
     void left() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        leftSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.X, Direction.ANTICLOCKWISE));
-
+        startAnimation(leftSubCubes(), Axis.X, Direction.ANTICLOCKWISE);
         leftCubeSwap();
     }
 
     void leftInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        leftSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.X, Direction.CLOCKWISE));
-
+        startAnimation(leftSubCubes(), Axis.X, Direction.CLOCKWISE);
         leftCubeSwap();
         leftCubeSwap();
         leftCubeSwap();
@@ -120,20 +104,12 @@ class RubiksCubeModel {
     }
 
     void right() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        rightSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.X, Direction.CLOCKWISE));
-
+        startAnimation(rightSubCubes(), Axis.X, Direction.CLOCKWISE);
         rightCubeSwap();
     }
 
     void rightInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        rightSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.X, Direction.ANTICLOCKWISE));
-
+        startAnimation(rightSubCubes(), Axis.X, Direction.ANTICLOCKWISE);
         rightCubeSwap();
         rightCubeSwap();
         rightCubeSwap();
@@ -154,20 +130,12 @@ class RubiksCubeModel {
     }
 
     void top() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        topSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.CLOCKWISE));
-
+        startAnimation(topSubCubes(), Axis.Y, Direction.CLOCKWISE);
         topCubeSwap();
     }
 
     void topInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        topSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.ANTICLOCKWISE));
-
+        startAnimation(topSubCubes(), Axis.Y, Direction.ANTICLOCKWISE);
         topCubeSwap();
         topCubeSwap();
         topCubeSwap();
@@ -188,20 +156,12 @@ class RubiksCubeModel {
     }
 
     void bottom() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        bottomSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.ANTICLOCKWISE));
-
+        startAnimation(bottomSubCubes(), Axis.Y, Direction.ANTICLOCKWISE);
         bottomCubeSwap();
     }
 
     void bottomInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        bottomSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.CLOCKWISE));
-
+        startAnimation(bottomSubCubes(), Axis.Y, Direction.CLOCKWISE);
         bottomCubeSwap();
         bottomCubeSwap();
         bottomCubeSwap();
@@ -222,20 +182,12 @@ class RubiksCubeModel {
     }
 
     void rotate() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        allSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.CLOCKWISE));
-
+        startAnimation(allSubCubes(), Axis.Y, Direction.CLOCKWISE);
         rotateCubeSwap();
     }
 
     void rotateInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        allSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.ANTICLOCKWISE));
-
+        startAnimation(allSubCubes(), Axis.Y, Direction.ANTICLOCKWISE);
         rotateCubeSwap();
         rotateCubeSwap();
         rotateCubeSwap();
@@ -276,6 +228,12 @@ class RubiksCubeModel {
     public enum Direction {
         CLOCKWISE,
         ANTICLOCKWISE
+    }
+
+    private void startAnimation(List<Cube> subCubes, Axis axis, Direction direction) {
+        animating = true;
+        startTime = SystemClock.uptimeMillis();
+        subCubes.forEach(subCube -> subCube.startAnimation(startTime, axis, direction));
     }
 
     private List<Cube> allSubCubes() {
