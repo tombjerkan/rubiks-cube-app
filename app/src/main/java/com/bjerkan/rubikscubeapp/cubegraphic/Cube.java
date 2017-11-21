@@ -1,6 +1,6 @@
 package com.bjerkan.rubikscubeapp.cubegraphic;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner;
+import com.bjerkan.rubikscubeapp.rubikscube.Colour;
 import com.google.common.collect.Lists;
 
 import java.util.Arrays;
@@ -72,27 +72,27 @@ class Cube {
         return animating;
     }
 
-    void setFrontColour(CubeScanner.RubiksColour colour) {
+    void setFrontColour(Colour colour) {
         frontSquare.setColour(colour);
     }
 
-    void setLeftColour(CubeScanner.RubiksColour colour) {
+    void setLeftColour(Colour colour) {
         leftSquare.setColour(colour);
     }
 
-    void setBackColour(CubeScanner.RubiksColour colour) {
+    void setBackColour(Colour colour) {
         backSquare.setColour(colour);
     }
 
-    void setRightColour(CubeScanner.RubiksColour colour) {
+    void setRightColour(Colour colour) {
         rightSquare.setColour(colour);
     }
 
-    void setTopColour(CubeScanner.RubiksColour colour) {
+    void setTopColour(Colour colour) {
         topSquare.setColour(colour);
     }
 
-    void setBottomColour(CubeScanner.RubiksColour colour) {
+    void setBottomColour(Colour colour) {
         bottomSquare.setColour(colour);
     }
 
@@ -128,7 +128,7 @@ class Cube {
     private RubiksCubeModel.Axis animationAxis;
     private RubiksCubeModel.Direction animationDirection;
 
-    private static final int ANIMATION_TIME = 1000;
+    public static final int ANIMATION_TIME = 1000;
 
     private List<Animation> animationHistory = new LinkedList<>();
 

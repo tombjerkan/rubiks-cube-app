@@ -2,7 +2,7 @@ package com.bjerkan.rubikscubeapp.cubegraphic;
 
 import android.os.SystemClock;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner;
+import com.bjerkan.rubikscubeapp.rubikscube.Colour;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +12,12 @@ import javax.microedition.khronos.opengles.GL10;
 class RubiksCubeModel {
 
     RubiksCubeModel(
-            List<CubeScanner.RubiksColour> frontColours,
-            List<CubeScanner.RubiksColour> leftColours,
-            List<CubeScanner.RubiksColour> backColours,
-            List<CubeScanner.RubiksColour> rightColours,
-            List<CubeScanner.RubiksColour> topColours,
-            List<CubeScanner.RubiksColour> bottomColours) {
+            List<Colour> frontColours,
+            List<Colour> leftColours,
+            List<Colour> backColours,
+            List<Colour> rightColours,
+            List<Colour> topColours,
+            List<Colour> bottomColours) {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 for (int z = 0; z < 3; z++) {

@@ -1,20 +1,17 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner;
-
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.YELLOW;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.BLUE;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.GREEN;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.ORANGE;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.RED;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.WHITE;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.YELLOW;
 import static org.junit.Assert.*;
-
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.BLUE;
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.GREEN;
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.ORANGE;
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.RED;
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.WHITE;
 
 public class RubiksCubeFaceTest {
     @Test
@@ -122,7 +119,7 @@ public class RubiksCubeFaceTest {
                 RED, ORANGE, BLUE,
                 WHITE, BLUE, GREEN);
 
-        List<CubeScanner.RubiksColour> topRow = face.topRow();
+        List<Colour> topRow = face.topRow();
 
         assertTrue(topRow.equals(Arrays.asList(WHITE, GREEN, BLUE)));
     }
@@ -134,7 +131,7 @@ public class RubiksCubeFaceTest {
                 RED, ORANGE, BLUE,
                 WHITE, BLUE, GREEN);
 
-        List<CubeScanner.RubiksColour> bottomRow = face.bottomRow();
+        List<Colour> bottomRow = face.bottomRow();
 
         assertTrue(bottomRow.equals(Arrays.asList(WHITE, BLUE, GREEN)));
     }
@@ -146,7 +143,7 @@ public class RubiksCubeFaceTest {
                 RED, ORANGE, BLUE,
                 WHITE, BLUE, GREEN);
 
-        List<CubeScanner.RubiksColour> leftColumn = face.leftColumn();
+        List<Colour> leftColumn = face.leftColumn();
 
         assertTrue(leftColumn.equals(Arrays.asList(WHITE, RED, WHITE)));
     }
@@ -158,7 +155,7 @@ public class RubiksCubeFaceTest {
                 RED, ORANGE, BLUE,
                 WHITE, BLUE, GREEN);
 
-        List<CubeScanner.RubiksColour> rightColumn = face.rightColumn();
+        List<Colour> rightColumn = face.rightColumn();
 
         assertTrue(rightColumn.equals(Arrays.asList(BLUE, BLUE, GREEN)));
     }

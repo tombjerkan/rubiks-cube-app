@@ -1,7 +1,5 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -120,7 +118,7 @@ public class Solver {
     }
 
     // Returns the 3 colours of the bottom, left, front corner as a set
-    private static Set<RubiksColour> bottomCornerColours(RubiksCube cube) {
+    private static Set<Colour> bottomCornerColours(RubiksCube cube) {
         return Stream.of(
                 cube.frontFace().bottomLeft(),
                 cube.leftFace().bottomRight(),
@@ -147,7 +145,7 @@ public class Solver {
     }
 
     // Returns the 3 colours of the top, left, front corner as a set
-    private static Set<RubiksColour> topCornerColours(RubiksCube cube) {
+    private static Set<Colour> topCornerColours(RubiksCube cube) {
         return Stream.of(
                 cube.frontFace().topLeft(),
                 cube.leftFace().topRight(),
@@ -155,7 +153,7 @@ public class Solver {
                 .collect(Collectors.toSet());
     }
 
-    private static Set<RubiksColour> frontLeftBottomFaceColours(RubiksCube cube) {
+    private static Set<Colour> frontLeftBottomFaceColours(RubiksCube cube) {
         return Stream.of(
                 cube.frontFace().middle(),
                 cube.leftFace().middle(),
@@ -204,11 +202,11 @@ public class Solver {
 
     // Returns true if the top front edge belongs in the front, left edge position
     private static boolean topEdgeInPosition(RubiksCube cube) {
-        Set<RubiksColour> topEdgeColours = Stream.of(
+        Set<Colour> topEdgeColours = Stream.of(
                 cube.frontFace().topMiddle(), cube.topFace().bottomMiddle())
                 .collect(Collectors.toSet());
 
-        Set<RubiksColour> frontLeftFaceColours = Stream.of(
+        Set<Colour> frontLeftFaceColours = Stream.of(
                 cube.frontFace().middle(), cube.leftFace().middle()).collect(Collectors.toSet());
 
         return topEdgeColours.equals(frontLeftFaceColours);
@@ -238,7 +236,7 @@ public class Solver {
     // Returns true if the top is the single dot scenario (no reverse-L or line or already solved
     // for any rotation)
     private static boolean isTopDot(RubiksCube cube) {
-        Stream<RubiksColour> topColours = Stream.of(
+        Stream<Colour> topColours = Stream.of(
                 cube.topFace().topMiddle(), cube.topFace().middleLeft(),
                 cube.topFace().middleRight(), cube.topFace().bottomMiddle());
 
@@ -264,10 +262,10 @@ public class Solver {
 
     private static void alignTopEdges(RubiksCube cube) {
         // The colour that must be in its position on the top edge of the back of the cube
-        RubiksColour backColour = null;
+        Colour backColour = null;
 
         // The order of face colours clockwise on the cube
-        Map<RubiksColour, RubiksColour> nextColour = new HashMap<>();
+        Map<Colour, Colour> nextColour = new HashMap<>();
         nextColour.put(cube.frontFace().middle(), cube.leftFace().middle());
         nextColour.put(cube.leftFace().middle(), cube.backFace().middle());
         nextColour.put(cube.backFace().middle(), cube.rightFace().middle());
@@ -347,7 +345,7 @@ public class Solver {
     }
 
     private static boolean frontLeftCornerInPosition(RubiksCube cube) {
-        Set<RubiksColour> frontLeftCornerColours = Stream.of(
+        Set<Colour> frontLeftCornerColours = Stream.of(
                 cube.frontFace().topLeft(),
                 cube.leftFace().topRight(),
                 cube.topFace().bottomLeft()).collect(Collectors.toSet());
@@ -357,7 +355,7 @@ public class Solver {
     }
 
     private static boolean frontRightCornerInPosition(RubiksCube cube) {
-        Set<RubiksColour> frontRightCornerColours = Stream.of(
+        Set<Colour> frontRightCornerColours = Stream.of(
                 cube.frontFace().topRight(),
                 cube.rightFace().topLeft(),
                 cube.topFace().bottomRight()).collect(Collectors.toSet());
@@ -367,7 +365,7 @@ public class Solver {
     }
 
     private static boolean backLeftCornerInPosition(RubiksCube cube) {
-        Set<RubiksColour> backLeftCornerColours = Stream.of(
+        Set<Colour> backLeftCornerColours = Stream.of(
                 cube.backFace().topRight(),
                 cube.leftFace().topLeft(),
                 cube.topFace().topLeft()).collect(Collectors.toSet());
@@ -377,7 +375,7 @@ public class Solver {
     }
 
     private static boolean backRightCornerInPosition(RubiksCube cube) {
-        Set<RubiksColour> backRightCornerColours = Stream.of(
+        Set<Colour> backRightCornerColours = Stream.of(
                 cube.backFace().topLeft(),
                 cube.rightFace().topRight(),
                 cube.topFace().topRight()).collect(Collectors.toSet());
@@ -412,7 +410,7 @@ public class Solver {
         }
     }
 
-    private static boolean allAreColour(RubiksColour matchColour, List<RubiksColour> colours) {
+    private static boolean allAreColour(Colour matchColour, List<Colour> colours) {
         return colours.stream().allMatch(colour -> colour == matchColour);
     }
 }

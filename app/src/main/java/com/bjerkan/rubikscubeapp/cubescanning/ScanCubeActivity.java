@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.bjerkan.rubikscubeapp.R;
 import com.bjerkan.rubikscubeapp.cubegraphic.CubeGraphicActivity;
+import com.bjerkan.rubikscubeapp.rubikscube.Colour;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
@@ -107,7 +108,7 @@ public class ScanCubeActivity extends FragmentActivity
     }
 
     // Convert list of enums to ArrayList of Strings so that it can be passed in an intent
-    private ArrayList<String> asIntentArgument(List<CubeScanner.RubiksColour> colours) {
+    private ArrayList<String> asIntentArgument(List<Colour> colours) {
         return colours.stream().map(Enum::name).collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -141,5 +142,5 @@ public class ScanCubeActivity extends FragmentActivity
         }
     }
 
-    private Map<CubeFace, List<CubeScanner.RubiksColour>> faceColours = new HashMap<>();
+    private Map<CubeFace, List<Colour>> faceColours = new HashMap<>();
 }

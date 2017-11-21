@@ -1,5 +1,7 @@
 package com.bjerkan.rubikscubeapp.cubescanning;
 
+import com.bjerkan.rubikscubeapp.rubikscube.Colour;
+
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
@@ -71,7 +73,7 @@ public class CubeScanner {
         return coloursImage;
     }
 
-    List<RubiksColour> squareColours() {
+    List<Colour> squareColours() {
         return squareColours;
     }
 
@@ -279,13 +281,13 @@ public class CubeScanner {
 
             // Mark colours with low saturation as white.
             if (hsvColour[1] < 50.) {
-                return RubiksColour.WHITE;
+                return Colour.WHITE;
             }
 
-            return Arrays.stream(RubiksColour.values())
-                    .filter(colour -> colour != RubiksColour.WHITE)
-                    .map(rubiksColour -> new ColourSimilarity(
-                            rubiksColour, hueSimilarity(hsvColour[0], rubiksColour.hue)))
+            return Arrays.stream(Colour.values())
+                    .filter(colour -> colour != Colour.WHITE)
+                    .map(Colour -> new ColourSimilarity(
+                            Colour, hueSimilarity(hsvColour[0], Colour.hue)))
                     .max(Comparator.comparing(ColourSimilarity::similarity))
                     .get()
                     .colour();
@@ -309,12 +311,12 @@ public class CubeScanner {
     }
 
     private class ColourSimilarity {
-        ColourSimilarity(RubiksColour colour, double similarity) {
+        ColourSimilarity(Colour colour, double similarity) {
             this.colour = colour;
             this.similarity = similarity;
         }
 
-        RubiksColour colour() {
+        Colour colour() {
             return colour;
         }
 
@@ -322,41 +324,13 @@ public class CubeScanner {
             return similarity;
         }
 
-        private final RubiksColour colour;
+        private final Colour colour;
         private final double similarity;
     }
 
     private double hueSimilarity(double hue1, double hue2) {
         // Hue wraps around from 180. to 0. so must take this into account
         return 90. - Math.min(Math.abs(hue1 - hue2), 180. - Math.abs(hue1 - hue2));
-    }
-
-    public enum RubiksColour {
-        WHITE,
-        GREEN,
-        RED,
-        BLUE,
-        ORANGE,
-        YELLOW;
-
-        private double hue;
-        public Scalar rgb;
-
-        static {
-            WHITE.hue = 0.;
-            GREEN.hue = 74.;
-            RED.hue = 174.;
-            BLUE.hue = 108.;
-            ORANGE.hue = 11.;
-            YELLOW.hue = 25.;
-
-            WHITE.rgb = new Scalar(255., 255., 255.);
-            GREEN.rgb = new Scalar(0., 155., 72.);
-            RED.rgb = new Scalar(183., 18., 52.);
-            BLUE.rgb = new Scalar(0., 70., 173.);
-            ORANGE.rgb = new Scalar(255., 88., 0.);
-            YELLOW.rgb = new Scalar(255., 213., 0.);
-        }
     }
 
     private boolean successful;
@@ -375,7 +349,7 @@ public class CubeScanner {
     private List<Line> combinedLines;
     private List<Line> centreLines;
     private List<Point> centrePoints;
-    private List<RubiksColour> squareColours;
+    private List<Colour> squareColours;
 
     private static final int CANNY_THRESHOLD_1 = 10;
     private static final int CANNY_THRESHOLD_2 = 25;
