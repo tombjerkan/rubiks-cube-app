@@ -49,26 +49,14 @@ public class ScanCubeActivity extends FragmentActivity
         faceColours.put(currentFace, cubeScanner.squareColours());
 
         currentStep = CubeScanner.Step.EDGES;
-
-        DisplayResultFragment resultFragment = new DisplayResultFragment();
-        Bundle arguments = new Bundle();
-        arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
-                matToBitmap(cubeScanner.edgeImage()));
-        resultFragment.setArguments(arguments);
-        setFragment(resultFragment);
+        showResultFragment();
     }
 
     @Override
     public void nextStep() {
         if (currentStep.nextStep() != null) {
             currentStep = currentStep.nextStep();
-
-            DisplayResultFragment resultFragment = new DisplayResultFragment();
-            Bundle arguments = new Bundle();
-            arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
-                    matToBitmap(cubeScanner.stepImage(currentStep)));
-            resultFragment.setArguments(arguments);
-            setFragment(resultFragment);
+            showResultFragment();
         } else if (currentFace.nextFace != null) {
             currentFace = currentFace.nextFace;
 
@@ -84,6 +72,16 @@ public class ScanCubeActivity extends FragmentActivity
                 .beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
+    }
+
+    private void showResultFragment() {
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
+                matToBitmap(cubeScanner.stepImage(currentStep)));
+
+        DisplayResultFragment resultFragment = new DisplayResultFragment();
+        resultFragment.setArguments(arguments);
+        setFragment(resultFragment);
     }
 
     private void showCubeGraphic() {
