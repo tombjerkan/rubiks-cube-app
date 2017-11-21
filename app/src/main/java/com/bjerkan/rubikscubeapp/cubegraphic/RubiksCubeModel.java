@@ -51,10 +51,6 @@ class RubiksCubeModel {
         }
     }
 
-    boolean currentlyAnimating() {
-        return allSubCubes().stream().anyMatch(Cube::isAnimating);
-    }
-
     void front() {
         animating = true;
         startTime = SystemClock.uptimeMillis();
