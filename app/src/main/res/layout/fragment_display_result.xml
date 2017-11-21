@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="com.bjerkan.rubikscubeapp.DisplayResultFragment">
+    tools:context="com.bjerkan.rubikscubeapp.cubescanning.DisplayResultFragment">
 
     <ImageView
         android:id="@+id/resultImage"

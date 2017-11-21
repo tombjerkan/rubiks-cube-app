@@ -1,20 +1,20 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
-import com.bjerkan.rubikscubeapp.CubeScanner;
+import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner;
 
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.YELLOW;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.YELLOW;
 import static org.junit.Assert.*;
 
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.BLUE;
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.GREEN;
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.ORANGE;
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.RED;
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.WHITE;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.BLUE;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.GREEN;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.ORANGE;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.RED;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.WHITE;
 
 public class RubiksCubeFaceTest {
     @Test

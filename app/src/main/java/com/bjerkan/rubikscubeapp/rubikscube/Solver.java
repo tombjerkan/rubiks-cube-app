@@ -1,6 +1,6 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
-import com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour;
+import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour;
 
 import java.util.Arrays;
 import java.util.HashMap;

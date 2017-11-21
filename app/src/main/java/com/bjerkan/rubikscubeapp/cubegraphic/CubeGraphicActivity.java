@@ -2,9 +2,8 @@ package com.bjerkan.rubikscubeapp.cubegraphic;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 
-import com.bjerkan.rubikscubeapp.CubeScanner;
+import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner;
 import com.bjerkan.rubikscubeapp.R;
 import com.bjerkan.rubikscubeapp.rubikscube.RubiksCube;
 import com.bjerkan.rubikscubeapp.rubikscube.Solver;

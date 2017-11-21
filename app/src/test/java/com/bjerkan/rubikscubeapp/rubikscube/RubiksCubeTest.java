@@ -1,15 +1,15 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
-import com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour;
+import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour;
 
 import org.junit.Test;
 
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.BLUE;
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.GREEN;
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.ORANGE;
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.RED;
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.WHITE;
-import static com.bjerkan.rubikscubeapp.CubeScanner.RubiksColour.YELLOW;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.BLUE;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.GREEN;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.ORANGE;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.RED;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.WHITE;
+import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.YELLOW;
 import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.BOTTOM;
 import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.BOTTOM_INV;
 import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.FRONT;

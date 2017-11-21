@@ -1,4 +1,4 @@
-package com.bjerkan.rubikscubeapp;
+package com.bjerkan.rubikscubeapp.cubescanning;
 
 import android.content.Context;
 import android.graphics.Bitmap;

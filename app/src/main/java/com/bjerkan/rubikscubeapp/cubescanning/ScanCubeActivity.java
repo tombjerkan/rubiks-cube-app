@@ -1,4 +1,4 @@
-package com.bjerkan.rubikscubeapp;
+package com.bjerkan.rubikscubeapp.cubescanning;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
+import com.bjerkan.rubikscubeapp.R;
 import com.bjerkan.rubikscubeapp.cubegraphic.CubeGraphicActivity;
 
 import org.opencv.android.Utils;

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context="com.bjerkan.rubikscubeapp.CaptureImageFragment">
+    tools:context="com.bjerkan.rubikscubeapp.cubescanning.CaptureImageFragment">
 
     <org.opencv.android.JavaCameraView
         android:layout_width="match_parent"
