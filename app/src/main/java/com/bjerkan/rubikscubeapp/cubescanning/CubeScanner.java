@@ -144,7 +144,7 @@ public class CubeScanner {
 
     private void findOrthogonalLines() {
         mOrthogonalLines = mLines.stream()
-                .filter(line -> line.isOrthogonal())
+                .filter(Line::isOrthogonal)
                 .collect(Collectors.toList());
 
         mOrthogonalLineImage = drawLines(mOrthogonalLines);
@@ -183,11 +183,11 @@ public class CubeScanner {
 
     private void findCentreLines() {
         List<Line> horizontalLines = mCombinedLines.stream()
-                .filter(line -> line.isHorizontal())
+                .filter(Line::isHorizontal)
                 .collect(Collectors.toList());
 
         List<Line> verticalLines = mCombinedLines.stream()
-                .filter(line -> line.isVertical())
+                .filter(Line::isVertical)
                 .collect(Collectors.toList());
 
         if (horizontalLines.size() != 4 || verticalLines.size() != 4) {
@@ -215,8 +215,8 @@ public class CubeScanner {
 
     private Line averageLines(List<Line> lines) {
         return new Line(
-                lines.stream().mapToDouble(line -> line.rho()).sum() / lines.size(),
-                lines.stream().mapToDouble(line ->line.theta()).sum() / lines.size());
+                lines.stream().mapToDouble(Line::rho).sum() / lines.size(),
+                lines.stream().mapToDouble(Line::theta).sum() / lines.size());
     }
 
     private Line averageLines(Line line1, Line line2) {
