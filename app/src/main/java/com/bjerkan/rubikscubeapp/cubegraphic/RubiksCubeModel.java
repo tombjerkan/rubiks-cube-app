@@ -42,13 +42,19 @@ class RubiksCubeModel {
 
     void draw(GL10 gl) {
         long timeElapsed = SystemClock.uptimeMillis() - startTime;
+
+        boolean animationFinished = animating && timeElapsed > ANIMATION_TIME;
+
+        if (animationFinished) {
+            animating = false;
+            allSubCubes().forEach(Cube::finishAnimation);
+        }
+
         allSubCubes().forEach(cube -> cube.draw(gl, timeElapsed));
 
-        if (animating && timeElapsed > ANIMATION_TIME) {
-            animating = false;
-            if (animationListener != null) {
-                animationListener.animationFinished();
-            }
+        // Must be called after cubes are drawn so doesn't start drawing new animation before last
+        if (animationFinished && animationListener != null) {
+            animationListener.animationFinished();
         }
     }
 

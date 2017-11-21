@@ -40,13 +40,8 @@ class Cube {
         gl.glPushMatrix();
 
         if (animating) {
-            if (timeElapsed > animationTime) {
-                animating = false;
-                animationHistory.add(currentAnimation);
-            } else {
-                float angleToRotate = ((float) timeElapsed / animationTime) * 90f;
-                rotate(gl, currentAnimation.axis, currentAnimation.direction, angleToRotate);
-            }
+            float angleToRotate = ((float) timeElapsed / animationTime) * 90f;
+            rotate(gl, currentAnimation.axis, currentAnimation.direction, angleToRotate);
         }
 
         // Transformation matrices must be applied in reverse to give desired order
@@ -61,6 +56,13 @@ class Cube {
     void startAnimation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction) {
         animating = true;
         currentAnimation = new Animation(axis, direction);
+    }
+
+    void finishAnimation() {
+        if (animating) {
+            animating = false;
+            animationHistory.add(currentAnimation);
+        }
     }
 
     void setFrontColour(Colour colour) {
