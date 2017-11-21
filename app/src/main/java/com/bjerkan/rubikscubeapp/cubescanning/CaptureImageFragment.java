@@ -31,8 +31,8 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
 
         Button captureImage = view.findViewById(R.id.btnCaptureImage);
         captureImage.setOnClickListener((View onClickView) -> {
-            if (mLastFrame != null) {
-                mImageCapturedCallback.onImageCaptured(mLastFrame.rgba());
+            if (lastFrame != null) {
+                imageCapturedCallback.onImageCaptured(lastFrame.rgba());
             }
         });
 
@@ -44,7 +44,7 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
         super.onAttach(context);
 
         try {
-            mImageCapturedCallback = (OnImageCapturedListener) context;
+            imageCapturedCallback = (OnImageCapturedListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() +
                     " must implement OnImageCapturedListener");
@@ -84,7 +84,7 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     }
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        mLastFrame = inputFrame;
+        lastFrame = inputFrame;
         return inputFrame.rgba();
     }
 
