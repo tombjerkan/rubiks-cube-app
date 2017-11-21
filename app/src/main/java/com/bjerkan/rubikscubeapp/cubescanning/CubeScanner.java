@@ -282,7 +282,7 @@ public class CubeScanner {
                 return RubiksColour.WHITE;
             }
 
-            return Arrays.asList(RubiksColour.values()).stream()
+            return Arrays.stream(RubiksColour.values())
                     .filter(colour -> colour != RubiksColour.WHITE)
                     .map(rubiksColour -> new ColourSimilarity(
                             rubiksColour, hueSimilarity(hsvColour[0], rubiksColour.hue)))
