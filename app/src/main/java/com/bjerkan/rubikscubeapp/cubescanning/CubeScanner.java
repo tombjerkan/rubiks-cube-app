@@ -1,4 +1,4 @@
-package com.bjerkan.rubikscubeapp;
+package com.bjerkan.rubikscubeapp.cubescanning;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;

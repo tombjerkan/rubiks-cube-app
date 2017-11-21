@@ -1,4 +1,4 @@
-package com.bjerkan.rubikscubeapp;
+package com.bjerkan.rubikscubeapp.cubescanning;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.bjerkan.rubikscubeapp.R;
 
 public class DisplayResultFragment extends Fragment {
     @Override
