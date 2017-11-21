@@ -3,6 +3,7 @@ package com.bjerkan.rubikscubeapp.cubescanning;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
@@ -32,10 +33,7 @@ public class ScanCubeActivity extends FragmentActivity
 
         if (savedInstanceState == null) {
             CaptureImageFragment fragment = new CaptureImageFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container, fragment)
-                    .commit();
+            setFragment(fragment);
         }
     }
 
@@ -57,10 +55,7 @@ public class ScanCubeActivity extends FragmentActivity
         arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
                 matToBitmap(cubeScanner.edgeImage()));
         resultFragment.setArguments(arguments);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, resultFragment);
-        transaction.commit();
+        setFragment(resultFragment);
     }
 
     @Override
@@ -73,20 +68,22 @@ public class ScanCubeActivity extends FragmentActivity
             arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
                     matToBitmap(cubeScanner.stepImage(currentStep)));
             resultFragment.setArguments(arguments);
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.container, resultFragment);
-            transaction.commit();
+            setFragment(resultFragment);
         } else if (currentFace.nextFace != null) {
             currentFace = currentFace.nextFace;
 
             CaptureImageFragment captureImageFragment = new CaptureImageFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.container, captureImageFragment);
-            transaction.commit();
+            setFragment(captureImageFragment);
         } else {
             showCubeGraphic();
         }
+    }
+
+    private void setFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
     }
 
     private void showCubeGraphic() {
