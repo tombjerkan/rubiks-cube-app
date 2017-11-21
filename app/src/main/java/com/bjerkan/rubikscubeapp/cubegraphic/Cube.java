@@ -68,10 +68,6 @@ class Cube {
         animationDirection = direction;
     }
 
-    boolean isAnimating() {
-        return animating;
-    }
-
     void setFrontColour(Colour colour) {
         frontSquare.setColour(colour);
     }
