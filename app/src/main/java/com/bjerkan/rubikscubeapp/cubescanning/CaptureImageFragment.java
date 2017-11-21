@@ -65,9 +65,9 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
         super.onResume();
         if (!OpenCVLoader.initDebug()) {
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, getActivity(),
-                    mLoaderCallback);
+                    loaderCallback);
         } else {
-            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+            loaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
     }
 
@@ -92,7 +92,7 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
         void onImageCaptured(Mat image);
     }
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(getActivity()) {
+    private BaseLoaderCallback loaderCallback = new BaseLoaderCallback(getActivity()) {
         @Override
         public void onManagerConnected(int status) {
             if (status == LoaderCallbackInterface.SUCCESS) {
