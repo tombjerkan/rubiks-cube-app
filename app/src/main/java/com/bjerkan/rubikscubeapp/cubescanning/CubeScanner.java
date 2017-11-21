@@ -35,47 +35,47 @@ public class CubeScanner {
         mSuccessful = true;
     }
 
-    public boolean wasSuccessful() {
+    boolean wasSuccessful() {
         return mSuccessful;
     }
 
-    public Mat originalImage() {
+    private Mat originalImage() {
         return mOriginalImage;
     }
 
-    public Mat edgeImage() {
+    private Mat edgeImage() {
         return mEdgeImage;
     }
 
-    public Mat lineImage() {
+    private Mat lineImage() {
         return mLineImage;
     }
 
-    public Mat orthogonalLineImage() {
+    private Mat orthogonalLineImage() {
         return mOrthogonalLineImage;
     }
 
-    public Mat combinedLineImage() {
+    private Mat combinedLineImage() {
         return mCombinedLineImage;
     }
 
-    public Mat centreLineImage() {
+    private Mat centreLineImage() {
         return mCentreLineImage;
     }
 
-    public Mat centrePointImage() {
+    private Mat centrePointImage() {
         return mCentrePointImage;
     }
 
-    public Mat coloursImage() {
+    private Mat coloursImage() {
         return mColoursImage;
     }
 
-    public List<RubiksColour> squareColours() {
+    List<RubiksColour> squareColours() {
         return mSquareColours;
     }
 
-    public Mat stepImage(Step step) {
+    Mat stepImage(Step step) {
         switch(step) {
             case EDGES:
                 return edgeImage();
@@ -96,7 +96,7 @@ public class CubeScanner {
         }
     }
 
-    public enum Step {
+    enum Step {
         EDGES,
         LINES,
         ORTHOGONAL_LINES,
@@ -117,7 +117,7 @@ public class CubeScanner {
             CENTRE_COLOURS.nextStep = null;
         }
 
-        public Step nextStep() {
+        Step nextStep() {
             return nextStep;
         }
     }
@@ -309,16 +309,16 @@ public class CubeScanner {
     }
 
     private class ColourSimilarity {
-        public ColourSimilarity(RubiksColour colour, double similarity) {
+        ColourSimilarity(RubiksColour colour, double similarity) {
             mColour = colour;
             mSimilarity = similarity;
         }
 
-        public RubiksColour colour() {
+        RubiksColour colour() {
             return mColour;
         }
 
-        public double similarity() {
+        double similarity() {
             return mSimilarity;
         }
 
@@ -360,7 +360,7 @@ public class CubeScanner {
     }
 
     private class Line {
-        public Line(double rho, double theta) {
+        Line(double rho, double theta) {
             // Ensure similar lines have numerically close values
             if (rho >= 0) {
                 mRho = rho;
@@ -371,33 +371,33 @@ public class CubeScanner {
             }
         }
 
-        public double rho() {
+        double rho() {
             return mRho;
         }
 
-        public double theta() {
+        double theta() {
             return mTheta;
         }
 
-        public boolean isHorizontal() {
+        boolean isHorizontal() {
             return (mTheta > (Math.PI / 2) - ORTHOGONAL_THRESHOLD) &&
                     (mTheta < (Math.PI / 2) + ORTHOGONAL_THRESHOLD);
         }
 
-        public boolean isVertical() {
+        boolean isVertical() {
             return (mTheta > -ORTHOGONAL_THRESHOLD) && (mTheta < ORTHOGONAL_THRESHOLD);
         }
 
-        public boolean isOrthogonal() {
+        boolean isOrthogonal() {
             return isHorizontal() || isVertical();
         }
 
-        public boolean isSimilar(Line otherLine) {
+        boolean isSimilar(Line otherLine) {
             return Math.abs(mRho - otherLine.mRho) < SIMILARITY_RHO_THRESHOLD &&
                     Math.abs(mTheta - otherLine.mTheta) < SIMILARITY_THETA_THRESHOLD;
         }
 
-        public Point intersection(Line otherLine) {
+        Point intersection(Line otherLine) {
             double cosTheta = Math.cos(mTheta);
             double sinTheta = Math.sin(mTheta);
             double otherCosTheta = Math.cos(otherLine.mTheta);
