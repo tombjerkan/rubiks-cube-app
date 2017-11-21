@@ -95,15 +95,10 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(getActivity()) {
         @Override
         public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
-                    cameraView.enableView();
-                } break;
-                default:
-                {
-                    super.onManagerConnected(status);
-                } break;
+            if (status == LoaderCallbackInterface.SUCCESS) {
+                cameraView.enableView();
+            } else {
+                super.onManagerConnected(status);
             }
         }
     };
