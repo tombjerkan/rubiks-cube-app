@@ -19,7 +19,7 @@ public class DisplayResultFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_display_result, container, false);
 
         Bundle arguments = getArguments();
-        Bitmap resultImage = (Bitmap) arguments.getParcelable(IMAGE_ARGUMENT);
+        Bitmap resultImage = arguments.getParcelable(IMAGE_ARGUMENT);
 
         ImageView resultImageView = view.findViewById(R.id.resultImage);
         resultImageView.setImageBitmap(resultImage);
