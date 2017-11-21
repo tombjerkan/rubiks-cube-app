@@ -25,9 +25,7 @@ public class DisplayResultFragment extends Fragment {
         resultImageView.setImageBitmap(resultImage);
 
         Button nextStep = view.findViewById(R.id.btnNextStep);
-        nextStep.setOnClickListener((View onClickView) -> {
-            nextStepCallback.nextStep();
-        });
+        nextStep.setOnClickListener((View onClickView) -> nextStepCallback.nextStep());
 
         return view;
     }
