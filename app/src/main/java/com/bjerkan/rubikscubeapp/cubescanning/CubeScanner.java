@@ -284,13 +284,14 @@ public class CubeScanner {
                 return Colour.WHITE;
             }
 
+            Comparator<Colour> similarityComparator = (colour1, colour2) -> Double.compare(
+                    hueSimilarity(colour1.hue, hsvColour[0]),
+                    hueSimilarity(colour2.hue, hsvColour[0]));
+
             return Arrays.stream(Colour.values())
                     .filter(colour -> colour != Colour.WHITE)
-                    .map(Colour -> new ColourSimilarity(
-                            Colour, hueSimilarity(hsvColour[0], Colour.hue)))
-                    .max(Comparator.comparing(ColourSimilarity::similarity))
-                    .get()
-                    .colour();
+                    .max(similarityComparator)
+                    .get();
         }).collect(Collectors.toList());
 
         drawColourImage();
@@ -308,24 +309,6 @@ public class CubeScanner {
                 Imgproc.rectangle(coloursImage, start, end, colour, -1);
             }
         }
-    }
-
-    private class ColourSimilarity {
-        ColourSimilarity(Colour colour, double similarity) {
-            this.colour = colour;
-            this.similarity = similarity;
-        }
-
-        Colour colour() {
-            return colour;
-        }
-
-        double similarity() {
-            return similarity;
-        }
-
-        private final Colour colour;
-        private final double similarity;
     }
 
     private double hueSimilarity(double hue1, double hue2) {
