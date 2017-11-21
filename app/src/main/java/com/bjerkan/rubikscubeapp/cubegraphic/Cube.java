@@ -128,7 +128,7 @@ class Cube {
     private RubiksCubeModel.Axis animationAxis;
     private RubiksCubeModel.Direction animationDirection;
 
-    public static final int ANIMATION_TIME = 1000;
+    static final int ANIMATION_TIME = 1000;
 
     private List<Animation> animationHistory = new LinkedList<>();
 
