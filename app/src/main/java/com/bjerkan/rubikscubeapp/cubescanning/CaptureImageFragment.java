@@ -55,6 +55,7 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     public void onPause()
     {
         super.onPause();
+
         if (cameraView != null)
             cameraView.disableView();
     }
@@ -63,6 +64,7 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     public void onResume()
     {
         super.onResume();
+
         if (!OpenCVLoader.initDebug()) {
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, getActivity(),
                     loaderCallback);
@@ -73,6 +75,7 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
 
     public void onDestroy() {
         super.onDestroy();
+
         if (cameraView != null)
             cameraView.disableView();
     }
