@@ -40,10 +40,10 @@ class RubiksCubeModel {
     }
 
     void draw(GL10 gl) {
-        long currentTime = SystemClock.uptimeMillis();
-        allSubCubes().forEach(cube -> cube.draw(gl, currentTime));
+        long timeElapsed = SystemClock.uptimeMillis() - startTime;
+        allSubCubes().forEach(cube -> cube.draw(gl, timeElapsed));
 
-        if (animating && currentTime - startTime > Cube.ANIMATION_TIME) {
+        if (animating && timeElapsed > Cube.ANIMATION_TIME) {
             animating = false;
             if (animationListener != null) {
                 animationListener.animationFinished();
@@ -233,7 +233,7 @@ class RubiksCubeModel {
     private void startAnimation(List<Cube> subCubes, Axis axis, Direction direction) {
         animating = true;
         startTime = SystemClock.uptimeMillis();
-        subCubes.forEach(subCube -> subCube.startAnimation(startTime, axis, direction));
+        subCubes.forEach(subCube -> subCube.startAnimation(axis, direction));
     }
 
     private List<Cube> allSubCubes() {

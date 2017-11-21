@@ -36,12 +36,10 @@ class Cube {
                 backBottomRight);
     }
 
-    void draw(GL10 gl, long drawStartTime) {
+    void draw(GL10 gl, long timeElapsed) {
         gl.glPushMatrix();
 
         if (animating) {
-            long timeElapsed = drawStartTime - animationStartTime;
-
             if (timeElapsed > ANIMATION_TIME) {
                 animating = false;
                 animationHistory.add(currentAnimation);
@@ -60,10 +58,8 @@ class Cube {
         gl.glPopMatrix();
     }
 
-    void startAnimation(long animationStartTime, RubiksCubeModel.Axis axis,
-                               RubiksCubeModel.Direction direction) {
+    void startAnimation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction) {
         animating = true;
-        this.animationStartTime = animationStartTime;
         currentAnimation = new Animation(axis, direction);
     }
 
@@ -119,7 +115,6 @@ class Cube {
     private Square bottomSquare;
 
     private boolean animating = false;
-    private long animationStartTime;
     private Animation currentAnimation;
 
     static final int ANIMATION_TIME = 1000;
