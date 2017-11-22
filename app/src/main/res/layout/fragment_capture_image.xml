@@ -21,4 +21,10 @@
         android:layout_gravity="right|center_vertical"
         android:text="@string/capture_image" />
 
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal" />
+
 </FrameLayout>

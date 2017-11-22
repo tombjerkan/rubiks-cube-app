@@ -8,6 +8,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.bjerkan.rubikscubeapp.R;
 
@@ -72,6 +73,8 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
         } else {
             loaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
+
+        updateTitleText();
     }
 
     public void onDestroy() {
@@ -93,8 +96,19 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
         return inputFrame.rgba();
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+        updateTitleText();
+    }
+
     public interface OnImageCapturedListener {
         void onImageCaptured(Mat image);
+    }
+
+    private void updateTitleText() {
+        if (getView() != null && title != null) {
+            ((TextView) getView().findViewById(R.id.txtTitle)).setText(title);
+        }
     }
 
     private BaseLoaderCallback loaderCallback = new BaseLoaderCallback(getActivity()) {
@@ -113,4 +127,6 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     private OnImageCapturedListener imageCapturedCallback;
 
     private CameraBridgeViewBase.CvCameraViewFrame lastFrame = null;
+
+    private String title;
 }
