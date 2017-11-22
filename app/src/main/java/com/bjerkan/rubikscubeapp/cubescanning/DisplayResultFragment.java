@@ -18,12 +18,6 @@ public class DisplayResultFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_display_result, container, false);
 
-        Bundle arguments = getArguments();
-        Bitmap resultImage = arguments.getParcelable(IMAGE_ARGUMENT);
-
-        ImageView resultImageView = view.findViewById(R.id.resultImage);
-        resultImageView.setImageBitmap(resultImage);
-
         Button nextStep = view.findViewById(R.id.btnNextStep);
         nextStep.setOnClickListener((View onClickView) -> nextStepCallback.nextStep());
 
@@ -42,11 +36,29 @@ public class DisplayResultFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateImage();
+    }
+
     public interface NextStepRequestListener {
         void nextStep();
     }
 
-    public static final String IMAGE_ARGUMENT = "com.bjerkan.rubikscubeapp.IMAGE_ARGUMENT";
+    public void setResultImage(Bitmap resultImage) {
+        this.resultImage = resultImage;
+        updateImage();
+    }
+
+    private void updateImage() {
+        if (getView() != null && resultImage != null) {
+            ImageView resultImageView = getView().findViewById(R.id.resultImage);
+            resultImageView.setImageBitmap(resultImage);
+        }
+    }
 
     private NextStepRequestListener nextStepCallback;
+
+    private Bitmap resultImage;
 }

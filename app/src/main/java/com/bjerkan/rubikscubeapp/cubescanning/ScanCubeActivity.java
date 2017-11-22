@@ -72,12 +72,7 @@ public class ScanCubeActivity extends FragmentActivity
     }
 
     private void showResultFragment() {
-        Bundle arguments = new Bundle();
-        arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
-                matToBitmap(cubeScanner.stepImage(currentStep)));
-
-        DisplayResultFragment resultFragment = new DisplayResultFragment();
-        resultFragment.setArguments(arguments);
+        resultFragment.setResultImage(matToBitmap(cubeScanner.stepImage(currentStep)));
         setFragment(resultFragment);
     }
 
@@ -143,6 +138,7 @@ public class ScanCubeActivity extends FragmentActivity
     }
 
     private CaptureImageFragment captureImageFragment = new CaptureImageFragment();
+    private DisplayResultFragment resultFragment = new DisplayResultFragment();
 
     private Map<CubeFace, List<Colour>> faceColours = new HashMap<>();
 }
