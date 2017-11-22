@@ -32,7 +32,7 @@ public class ScanCubeActivity extends FragmentActivity
         currentFace = CubeFace.startFace;
 
         if (savedInstanceState == null) {
-            setFragment(new CaptureImageFragment());
+            setFragment(captureImageFragment);
         }
     }
 
@@ -58,7 +58,7 @@ public class ScanCubeActivity extends FragmentActivity
             showResultFragment();
         } else if (currentFace.nextFace != null) {
             currentFace = currentFace.nextFace;
-            setFragment(new CaptureImageFragment());
+            setFragment(captureImageFragment);
         } else {
             showCubeGraphic();
         }
@@ -72,12 +72,7 @@ public class ScanCubeActivity extends FragmentActivity
     }
 
     private void showResultFragment() {
-        Bundle arguments = new Bundle();
-        arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
-                matToBitmap(cubeScanner.stepImage(currentStep)));
-
-        DisplayResultFragment resultFragment = new DisplayResultFragment();
-        resultFragment.setArguments(arguments);
+        resultFragment.setResultImage(matToBitmap(cubeScanner.stepImage(currentStep)));
         setFragment(resultFragment);
     }
 
@@ -141,6 +136,9 @@ public class ScanCubeActivity extends FragmentActivity
             TOP.nextFace = BOTTOM;
         }
     }
+
+    private CaptureImageFragment captureImageFragment = new CaptureImageFragment();
+    private DisplayResultFragment resultFragment = new DisplayResultFragment();
 
     private Map<CubeFace, List<Colour>> faceColours = new HashMap<>();
 }
