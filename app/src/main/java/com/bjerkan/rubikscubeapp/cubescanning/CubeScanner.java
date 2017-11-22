@@ -12,9 +12,12 @@ import org.opencv.imgproc.Imgproc;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CubeScanner {
     public CubeScanner(Mat cubeImage) {
@@ -276,25 +279,56 @@ public class CubeScanner {
         final Mat hsvImage = new Mat(originalImage.size(), CvType.CV_8UC3);
         Imgproc.cvtColor(originalImage, hsvImage, Imgproc.COLOR_RGB2HSV, 3);
 
-        squareColours = centrePoints.stream().map(point -> {
-            double[] hsvColour = hsvImage.get((int) point.y, (int) point.x);
+        squareColours = centrePoints.stream().map(centre -> {
+            List<Point> votingPoints = votingPoints(centre);
 
-            // Mark colours with low saturation as white.
-            if (hsvColour[1] < 50.) {
-                return Colour.WHITE;
-            }
+            Map<Colour, Integer> colourVotes = new HashMap<>();
+            Stream.of(Colour.values()).forEach(colour -> colourVotes.put(colour, 0));
 
-            Comparator<Colour> similarityComparator = (colour1, colour2) -> Double.compare(
-                    hueSimilarity(colour1.hue, hsvColour[0]),
-                    hueSimilarity(colour2.hue, hsvColour[0]));
+            votingPoints.stream()
+                    .map(point -> mostSimilarColour(hsvImage, point))
+                    .forEach(colour -> colourVotes.put(colour, colourVotes.get(colour) + 1));
 
-            return Arrays.stream(Colour.values())
-                    .filter(colour -> colour != Colour.WHITE)
-                    .max(similarityComparator)
-                    .get();
+            return colourVotes.entrySet().stream()
+                    .max(Map.Entry.comparingByValue())
+                    .get().getKey();
         }).collect(Collectors.toList());
 
         drawColourImage();
+    }
+
+    private List<Point> votingPoints(Point centre) {
+        int leftX = (int) centre.x - COLOUR_VOTE_OFFSET;
+        int rightX = (int) centre.x + COLOUR_VOTE_OFFSET;
+        int topY = (int) centre.y - COLOUR_VOTE_OFFSET;
+        int bottomY = (int) centre.y + COLOUR_VOTE_OFFSET;
+
+        List<Point> votingPoints = new LinkedList<>();
+        for (int x = leftX; x <= rightX; x++) {
+            for (int y = topY; y <= bottomY; y++) {
+                votingPoints.add(new Point(x, y));
+            }
+        }
+
+        return votingPoints;
+    }
+
+    private Colour mostSimilarColour(Mat hsvImage, Point point) {
+        double[] hsvColour = hsvImage.get((int) point.y, (int) point.x);
+
+        // Mark colours with low saturation as white.
+        if (hsvColour[1] < 50.) {
+            return Colour.WHITE;
+        }
+
+        Comparator<Colour> similarityComparator = (colour1, colour2) -> Double.compare(
+                hueSimilarity(colour1.hue, hsvColour[0]),
+                hueSimilarity(colour2.hue, hsvColour[0]));
+
+        return Arrays.stream(Colour.values())
+                .filter(colour -> colour != Colour.WHITE)
+                .max(similarityComparator)
+                .get();
     }
 
     private void drawColourImage() {
@@ -337,4 +371,5 @@ public class CubeScanner {
     private static final int CANNY_THRESHOLD_1 = 10;
     private static final int CANNY_THRESHOLD_2 = 25;
     private static final int HOUGH_THRESHOLD = 100;
+    private static final int COLOUR_VOTE_OFFSET = 20;
 }
