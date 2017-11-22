@@ -1,7 +1,5 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -146,7 +144,7 @@ public class RubiksCubeSolverTest {
         });
     }
 
-    private boolean allSame(List<RubiksColour> colours) {
+    private boolean allSame(List<Colour> colours) {
         return colours.stream().distinct().count() == 1;
     }
 
@@ -173,12 +171,12 @@ public class RubiksCubeSolverTest {
 
     private RubiksCube solvedCube() {
         return new RubiksCube(
-                Collections.nCopies(9, RubiksColour.WHITE),
-                Collections.nCopies(9, RubiksColour.RED),
-                Collections.nCopies(9, RubiksColour.YELLOW),
-                Collections.nCopies(9, RubiksColour.ORANGE),
-                Collections.nCopies(9, RubiksColour.GREEN),
-                Collections.nCopies(9, RubiksColour.BLUE));
+                Collections.nCopies(9, Colour.WHITE),
+                Collections.nCopies(9, Colour.RED),
+                Collections.nCopies(9, Colour.YELLOW),
+                Collections.nCopies(9, Colour.ORANGE),
+                Collections.nCopies(9, Colour.GREEN),
+                Collections.nCopies(9, Colour.BLUE));
     }
 
     private void shuffleCube(RubiksCube cube) {

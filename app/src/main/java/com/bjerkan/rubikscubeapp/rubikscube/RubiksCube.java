@@ -1,6 +1,5 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner;
 import com.google.common.collect.Lists;
 
 import java.util.LinkedList;
@@ -9,12 +8,12 @@ import java.util.List;
 public class RubiksCube {
 
     public RubiksCube(
-            List<CubeScanner.RubiksColour> frontColours,
-            List<CubeScanner.RubiksColour> leftColours,
-            List<CubeScanner.RubiksColour> backColours,
-            List<CubeScanner.RubiksColour> rightColours,
-            List<CubeScanner.RubiksColour> topColours,
-            List<CubeScanner.RubiksColour> bottomColours) {
+            List<Colour> frontColours,
+            List<Colour> leftColours,
+            List<Colour> backColours,
+            List<Colour> rightColours,
+            List<Colour> topColours,
+            List<Colour> bottomColours) {
         front = new RubiksCubeFace(frontColours);
         left = new RubiksCubeFace(leftColours);
         back = new RubiksCubeFace(backColours);

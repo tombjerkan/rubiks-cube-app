@@ -1,15 +1,13 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour;
-
 import org.junit.Test;
 
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.BLUE;
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.GREEN;
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.ORANGE;
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.RED;
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.WHITE;
-import static com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour.YELLOW;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.BLUE;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.GREEN;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.ORANGE;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.RED;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.WHITE;
+import static com.bjerkan.rubikscubeapp.rubikscube.Colour.YELLOW;
 import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.BOTTOM;
 import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.BOTTOM_INV;
 import static com.bjerkan.rubikscubeapp.rubikscube.RubiksCube.Action.FRONT;
@@ -472,32 +470,32 @@ public class RubiksCubeTest {
     }
 
     private RubiksCube createCube() {
-        List<RubiksColour> frontColours = Arrays.asList(
+        List<Colour> frontColours = Arrays.asList(
                 YELLOW, GREEN, WHITE,
                 WHITE, BLUE, ORANGE,
                 GREEN, YELLOW, GREEN);
 
-        List<RubiksColour> leftColours = Arrays.asList(
+        List<Colour> leftColours = Arrays.asList(
                 WHITE, WHITE, RED,
                 RED, ORANGE, ORANGE,
                 ORANGE, YELLOW, YELLOW);
 
-        List<RubiksColour> backColours = Arrays.asList(
+        List<Colour> backColours = Arrays.asList(
                 GREEN, BLUE, BLUE,
                 BLUE, GREEN, WHITE,
                 WHITE, RED, BLUE);
 
-        List<RubiksColour> rightColours = Arrays.asList(
+        List<Colour> rightColours = Arrays.asList(
                 BLUE, RED, YELLOW,
                 YELLOW, RED, WHITE,
                 ORANGE, YELLOW, GREEN);
 
-        List<RubiksColour> topColours = Arrays.asList(
+        List<Colour> topColours = Arrays.asList(
                 RED, ORANGE, ORANGE,
                 GREEN, YELLOW, GREEN,
                 BLUE, ORANGE, ORANGE);
 
-        List<RubiksColour> bottomColours = Arrays.asList(
+        List<Colour> bottomColours = Arrays.asList(
                 RED, GREEN, WHITE,
                 BLUE, WHITE, RED,
                 YELLOW, BLUE, RED);

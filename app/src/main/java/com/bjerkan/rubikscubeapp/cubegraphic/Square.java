@@ -1,6 +1,6 @@
 package com.bjerkan.rubikscubeapp.cubegraphic;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner;
+import com.bjerkan.rubikscubeapp.rubikscube.Colour;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -52,7 +52,7 @@ class Square {
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     }
 
-    void setColour(CubeScanner.RubiksColour colour) {
+    void setColour(Colour colour) {
         this.colour[0] = (float) colour.rgb.val[0] / 255f;
         this.colour[1] = (float) colour.rgb.val[1] / 255f;
         this.colour[2] = (float) colour.rgb.val[2] / 255f;

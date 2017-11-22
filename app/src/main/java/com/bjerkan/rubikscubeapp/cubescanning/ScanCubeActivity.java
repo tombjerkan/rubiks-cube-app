@@ -3,12 +3,13 @@ package com.bjerkan.rubikscubeapp.cubescanning;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.widget.Toast;
 
 import com.bjerkan.rubikscubeapp.R;
 import com.bjerkan.rubikscubeapp.cubegraphic.CubeGraphicActivity;
+import com.bjerkan.rubikscubeapp.rubikscube.Colour;
 
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
@@ -31,11 +32,7 @@ public class ScanCubeActivity extends FragmentActivity
         currentFace = CubeFace.startFace;
 
         if (savedInstanceState == null) {
-            CaptureImageFragment fragment = new CaptureImageFragment();
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.container, fragment)
-                    .commit();
+            setFragment(new CaptureImageFragment());
         }
     }
 
@@ -51,42 +48,37 @@ public class ScanCubeActivity extends FragmentActivity
         faceColours.put(currentFace, cubeScanner.squareColours());
 
         currentStep = CubeScanner.Step.EDGES;
-
-        DisplayResultFragment resultFragment = new DisplayResultFragment();
-        Bundle arguments = new Bundle();
-        arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
-                matToBitmap(cubeScanner.edgeImage()));
-        resultFragment.setArguments(arguments);
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, resultFragment);
-        transaction.commit();
+        showResultFragment();
     }
 
     @Override
     public void nextStep() {
         if (currentStep.nextStep() != null) {
             currentStep = currentStep.nextStep();
-
-            DisplayResultFragment resultFragment = new DisplayResultFragment();
-            Bundle arguments = new Bundle();
-            arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
-                    matToBitmap(cubeScanner.stepImage(currentStep)));
-            resultFragment.setArguments(arguments);
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.container, resultFragment);
-            transaction.commit();
+            showResultFragment();
         } else if (currentFace.nextFace != null) {
             currentFace = currentFace.nextFace;
-
-            CaptureImageFragment captureImageFragment = new CaptureImageFragment();
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.container, captureImageFragment);
-            transaction.commit();
+            setFragment(new CaptureImageFragment());
         } else {
             showCubeGraphic();
         }
+    }
+
+    private void setFragment(Fragment fragment) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, fragment)
+                .commit();
+    }
+
+    private void showResultFragment() {
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(DisplayResultFragment.IMAGE_ARGUMENT,
+                matToBitmap(cubeScanner.stepImage(currentStep)));
+
+        DisplayResultFragment resultFragment = new DisplayResultFragment();
+        resultFragment.setArguments(arguments);
+        setFragment(resultFragment);
     }
 
     private void showCubeGraphic() {
@@ -116,7 +108,7 @@ public class ScanCubeActivity extends FragmentActivity
     }
 
     // Convert list of enums to ArrayList of Strings so that it can be passed in an intent
-    private ArrayList<String> asIntentArgument(List<CubeScanner.RubiksColour> colours) {
+    private ArrayList<String> asIntentArgument(List<Colour> colours) {
         return colours.stream().map(Enum::name).collect(Collectors.toCollection(ArrayList::new));
     }
 
@@ -150,5 +142,5 @@ public class ScanCubeActivity extends FragmentActivity
         }
     }
 
-    private Map<CubeFace, List<CubeScanner.RubiksColour>> faceColours = new HashMap<>();
+    private Map<CubeFace, List<Colour>> faceColours = new HashMap<>();
 }

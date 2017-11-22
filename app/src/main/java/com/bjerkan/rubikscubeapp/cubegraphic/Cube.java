@@ -1,6 +1,6 @@
 package com.bjerkan.rubikscubeapp.cubegraphic;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner;
+import com.bjerkan.rubikscubeapp.rubikscube.Colour;
 import com.google.common.collect.Lists;
 
 import java.util.Arrays;
@@ -36,19 +36,12 @@ class Cube {
                 backBottomRight);
     }
 
-    void draw(GL10 gl, long drawStartTime) {
+    void draw(GL10 gl, long timeElapsed) {
         gl.glPushMatrix();
 
         if (animating) {
-            long timeElapsed = drawStartTime - animationStartTime;
-
-            if (timeElapsed > ANIMATION_TIME) {
-                animating = false;
-                animationHistory.add(new Animation(animationAxis, animationDirection));
-            } else {
-                float angleToRotate = ((float) timeElapsed / ANIMATION_TIME) * 90f;
-                rotate(gl, animationAxis, animationDirection, angleToRotate);
-            }
+            float angleToRotate = ((float) timeElapsed / animationTime) * 90f;
+            rotate(gl, currentAnimation.axis, currentAnimation.direction, angleToRotate);
         }
 
         // Transformation matrices must be applied in reverse to give desired order
@@ -60,40 +53,44 @@ class Cube {
         gl.glPopMatrix();
     }
 
-    void startAnimation(long animationStartTime, RubiksCubeModel.Axis axis,
-                               RubiksCubeModel.Direction direction) {
+    void startAnimation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction) {
         animating = true;
-        this.animationStartTime = animationStartTime;
-        animationAxis = axis;
-        animationDirection = direction;
+        currentAnimation = new Animation(axis, direction);
     }
 
-    boolean isAnimating() {
-        return animating;
+    void finishAnimation() {
+        if (animating) {
+            animating = false;
+            animationHistory.add(currentAnimation);
+        }
     }
 
-    void setFrontColour(CubeScanner.RubiksColour colour) {
+    void setFrontColour(Colour colour) {
         frontSquare.setColour(colour);
     }
 
-    void setLeftColour(CubeScanner.RubiksColour colour) {
+    void setLeftColour(Colour colour) {
         leftSquare.setColour(colour);
     }
 
-    void setBackColour(CubeScanner.RubiksColour colour) {
+    void setBackColour(Colour colour) {
         backSquare.setColour(colour);
     }
 
-    void setRightColour(CubeScanner.RubiksColour colour) {
+    void setRightColour(Colour colour) {
         rightSquare.setColour(colour);
     }
 
-    void setTopColour(CubeScanner.RubiksColour colour) {
+    void setTopColour(Colour colour) {
         topSquare.setColour(colour);
     }
 
-    void setBottomColour(CubeScanner.RubiksColour colour) {
+    void setBottomColour(Colour colour) {
         bottomSquare.setColour(colour);
+    }
+
+    void setAnimationTime(int animationTime) {
+        this.animationTime = animationTime;
     }
 
     private void rotate(GL10 gl, RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction,
@@ -124,11 +121,10 @@ class Cube {
     private Square bottomSquare;
 
     private boolean animating = false;
-    private long animationStartTime;
-    private RubiksCubeModel.Axis animationAxis;
-    private RubiksCubeModel.Direction animationDirection;
+    private Animation currentAnimation;
 
-    private static final int ANIMATION_TIME = 1000;
+    private int animationTime = DEFAULT_ANIMATION_TIME;
+    private static final int DEFAULT_ANIMATION_TIME = 1000;
 
     private List<Animation> animationHistory = new LinkedList<>();
 

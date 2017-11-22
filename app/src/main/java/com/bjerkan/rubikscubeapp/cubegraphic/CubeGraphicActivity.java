@@ -3,8 +3,8 @@ package com.bjerkan.rubikscubeapp.cubegraphic;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner;
 import com.bjerkan.rubikscubeapp.R;
+import com.bjerkan.rubikscubeapp.rubikscube.Colour;
 import com.bjerkan.rubikscubeapp.rubikscube.RubiksCube;
 import com.bjerkan.rubikscubeapp.rubikscube.Solver;
 
@@ -20,17 +20,17 @@ public class CubeGraphicActivity extends Activity implements AnimationFinishedLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cube_graphic);
 
-        List<CubeScanner.RubiksColour> frontColours = asColourList(
+        List<Colour> frontColours = asColourList(
                 getIntent().getStringArrayListExtra(FRONT_COLOURS_ARGUMENT));
-        List<CubeScanner.RubiksColour> leftColours = asColourList(
+        List<Colour> leftColours = asColourList(
                 getIntent().getStringArrayListExtra(LEFT_COLOURS_ARGUMENT));
-        List<CubeScanner.RubiksColour> backColours = asColourList(
+        List<Colour> backColours = asColourList(
                 getIntent().getStringArrayListExtra(BACK_COLOURS_ARGUMENT));
-        List<CubeScanner.RubiksColour> rightColours = asColourList(
+        List<Colour> rightColours = asColourList(
                 getIntent().getStringArrayListExtra(RIGHT_COLOURS_ARGUMENT));
-        List<CubeScanner.RubiksColour> topColours = asColourList(
+        List<Colour> topColours = asColourList(
                 getIntent().getStringArrayListExtra(TOP_COLOURS_ARGUMENT));
-        List<CubeScanner.RubiksColour> bottomColours = asColourList(
+        List<Colour> bottomColours = asColourList(
                 getIntent().getStringArrayListExtra(BOTTOM_COLOURS_ARGUMENT));
 
         rubiksCubeModel = new RubiksCubeModel(frontColours, leftColours, backColours, rightColours,
@@ -49,9 +49,9 @@ public class CubeGraphicActivity extends Activity implements AnimationFinishedLi
         cubeSurfaceView.setModel(rubiksCubeModel);
     }
 
-    private List<CubeScanner.RubiksColour> asColourList(List<String> colourNames) {
+    private List<Colour> asColourList(List<String> colourNames) {
         return colourNames.stream()
-                .map(CubeScanner.RubiksColour::valueOf)
+                .map(Colour::valueOf)
                 .collect(Collectors.toList());
     }
 

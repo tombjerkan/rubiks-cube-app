@@ -2,7 +2,7 @@ package com.bjerkan.rubikscubeapp.cubegraphic;
 
 import android.os.SystemClock;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner;
+import com.bjerkan.rubikscubeapp.rubikscube.Colour;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +12,12 @@ import javax.microedition.khronos.opengles.GL10;
 class RubiksCubeModel {
 
     RubiksCubeModel(
-            List<CubeScanner.RubiksColour> frontColours,
-            List<CubeScanner.RubiksColour> leftColours,
-            List<CubeScanner.RubiksColour> backColours,
-            List<CubeScanner.RubiksColour> rightColours,
-            List<CubeScanner.RubiksColour> topColours,
-            List<CubeScanner.RubiksColour> bottomColours) {
+            List<Colour> frontColours,
+            List<Colour> leftColours,
+            List<Colour> backColours,
+            List<Colour> rightColours,
+            List<Colour> topColours,
+            List<Colour> bottomColours) {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 for (int z = 0; z < 3; z++) {
@@ -25,6 +25,7 @@ class RubiksCubeModel {
                     float centreY = (1 - y) * SUBCUBE_SIZE;
                     float centreZ = (1 - z) * SUBCUBE_SIZE;
                     subCubes[x][y][z] = new Cube(centreX, centreY, centreZ, SUBCUBE_SIZE);
+                    subCubes[x][y][z].setAnimationTime(ANIMATION_TIME);
                 }
             }
         }
@@ -40,36 +41,30 @@ class RubiksCubeModel {
     }
 
     void draw(GL10 gl) {
-        long currentTime = SystemClock.uptimeMillis();
-        allSubCubes().forEach(cube -> cube.draw(gl, currentTime));
+        long timeElapsed = SystemClock.uptimeMillis() - startTime;
 
-        if (animating && currentTime - startTime > Cube.ANIMATION_TIME) {
+        boolean animationFinished = animating && timeElapsed > ANIMATION_TIME;
+
+        if (animationFinished) {
             animating = false;
-            if (animationListener != null) {
-                animationListener.animationFinished();
-            }
+            allSubCubes().forEach(Cube::finishAnimation);
+        }
+
+        allSubCubes().forEach(cube -> cube.draw(gl, timeElapsed));
+
+        // Must be called after cubes are drawn so doesn't start drawing new animation before last
+        if (animationFinished && animationListener != null) {
+            animationListener.animationFinished();
         }
     }
 
-    boolean currentlyAnimating() {
-        return allSubCubes().stream().anyMatch(Cube::isAnimating);
-    }
-
     void front() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        frontSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Z, Direction.CLOCKWISE));
-
+        startAnimation(frontSubCubes(), Axis.Z, Direction.CLOCKWISE);
         frontCubeSwap();
     }
 
     void frontInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        frontSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Z, Direction.ANTICLOCKWISE));
-
+        startAnimation(frontSubCubes(), Axis.Z, Direction.ANTICLOCKWISE);
         frontCubeSwap();
         frontCubeSwap();
         frontCubeSwap();
@@ -90,20 +85,12 @@ class RubiksCubeModel {
     }
 
     void left() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        leftSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.X, Direction.ANTICLOCKWISE));
-
+        startAnimation(leftSubCubes(), Axis.X, Direction.ANTICLOCKWISE);
         leftCubeSwap();
     }
 
     void leftInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        leftSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.X, Direction.CLOCKWISE));
-
+        startAnimation(leftSubCubes(), Axis.X, Direction.CLOCKWISE);
         leftCubeSwap();
         leftCubeSwap();
         leftCubeSwap();
@@ -124,20 +111,12 @@ class RubiksCubeModel {
     }
 
     void right() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        rightSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.X, Direction.CLOCKWISE));
-
+        startAnimation(rightSubCubes(), Axis.X, Direction.CLOCKWISE);
         rightCubeSwap();
     }
 
     void rightInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        rightSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.X, Direction.ANTICLOCKWISE));
-
+        startAnimation(rightSubCubes(), Axis.X, Direction.ANTICLOCKWISE);
         rightCubeSwap();
         rightCubeSwap();
         rightCubeSwap();
@@ -158,20 +137,12 @@ class RubiksCubeModel {
     }
 
     void top() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        topSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.CLOCKWISE));
-
+        startAnimation(topSubCubes(), Axis.Y, Direction.CLOCKWISE);
         topCubeSwap();
     }
 
     void topInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        topSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.ANTICLOCKWISE));
-
+        startAnimation(topSubCubes(), Axis.Y, Direction.ANTICLOCKWISE);
         topCubeSwap();
         topCubeSwap();
         topCubeSwap();
@@ -192,20 +163,12 @@ class RubiksCubeModel {
     }
 
     void bottom() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        bottomSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.ANTICLOCKWISE));
-
+        startAnimation(bottomSubCubes(), Axis.Y, Direction.ANTICLOCKWISE);
         bottomCubeSwap();
     }
 
     void bottomInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        bottomSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.CLOCKWISE));
-
+        startAnimation(bottomSubCubes(), Axis.Y, Direction.CLOCKWISE);
         bottomCubeSwap();
         bottomCubeSwap();
         bottomCubeSwap();
@@ -226,20 +189,12 @@ class RubiksCubeModel {
     }
 
     void rotate() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        allSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.CLOCKWISE));
-
+        startAnimation(allSubCubes(), Axis.Y, Direction.CLOCKWISE);
         rotateCubeSwap();
     }
 
     void rotateInv() {
-        animating = true;
-        startTime = SystemClock.uptimeMillis();
-        allSubCubes().forEach(subCube -> subCube.startAnimation(
-                startTime, Axis.Y, Direction.ANTICLOCKWISE));
-
+        startAnimation(allSubCubes(), Axis.Y, Direction.ANTICLOCKWISE);
         rotateCubeSwap();
         rotateCubeSwap();
         rotateCubeSwap();
@@ -280,6 +235,12 @@ class RubiksCubeModel {
     public enum Direction {
         CLOCKWISE,
         ANTICLOCKWISE
+    }
+
+    private void startAnimation(List<Cube> subCubes, Axis axis, Direction direction) {
+        animating = true;
+        startTime = SystemClock.uptimeMillis();
+        subCubes.forEach(subCube -> subCube.startAnimation(axis, direction));
     }
 
     private List<Cube> allSubCubes() {
@@ -361,6 +322,7 @@ class RubiksCubeModel {
     private static final float CUBE_SIZE = 6f;
     private static final float SUBCUBE_SIZE = CUBE_SIZE / 3f;
 
+    private static final int ANIMATION_TIME = 1000;
     private boolean animating = false;
     private long startTime;
     private AnimationFinishedListener animationListener;

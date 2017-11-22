@@ -19,15 +19,13 @@ public class DisplayResultFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_display_result, container, false);
 
         Bundle arguments = getArguments();
-        Bitmap resultImage = (Bitmap) arguments.getParcelable(IMAGE_ARGUMENT);
+        Bitmap resultImage = arguments.getParcelable(IMAGE_ARGUMENT);
 
         ImageView resultImageView = view.findViewById(R.id.resultImage);
         resultImageView.setImageBitmap(resultImage);
 
         Button nextStep = view.findViewById(R.id.btnNextStep);
-        nextStep.setOnClickListener((View onClickView) -> {
-            mNextStepCallback.nextStep();
-        });
+        nextStep.setOnClickListener((View onClickView) -> nextStepCallback.nextStep());
 
         return view;
     }
@@ -37,7 +35,7 @@ public class DisplayResultFragment extends Fragment {
         super.onAttach(context);
 
         try {
-            mNextStepCallback = (NextStepRequestListener) context;
+            nextStepCallback = (NextStepRequestListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() +
                     " must implement NextStepRequestListener");
@@ -50,5 +48,5 @@ public class DisplayResultFragment extends Fragment {
 
     public static final String IMAGE_ARGUMENT = "com.bjerkan.rubikscubeapp.IMAGE_ARGUMENT";
 
-    private NextStepRequestListener mNextStepCallback;
+    private NextStepRequestListener nextStepCallback;
 }

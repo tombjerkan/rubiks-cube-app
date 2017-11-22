@@ -25,14 +25,14 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_capture_image, container, false);
 
-        mOpenCvCameraView = view.findViewById(R.id.cameraView);
-        mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
-        mOpenCvCameraView.setCvCameraViewListener(this);
+        cameraView = view.findViewById(R.id.cameraView);
+        cameraView.setVisibility(SurfaceView.VISIBLE);
+        cameraView.setCvCameraViewListener(this);
 
         Button captureImage = view.findViewById(R.id.btnCaptureImage);
         captureImage.setOnClickListener((View onClickView) -> {
-            if (mLastFrame != null) {
-                mImageCapturedCallback.onImageCaptured(mLastFrame.rgba());
+            if (lastFrame != null) {
+                imageCapturedCallback.onImageCaptured(lastFrame.rgba());
             }
         });
 
@@ -44,7 +44,7 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
         super.onAttach(context);
 
         try {
-            mImageCapturedCallback = (OnImageCapturedListener) context;
+            imageCapturedCallback = (OnImageCapturedListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() +
                     " must implement OnImageCapturedListener");
@@ -55,26 +55,31 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     public void onPause()
     {
         super.onPause();
-        if (mOpenCvCameraView != null)
-            mOpenCvCameraView.disableView();
+
+        if (cameraView != null) {
+            cameraView.disableView();
+        }
     }
 
     @Override
     public void onResume()
     {
         super.onResume();
+
         if (!OpenCVLoader.initDebug()) {
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, getActivity(),
-                    mLoaderCallback);
+                    loaderCallback);
         } else {
-            mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+            loaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
     }
 
     public void onDestroy() {
         super.onDestroy();
-        if (mOpenCvCameraView != null)
-            mOpenCvCameraView.disableView();
+
+        if (cameraView != null) {
+            cameraView.disableView();
+        }
     }
 
     public void onCameraViewStarted(int width, int height) {
@@ -84,7 +89,7 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     }
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-        mLastFrame = inputFrame;
+        lastFrame = inputFrame;
         return inputFrame.rgba();
     }
 
@@ -92,25 +97,20 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
         void onImageCaptured(Mat image);
     }
 
-    private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(getActivity()) {
+    private BaseLoaderCallback loaderCallback = new BaseLoaderCallback(getActivity()) {
         @Override
         public void onManagerConnected(int status) {
-            switch (status) {
-                case LoaderCallbackInterface.SUCCESS:
-                {
-                    mOpenCvCameraView.enableView();
-                } break;
-                default:
-                {
-                    super.onManagerConnected(status);
-                } break;
+            if (status == LoaderCallbackInterface.SUCCESS) {
+                cameraView.enableView();
+            } else {
+                super.onManagerConnected(status);
             }
         }
     };
 
-    private CameraBridgeViewBase mOpenCvCameraView;
+    private CameraBridgeViewBase cameraView;
 
-    private OnImageCapturedListener mImageCapturedCallback;
+    private OnImageCapturedListener imageCapturedCallback;
 
-    private CameraBridgeViewBase.CvCameraViewFrame mLastFrame = null;
+    private CameraBridgeViewBase.CvCameraViewFrame lastFrame = null;
 }

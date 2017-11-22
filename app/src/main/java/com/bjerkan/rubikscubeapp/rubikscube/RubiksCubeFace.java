@@ -1,21 +1,19 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
-import com.bjerkan.rubikscubeapp.cubescanning.CubeScanner.RubiksColour;
-
 import java.util.Arrays;
 import java.util.List;
 
 class RubiksCubeFace {
     RubiksCubeFace(
-            RubiksColour topLeft,
-            RubiksColour topMiddle,
-            RubiksColour topRight,
-            RubiksColour middleLeft,
-            RubiksColour middle,
-            RubiksColour middleRight,
-            RubiksColour bottomLeft,
-            RubiksColour bottomMiddle,
-            RubiksColour bottomRight) {
+            Colour topLeft,
+            Colour topMiddle,
+            Colour topRight,
+            Colour middleLeft,
+            Colour middle,
+            Colour middleRight,
+            Colour bottomLeft,
+            Colour bottomMiddle,
+            Colour bottomRight) {
         this.topLeft = topLeft;
         this.topMiddle = topMiddle;
         this.topRight = topRight;
@@ -27,7 +25,7 @@ class RubiksCubeFace {
         this.bottomRight = bottomRight;
     }
 
-    RubiksCubeFace(List<RubiksColour> colours) {
+    RubiksCubeFace(List<Colour> colours) {
         this(colours.get(0), colours.get(1), colours.get(2), colours.get(3), colours.get(4),
                 colours.get(5), colours.get(6), colours.get(7), colours.get(8));
     }
@@ -49,102 +47,102 @@ class RubiksCubeFace {
     }
 
     RubiksCubeFace replaceTopRow(
-            RubiksColour newTopLeft, RubiksColour newTopMiddle, RubiksColour newTopRight) {
+            Colour newTopLeft, Colour newTopMiddle, Colour newTopRight) {
         return new RubiksCubeFace(
                 newTopLeft, newTopMiddle, newTopRight,
                 middleLeft, middle, middleRight,
                 bottomLeft, bottomMiddle, bottomRight);
     }
 
-    RubiksCubeFace replaceTopRow(List<RubiksColour> colours) {
+    RubiksCubeFace replaceTopRow(List<Colour> colours) {
         return replaceTopRow(colours.get(0), colours.get(1), colours.get(2));
     }
 
     RubiksCubeFace replaceBottomRow(
-            RubiksColour newBottomLeft, RubiksColour newBottomMiddle, RubiksColour newBottomRight) {
+            Colour newBottomLeft, Colour newBottomMiddle, Colour newBottomRight) {
         return new RubiksCubeFace(
                 topLeft, topMiddle, topRight,
                 middleLeft, middle, middleRight,
                 newBottomLeft, newBottomMiddle, newBottomRight);
     }
 
-    RubiksCubeFace replaceBottomRow(List<RubiksColour> colours) {
+    RubiksCubeFace replaceBottomRow(List<Colour> colours) {
         return replaceBottomRow(colours.get(0), colours.get(1), colours.get(2));
     }
 
     RubiksCubeFace replaceLeftColumn(
-            RubiksColour newTopLeft, RubiksColour newMiddleLeft, RubiksColour newBottomLeft) {
+            Colour newTopLeft, Colour newMiddleLeft, Colour newBottomLeft) {
         return new RubiksCubeFace(
                 newTopLeft, topMiddle, topRight,
                 newMiddleLeft, middle, middleRight,
                 newBottomLeft, bottomMiddle, bottomRight);
     }
 
-    RubiksCubeFace replaceLeftColumn(List<RubiksColour> colours) {
+    RubiksCubeFace replaceLeftColumn(List<Colour> colours) {
         return replaceLeftColumn(colours.get(0), colours.get(1), colours.get(2));
     }
 
     RubiksCubeFace replaceRightColumn(
-            RubiksColour newTopRight, RubiksColour newMiddleRight, RubiksColour newBottomRight) {
+            Colour newTopRight, Colour newMiddleRight, Colour newBottomRight) {
         return new RubiksCubeFace(
                 topLeft, topMiddle, newTopRight,
                 middleLeft, middle, newMiddleRight,
                 bottomLeft, bottomMiddle, newBottomRight);
     }
 
-    RubiksCubeFace replaceRightColumn(List<RubiksColour> colours) {
+    RubiksCubeFace replaceRightColumn(List<Colour> colours) {
         return replaceRightColumn(colours.get(0), colours.get(1), colours.get(2));
     }
 
-    List<RubiksColour> topRow() {
+    List<Colour> topRow() {
         return Arrays.asList(topLeft, topMiddle, topRight);
     }
 
-    List<RubiksColour> bottomRow() {
+    List<Colour> bottomRow() {
         return Arrays.asList(bottomLeft, bottomMiddle, bottomRight);
     }
 
-    List<RubiksColour> leftColumn() {
+    List<Colour> leftColumn() {
         return Arrays.asList(topLeft, middleLeft, bottomLeft);
     }
 
-    List<RubiksColour> rightColumn() {
+    List<Colour> rightColumn() {
         return Arrays.asList(topRight, middleRight, bottomRight);
     }
 
-    RubiksColour topLeft() {
+    Colour topLeft() {
         return topLeft;
     }
 
-    RubiksColour topMiddle() {
+    Colour topMiddle() {
         return topMiddle;
     }
 
-    RubiksColour topRight() {
+    Colour topRight() {
         return topRight;
     }
 
-    RubiksColour middleLeft() {
+    Colour middleLeft() {
         return middleLeft;
     }
 
-    RubiksColour middle() {
+    Colour middle() {
         return middle;
     }
 
-    RubiksColour middleRight() {
+    Colour middleRight() {
         return middleRight;
     }
 
-    RubiksColour bottomLeft() {
+    Colour bottomLeft() {
         return bottomLeft;
     }
 
-    RubiksColour bottomMiddle() {
+    Colour bottomMiddle() {
         return bottomMiddle;
     }
 
-    RubiksColour bottomRight() {
+    Colour bottomRight() {
         return bottomRight;
     }
 
@@ -170,13 +168,13 @@ class RubiksCubeFace {
                 bottomRight == otherFace.bottomRight;
     }
 
-    private final RubiksColour topLeft;
-    private final RubiksColour topMiddle;
-    private final RubiksColour topRight;
-    private final RubiksColour middleLeft;
-    private final RubiksColour middle;
-    private final RubiksColour middleRight;
-    private final RubiksColour bottomLeft;
-    private final RubiksColour bottomMiddle;
-    private final RubiksColour bottomRight;
+    private final Colour topLeft;
+    private final Colour topMiddle;
+    private final Colour topRight;
+    private final Colour middleLeft;
+    private final Colour middle;
+    private final Colour middleRight;
+    private final Colour bottomLeft;
+    private final Colour bottomMiddle;
+    private final Colour bottomRight;
 }
