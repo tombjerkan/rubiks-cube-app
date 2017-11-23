@@ -16,7 +16,7 @@ public enum Colour {
     static {
         WHITE.hue = 0.;
         GREEN.hue = 74.;
-        RED.hue = 174.;
+        RED.hue = 0.;
         BLUE.hue = 108.;
         ORANGE.hue = 11.;
         YELLOW.hue = 25.;

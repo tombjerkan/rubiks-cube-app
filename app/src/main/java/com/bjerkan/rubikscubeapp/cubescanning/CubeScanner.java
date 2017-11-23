@@ -317,7 +317,7 @@ public class CubeScanner {
         double[] hsvColour = hsvImage.get((int) point.y, (int) point.x);
 
         // Mark colours with low saturation as white.
-        if (hsvColour[1] < 50.) {
+        if (hsvColour[1] < 80.) {
             return Colour.WHITE;
         }
 
