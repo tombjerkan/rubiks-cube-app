@@ -24,7 +24,8 @@ class RubiksCubeModel {
                     float centreX = (x - 1) * SUBCUBE_SIZE;
                     float centreY = (1 - y) * SUBCUBE_SIZE;
                     float centreZ = (1 - z) * SUBCUBE_SIZE;
-                    subCubes[x][y][z] = new Cube(centreX, centreY, centreZ, SUBCUBE_SIZE);
+                    subCubes[x][y][z] = new Cube(new Vertex(centreX, centreY, centreZ),
+                            SUBCUBE_SIZE);
                     subCubes[x][y][z].setAnimationTime(ANIMATION_TIME);
                 }
             }

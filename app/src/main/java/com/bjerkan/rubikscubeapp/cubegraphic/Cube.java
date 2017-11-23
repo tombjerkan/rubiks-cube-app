@@ -10,22 +10,22 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL10;
 
 class Cube {
-    Cube(float centreX, float centreY, float centreZ, float sideLength) {
-        float leftX = centreX - (sideLength / 2f);
-        float rightX = centreX + (sideLength / 2f);
-        float bottomY = centreY - (sideLength / 2f);
-        float topY = centreY + (sideLength / 2f);
-        float backZ = centreZ - (sideLength / 2f);
-        float frontZ = centreZ + (sideLength / 2f);
+    Cube(Vertex centre, float sideLength) {
+        float leftX = centre.x() - (sideLength / 2f);
+        float rightX = centre.x() + (sideLength / 2f);
+        float bottomY = centre.y() - (sideLength / 2f);
+        float topY = centre.y() + (sideLength / 2f);
+        float backZ = centre.z() - (sideLength / 2f);
+        float frontZ = centre.z() + (sideLength / 2f);
 
-        float[] frontTopLeft = {leftX, topY, frontZ};
-        float[] frontTopRight = {rightX, topY, frontZ};
-        float[] frontBottomLeft = {leftX, bottomY, frontZ};
-        float[] frontBottomRight = {rightX, bottomY, frontZ};
-        float[] backTopLeft = {rightX, topY, backZ};
-        float[] backTopRight = {leftX, topY, backZ};
-        float[] backBottomLeft = {rightX, bottomY, backZ};
-        float[] backBottomRight = {leftX, bottomY, backZ};
+        Vertex frontTopLeft = new Vertex(leftX, topY, frontZ);
+        Vertex frontTopRight = new Vertex(rightX, topY, frontZ);
+        Vertex frontBottomLeft = new Vertex(leftX, bottomY, frontZ);
+        Vertex frontBottomRight = new Vertex(rightX, bottomY, frontZ);
+        Vertex backTopLeft = new Vertex(rightX, topY, backZ);
+        Vertex backTopRight = new Vertex(leftX, topY, backZ);
+        Vertex backBottomLeft = new Vertex(rightX, bottomY, backZ);
+        Vertex backBottomRight = new Vertex(leftX, bottomY, backZ);
 
         frontSquare = new Square(frontTopLeft, frontTopRight, frontBottomRight, frontBottomLeft);
         leftSquare = new Square(backTopRight, frontTopLeft, frontBottomLeft, backBottomRight);

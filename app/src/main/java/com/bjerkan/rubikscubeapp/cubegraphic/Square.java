@@ -9,13 +9,13 @@ import java.nio.FloatBuffer;
 import javax.microedition.khronos.opengles.GL10;
 
 class Square {
-    Square(float[] topLeftVertex, float[] topRightVertex,
-                  float[] bottomRightVertex, float[] bottomLeftVertex) {
+    Square(Vertex topLeftVertex, Vertex topRightVertex,
+           Vertex bottomRightVertex, Vertex bottomLeftVertex) {
         float[] vertexArray = {
-                topLeftVertex[0], topLeftVertex[1], topLeftVertex[2],
-                topRightVertex[0], topRightVertex[1], topRightVertex[2],
-                bottomRightVertex[0], bottomRightVertex[1], bottomRightVertex[2],
-                bottomLeftVertex[0], bottomLeftVertex[1], bottomLeftVertex[2]
+                topLeftVertex.x(), topLeftVertex.y(), topLeftVertex.z(),
+                topRightVertex.x(), topRightVertex.y(), topRightVertex.z(),
+                bottomRightVertex.x(), bottomRightVertex.y(), bottomRightVertex.z(),
+                bottomLeftVertex.x(), bottomLeftVertex.y(), bottomLeftVertex.z()
         };
 
         byte[] indexArray = {
