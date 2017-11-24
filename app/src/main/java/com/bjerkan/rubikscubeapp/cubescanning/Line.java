@@ -39,15 +39,34 @@ class Line {
         return theta;
     }
 
+    /**
+     * Returns whether the line is, or is close to, horizontal. A line is close to horizontal if its
+     * angle is within a certain threshold of being horizontal.
+     *
+     * @return true if the line is, or is close to, horizontal and false otherwise
+     */
     boolean isHorizontal() {
         return (theta > (Math.PI / 2) - ORTHOGONAL_THRESHOLD) &&
                 (theta < (Math.PI / 2) + ORTHOGONAL_THRESHOLD);
     }
 
+    /**
+     * Returns whether the line is, or is close to, vertical. A line is close to horizontal if its
+     * angle is within a certain threshold of being vertical.
+     *
+     * @return true if the line is, or is close to, vertical and false otherwise
+     */
     boolean isVertical() {
         return (theta > -ORTHOGONAL_THRESHOLD) && (theta < ORTHOGONAL_THRESHOLD);
     }
 
+    /**
+     * Returns whether the line is, or is close to being, either horizontal or vertical.
+     *
+     * @return true if the line is, or is close to being, horizontal or vertical and false otherwise
+     * @see #isHorizontal()
+     * @see #isVertical()
+     */
     boolean isOrthogonal() {
         return isHorizontal() || isVertical();
     }
