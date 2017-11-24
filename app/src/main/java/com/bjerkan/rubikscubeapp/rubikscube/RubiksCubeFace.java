@@ -224,38 +224,83 @@ class RubiksCubeFace {
         return Arrays.asList(topRight, middleRight, bottomRight);
     }
 
+    /**
+     * Returns the colour of the top-left square of this face.
+     *
+     * @return the colour of the top-left square
+     */
     Colour topLeft() {
         return topLeft;
     }
 
+    /**
+     * Returns the colour of the top-middle square of this face.
+     *
+     * @return the colour of the top-middle square
+     */
     Colour topMiddle() {
         return topMiddle;
     }
 
+    /**
+     * Returns the colour of the top-right square of this face.
+     *
+     * @return the colour of the top-right square
+     */
     Colour topRight() {
         return topRight;
     }
 
+    /**
+     * Returns the colour of the middle-left square of this face.
+     *
+     * @return the colour of the middle-left square
+     */
     Colour middleLeft() {
         return middleLeft;
     }
 
+    /**
+     * Returns the colour of the middle square of this face.
+     *
+     * @return the colour of the middle square
+     */
     Colour middle() {
         return middle;
     }
 
+    /**
+     * Returns the colour of the middle-right square of this face.
+     *
+     * @return the colour of the middle-right square
+     */
     Colour middleRight() {
         return middleRight;
     }
 
+    /**
+     * Returns the colour of the bottom-left square of this face.
+     *
+     * @return the colour of the bottom-left square
+     */
     Colour bottomLeft() {
         return bottomLeft;
     }
 
+    /**
+     * Returns the colour of the bottom-middle square of this face.
+     *
+     * @return the colour of the bottom-middle square
+     */
     Colour bottomMiddle() {
         return bottomMiddle;
     }
 
+    /**
+     * Returns the colour of the bottom-right square of this face.
+     *
+     * @return the colour of the bottom-right square
+     */
     Colour bottomRight() {
         return bottomRight;
     }
