@@ -29,6 +29,29 @@ import org.opencv.core.Mat;
  */
 public class CaptureImageFragment extends Fragment implements CvCameraViewListener2 {
 
+    /**
+     * Sets the text to display as the title of the image capturing screen. This is intended to be
+     * the name of the side of the cube beings scanned.
+     *
+     * @param title the text to display as the title
+     */
+    public void setTitle(String title) {
+        this.title = title;
+        updateTitleText();
+    }
+
+    /**
+     * Interface to be implemented by parent activity so it can listen for an image capture event.
+     */
+    public interface OnImageCapturedListener {
+        /**
+         * Called to inform the listener that an image has been captured by this fragment.
+         *
+         * @param image the image that was captured
+         */
+        void onImageCaptured(Mat image);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -102,29 +125,6 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         lastFrame = inputFrame;
         return inputFrame.rgba();
-    }
-
-    /**
-     * Sets the text to display as the title of the image capturing screen. This is intended to be
-     * the name of the side of the cube beings scanned.
-     *
-     * @param title the text to display as the title
-     */
-    public void setTitle(String title) {
-        this.title = title;
-        updateTitleText();
-    }
-
-    /**
-     * Interface to be implemented by parent activity so it can listen for an image capture event.
-     */
-    public interface OnImageCapturedListener {
-        /**
-         * Called to inform the listener that an image has been captured by this fragment.
-         *
-         * @param image the image that was captured
-         */
-        void onImageCaptured(Mat image);
     }
 
     private void updateTitleText() {
