@@ -45,6 +45,12 @@ class Cube {
                 backBottomRight);
     }
 
+    /**
+     * Draws the cube to the given OpenGL context.
+     *
+     * @param gl the OpenGL context to draw to
+     * @param timeElapsed the time elapsed since the last draw for use with animation
+     */
     void draw(GL10 gl, long timeElapsed) {
         gl.glPushMatrix();
 
