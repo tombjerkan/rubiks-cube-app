@@ -59,38 +59,6 @@ public class CubeScanner {
         return successful;
     }
 
-    private Mat originalImage() {
-        return originalImage;
-    }
-
-    private Mat edgeImage() {
-        return edgeImage;
-    }
-
-    private Mat lineImage() {
-        return lineImage;
-    }
-
-    private Mat orthogonalLineImage() {
-        return orthogonalLineImage;
-    }
-
-    private Mat combinedLineImage() {
-        return combinedLineImage;
-    }
-
-    private Mat centreLineImage() {
-        return centreLineImage;
-    }
-
-    private Mat centrePointImage() {
-        return centrePointImage;
-    }
-
-    private Mat coloursImage() {
-        return coloursImage;
-    }
-
     /**
      * Returns the colours found for the cube face. Assumes the scan was successful and will return
      * null if not. The list is in the order top-left, top-middle, top-right, middle-left, middle,
@@ -161,6 +129,38 @@ public class CubeScanner {
         Step nextStep() {
             return nextStep;
         }
+    }
+
+    private Mat originalImage() {
+        return originalImage;
+    }
+
+    private Mat edgeImage() {
+        return edgeImage;
+    }
+
+    private Mat lineImage() {
+        return lineImage;
+    }
+
+    private Mat orthogonalLineImage() {
+        return orthogonalLineImage;
+    }
+
+    private Mat combinedLineImage() {
+        return combinedLineImage;
+    }
+
+    private Mat centreLineImage() {
+        return centreLineImage;
+    }
+
+    private Mat centrePointImage() {
+        return centrePointImage;
+    }
+
+    private Mat coloursImage() {
+        return coloursImage;
     }
 
     private void findEdges() {
