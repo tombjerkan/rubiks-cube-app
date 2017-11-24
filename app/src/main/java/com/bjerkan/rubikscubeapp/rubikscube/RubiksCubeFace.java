@@ -7,6 +7,19 @@ import java.util.List;
  * A class representing a single face of a Rubik's Cube.
  */
 class RubiksCubeFace {
+    /**
+     * Create a RubiksCubeFace with the square colours given.
+     *
+     * @param topLeft the colour of the top-left square
+     * @param topMiddle the colour of the top-middle square
+     * @param topRight the colour of the top-right square
+     * @param middleLeft the colour of the middle-left square
+     * @param middle the colour of the middle square
+     * @param middleRight the colour of the middle-right square
+     * @param bottomLeft the colour of the bottom-left square
+     * @param bottomMiddle the colour of the bottom-middle square
+     * @param bottomRight the colour of the bottom-right square
+     */
     RubiksCubeFace(
             Colour topLeft,
             Colour topMiddle,
@@ -28,11 +41,23 @@ class RubiksCubeFace {
         this.bottomRight = bottomRight;
     }
 
+    /**
+     * Create a RubiksCubeFace with the square colours in the list. The list colours are in the
+     * order top-left, top-middle, top-right, middle-left, middle, middle-right, bottom-left,
+     * bottom-middle, bottom-right.
+     *
+     * @param colours a list of colours to give the face's squares
+     */
     RubiksCubeFace(List<Colour> colours) {
         this(colours.get(0), colours.get(1), colours.get(2), colours.get(3), colours.get(4),
                 colours.get(5), colours.get(6), colours.get(7), colours.get(8));
     }
 
+    /**
+     * Create a copy of the RubiksCubeFace given.
+     *
+     * @param face the face for which this new face will be a copy of
+     */
     RubiksCubeFace(RubiksCubeFace face) {
         this(face.topLeft, face.topMiddle, face.topRight, face.middleLeft, face.middle,
                 face.middleRight, face.bottomLeft, face.bottomMiddle, face.bottomRight);
