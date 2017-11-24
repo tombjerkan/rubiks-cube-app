@@ -63,6 +63,11 @@ class RubiksCubeFace {
                 face.middleRight, face.bottomLeft, face.bottomMiddle, face.bottomRight);
     }
 
+    /**
+     * Returns a new RubiksCubeFace with this face's colours rotated clockwise.
+     *
+     * @return a new RubiksCubeFace for the current face rotated clockwise
+     */
     RubiksCubeFace rotated() {
         return new RubiksCubeFace(
                 bottomLeft(), middleLeft(), topLeft(),
@@ -70,6 +75,11 @@ class RubiksCubeFace {
                 bottomRight(), middleRight(), topRight());
     }
 
+    /**
+     * Returns a new RubiksCubeFace with this face's colours rotated anti-clockwise.
+     *
+     * @return a new RubiksCubeFace for the current face rotated anti-clockwise
+     */
     RubiksCubeFace rotatedInv() {
         return rotated().rotated().rotated();
     }
