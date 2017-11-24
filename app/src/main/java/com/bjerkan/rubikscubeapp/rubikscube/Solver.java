@@ -17,6 +17,12 @@ import java.util.stream.Stream;
  * They should not be used directly outside of the tests.
  */
 public class Solver {
+    /**
+     * Solves the given cube and returns the actions needed to solve it.
+     *
+     * @param cube the cube to solve
+     * @return a list of actions performed while solving the cube
+     */
     public static List<RubiksCube.Action> solve(RubiksCube cube) {
         solveBottomEdges(cube);
         solveBottomCorners(cube);
