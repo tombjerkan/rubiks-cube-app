@@ -73,6 +73,13 @@ class Line {
         return isHorizontal() || isVertical();
     }
 
+    /**
+     * Returns whether this line is similar to the given line. Two lines are similar if the
+     * difference between their ρ and θ values are within some thresholds.
+     *
+     * @param otherLine the line to compare for similarity with
+     * @return true if the two lines are similar enough, false otherwise
+     */
     boolean isSimilar(Line otherLine) {
         return Math.abs(rho - otherLine.rho) < SIMILARITY_RHO_THRESHOLD &&
                 Math.abs(theta - otherLine.theta) < SIMILARITY_THETA_THRESHOLD;
