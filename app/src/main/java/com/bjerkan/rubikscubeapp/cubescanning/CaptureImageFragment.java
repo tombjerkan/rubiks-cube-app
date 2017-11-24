@@ -22,6 +22,10 @@ import org.opencv.core.Mat;
 /**
  * A fragment for capturing an image using the phone's camera. A captured image is given to the
  * parent activity through the OnImageCapturedListener, which must be implemented by the parent.
+ *
+ * Public life-cycle methods (onCreateView, onAttach, onPause, onResume and onDestroy) and the
+ * public camera methods (onCameraViewStarted, onCameraViewStopped, onCameraFrame) are for use
+ * by the Android system and should not be called directly.
  */
 public class CaptureImageFragment extends Fragment implements CvCameraViewListener2 {
 
