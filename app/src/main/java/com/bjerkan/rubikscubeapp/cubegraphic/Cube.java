@@ -90,26 +90,56 @@ class Cube {
         }
     }
 
+    /**
+     * Sets the colour of the front side.
+     *
+     * @param colour the new colour for the front side
+     */
     void setFrontColour(Colour colour) {
         frontSquare.setColour(colour);
     }
 
+    /**
+     * Sets the colour of the left side.
+     *
+     * @param colour the new colour for the left side
+     */
     void setLeftColour(Colour colour) {
         leftSquare.setColour(colour);
     }
 
+    /**
+     * Sets the colour of the back side.
+     *
+     * @param colour the new colour for the back side
+     */
     void setBackColour(Colour colour) {
         backSquare.setColour(colour);
     }
 
+    /**
+     * Sets the colour of the right side.
+     *
+     * @param colour the new colour for the right side
+     */
     void setRightColour(Colour colour) {
         rightSquare.setColour(colour);
     }
 
+    /**
+     * Sets the colour of the top side.
+     *
+     * @param colour the new colour for the top side
+     */
     void setTopColour(Colour colour) {
         topSquare.setColour(colour);
     }
 
+    /**
+     * Sets the colour of the bottom side.
+     *
+     * @param colour the new colour for the bottom side
+     */
     void setBottomColour(Colour colour) {
         bottomSquare.setColour(colour);
     }
