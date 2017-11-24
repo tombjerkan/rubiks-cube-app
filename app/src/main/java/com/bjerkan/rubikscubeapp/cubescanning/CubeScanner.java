@@ -129,6 +129,9 @@ public class CubeScanner {
         }
     }
 
+    /**
+     * An enum for the different steps of processing performed whilst scanning a cube face.
+     */
     enum Step {
         EDGES,
         LINES,
@@ -150,6 +153,11 @@ public class CubeScanner {
             CENTRE_COLOURS.nextStep = null;
         }
 
+        /**
+         * Returns the next step performed after this step.
+         *
+         * @return the next step performed, or null if this is last step
+         */
         Step nextStep() {
             return nextStep;
         }
