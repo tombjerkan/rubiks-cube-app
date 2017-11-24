@@ -42,6 +42,11 @@ public class ScanCubeActivity extends FragmentActivity
         }
     }
 
+    /**
+     * Receives a captured image and processes it to find the colours for the face being scanned.
+     *
+     * @param image the image captured of the face being scanned
+     */
     @Override
     public void onImageCaptured(Mat image) {
         cubeScanner = new CubeScanner(image);
@@ -57,6 +62,10 @@ public class ScanCubeActivity extends FragmentActivity
         showResultFragment();
     }
 
+    /**
+     * Shows the next result image for the cube face being scanned, or moves on to the next face
+     * if all results shown.
+     */
     @Override
     public void nextStep() {
         if (currentStep.nextStep() != null) {
