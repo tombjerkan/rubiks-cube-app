@@ -17,6 +17,7 @@ import java.util.stream.Stream;
  * They should not be used directly outside of the tests.
  */
 public class Solver {
+
     /**
      * Solves the given cube and returns the actions needed to solve it.
      *
