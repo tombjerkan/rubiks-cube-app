@@ -102,6 +102,12 @@ public class CubeScanner {
         return squareColours;
     }
 
+    /**
+     * Returns an image showing the result for a certain step of the cube face processing.
+     *
+     * @param step the step to get the resulting image for
+     * @return an image showing the result of the step
+     */
     Mat stepImage(Step step) {
         switch(step) {
             case EDGES:
