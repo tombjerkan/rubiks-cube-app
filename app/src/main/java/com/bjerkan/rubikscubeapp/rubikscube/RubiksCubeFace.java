@@ -3,6 +3,9 @@ package com.bjerkan.rubikscubeapp.rubikscube;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A class representing a single face of a Rubik's Cube.
+ */
 class RubiksCubeFace {
     RubiksCubeFace(
             Colour topLeft,
