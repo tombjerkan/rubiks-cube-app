@@ -20,6 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * An activity for scanning each face of the Rubik's Cube in term.
+ *
+ * Uses the phone's camera to take an image of a Rubik's Cube face which is subsequently scanned
+ * to find the colours of the individual squares.
+ */
 public class ScanCubeActivity extends FragmentActivity
         implements CaptureImageFragment.OnImageCapturedListener,
                    DisplayResultFragment.NextStepRequestListener {
