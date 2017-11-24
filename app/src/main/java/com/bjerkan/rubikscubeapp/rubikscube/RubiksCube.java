@@ -305,6 +305,9 @@ public class RubiksCube {
         return history;
     }
 
+    /**
+     * An enum of actions that can be performed to the cube.
+     */
     public enum Action {
         ROTATE, ROTATE_INV, FRONT, FRONT_INV, LEFT, LEFT_INV, RIGHT, RIGHT_INV, TOP, TOP_INV,
         BOTTOM, BOTTOM_INV
