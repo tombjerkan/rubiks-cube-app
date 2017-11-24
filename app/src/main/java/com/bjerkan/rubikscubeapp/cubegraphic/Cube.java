@@ -10,9 +10,15 @@ import java.util.List;
 import javax.microedition.khronos.opengles.GL10;
 
 /**
- * A class for a graphical cube.
+ * A class for a cube graphic.
  */
 class Cube {
+    /**
+     * Creates a cube graphic with the given properties.
+     *
+     * @param centre the position of the cube's centre
+     * @param sideLength the length of the cube's sides
+     */
     Cube(Vertex centre, float sideLength) {
         float leftX = centre.x() - (sideLength / 2f);
         float rightX = centre.x() + (sideLength / 2f);
