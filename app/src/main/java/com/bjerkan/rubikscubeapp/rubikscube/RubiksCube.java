@@ -5,6 +5,9 @@ import com.google.common.collect.Lists;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * A class representing a Rubik's Cube.
+ */
 public class RubiksCube {
 
     public RubiksCube(
