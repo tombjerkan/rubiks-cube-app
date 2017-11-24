@@ -25,6 +25,7 @@ class Line {
 
     /**
      * Returns the ρ value for the line's polar equation
+     *
      * @return the ρ value for the line's polar equation
      */
     double rho() {
@@ -33,6 +34,7 @@ class Line {
 
     /**
      * Returns the θ value for the line's polar equation
+     *
      * @return the θ value for the line's polar equation
      */
     double theta() {
