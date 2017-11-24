@@ -144,6 +144,11 @@ class Cube {
         bottomSquare.setColour(colour);
     }
 
+    /**
+     * Sets the time taken for a single animation.
+     *
+     * @param animationTime the number of milliseconds per animation
+     */
     void setAnimationTime(int animationTime) {
         this.animationTime = animationTime;
     }
