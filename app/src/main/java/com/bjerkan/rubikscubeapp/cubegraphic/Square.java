@@ -8,7 +8,18 @@ import java.nio.FloatBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * A class for a graphical square.
+ */
 class Square {
+    /**
+     * Creates a square with the given vertices.
+     *
+     * @param topLeftVertex the position of the top-left vertex
+     * @param topRightVertex the position of the top-right vertex
+     * @param bottomRightVertex the position of the bottom-right vertex
+     * @param bottomLeftVertex the position of the bottom-left vertex
+     */
     Square(Vertex topLeftVertex, Vertex topRightVertex,
            Vertex bottomRightVertex, Vertex bottomLeftVertex) {
         float[] vertexArray = {
@@ -38,6 +49,11 @@ class Square {
         colour[2] = 0f;
     }
 
+    /**
+     * Renders the square to the given OpenGL context.
+     *
+     * @param gl the OpenGL context to render to
+     */
     void draw(GL10 gl) {
         gl.glFrontFace(GL10.GL_CW);
 
@@ -52,6 +68,11 @@ class Square {
         gl.glDisableClientState(GL10.GL_VERTEX_ARRAY);
     }
 
+    /**
+     * Sets the colour of the square.
+     *
+     * @param colour a Rubik's Cube colour to use for the square
+     */
     void setColour(Colour colour) {
         this.colour[0] = (float) colour.rgb.val[0] / 255f;
         this.colour[1] = (float) colour.rgb.val[1] / 255f;
