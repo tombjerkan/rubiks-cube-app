@@ -23,10 +23,18 @@ class Line {
         }
     }
 
+    /**
+     * Returns the ρ value for the line's polar equation
+     * @return the ρ value for the line's polar equation
+     */
     double rho() {
         return rho;
     }
 
+    /**
+     * Returns the θ value for the line's polar equation
+     * @return the θ value for the line's polar equation
+     */
     double theta() {
         return theta;
     }
