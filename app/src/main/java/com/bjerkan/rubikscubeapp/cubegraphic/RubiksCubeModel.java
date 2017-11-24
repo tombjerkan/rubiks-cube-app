@@ -56,6 +56,11 @@ class RubiksCubeModel {
         }
     }
 
+    /**
+     * Draws the Rubik's Cube graphic to the OpenGL context.
+     *
+     * @param gl the OpenGL context to draw to
+     */
     void draw(GL10 gl) {
         long timeElapsed = SystemClock.uptimeMillis() - startTime;
 
