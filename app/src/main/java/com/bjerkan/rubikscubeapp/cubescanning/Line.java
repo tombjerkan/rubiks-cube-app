@@ -2,6 +2,9 @@ package com.bjerkan.rubikscubeapp.cubescanning;
 
 import org.opencv.core.Point;
 
+/**
+ * A polar representation of a line: ρ = x.cosθ + y.sinθ
+ */
 class Line {
     Line(double rho, double theta) {
         // Ensure similar lines have numerically close values
