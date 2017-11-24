@@ -19,6 +19,10 @@ import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
 
+/**
+ * A fragment for capturing an image using the phone's camera. A captured image is given to the
+ * parent activity through the OnImageCapturedListener, which must be implemented by the parent.
+ */
 public class CaptureImageFragment extends Fragment implements CvCameraViewListener2 {
 
     @Override
