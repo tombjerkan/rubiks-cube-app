@@ -85,6 +85,13 @@ class Line {
                 Math.abs(theta - otherLine.theta) < SIMILARITY_THETA_THRESHOLD;
     }
 
+    /**
+     * Returns the point whether this line intersects with the given line. If the lines are parallel
+     * and do not intersect, null is returned.
+     *
+     * @param otherLine the line to find the intersection with
+     * @return the point of intersection, or null if the lines do not intersect
+     */
     Point intersection(Line otherLine) {
         double cosTheta = Math.cos(theta);
         double sinTheta = Math.sin(theta);
