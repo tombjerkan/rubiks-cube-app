@@ -107,6 +107,7 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
     /**
      * Sets the text to display as the title of the image capturing screen. This is intended to be
      * the name of the side of the cube beings scanned.
+     *
      * @param title the text to display as the title
      */
     public void setTitle(String title) {
