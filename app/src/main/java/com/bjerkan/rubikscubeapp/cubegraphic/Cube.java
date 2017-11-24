@@ -68,11 +68,21 @@ class Cube {
         gl.glPopMatrix();
     }
 
+    /**
+     * Starts animating the cube by rotating it in the given direction around the given axis. Should
+     * not start an animation if an animation is already being performed.
+     *
+     * @param axis the axis to rotate the cube around
+     * @param direction the direction around the axis to rotate the cube
+     */
     void startAnimation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction) {
         animating = true;
         currentAnimation = new Animation(axis, direction);
     }
 
+    /**
+     * Finish the animation currently being performed.
+     */
     void finishAnimation() {
         if (animating) {
             animating = false;
