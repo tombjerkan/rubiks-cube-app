@@ -9,6 +9,9 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * A class representing the graphical model of a Rubik's Cube.
+ */
 class RubiksCubeModel {
 
     RubiksCubeModel(
