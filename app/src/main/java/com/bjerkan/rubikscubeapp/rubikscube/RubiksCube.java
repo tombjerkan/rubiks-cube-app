@@ -296,6 +296,11 @@ public class RubiksCube {
         return bottom;
     }
 
+    /**
+     * Returns a list of actions applied to this cube in order.
+     *
+     * @return the list of actions
+     */
     List<Action> history() {
         return history;
     }
