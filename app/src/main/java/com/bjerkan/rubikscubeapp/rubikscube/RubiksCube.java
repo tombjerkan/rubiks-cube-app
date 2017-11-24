@@ -242,26 +242,56 @@ public class RubiksCube {
         right = right.replaceBottomRow(previousFront.bottomRow());
     }
 
+    /**
+     * Returns the front face of the cube.
+     *
+     * @return the front face
+     */
     RubiksCubeFace frontFace() {
         return front;
     }
 
+    /**
+     * Returns the left face of the cube.
+     *
+     * @return the left face
+     */
     RubiksCubeFace leftFace() {
         return left;
     }
 
+    /**
+     * Returns the back face of the cube.
+     *
+     * @return the back face
+     */
     RubiksCubeFace backFace() {
         return back;
     }
 
+    /**
+     * Returns the right face of the cube.
+     *
+     * @return the right face
+     */
     RubiksCubeFace rightFace() {
         return right;
     }
 
+    /**
+     * Returns the top face of the cube.
+     *
+     * @return the top face
+     */
     RubiksCubeFace topFace() {
         return top;
     }
 
+    /**
+     * Returns the bottom face of the cube.
+     *
+     * @return the bottom face
+     */
     RubiksCubeFace bottomFace() {
         return bottom;
     }
