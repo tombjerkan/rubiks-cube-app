@@ -19,6 +19,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Scans an image of a cube face to find the colours of the individual squares.
+ */
 public class CubeScanner {
     public CubeScanner(Mat cubeImage) {
         originalImage = cubeImage;
