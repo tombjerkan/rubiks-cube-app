@@ -23,6 +23,11 @@ import java.util.stream.Stream;
  * Scans an image of a cube face to find the colours of the individual squares.
  */
 public class CubeScanner {
+    /**
+     * Creates an object representing a scan of the cube face image given.
+     *
+     * @param cubeImage an image of the cube face to be scanned
+     */
     public CubeScanner(Mat cubeImage) {
         originalImage = cubeImage;
 
