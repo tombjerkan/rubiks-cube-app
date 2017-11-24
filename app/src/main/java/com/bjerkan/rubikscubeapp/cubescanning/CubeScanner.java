@@ -48,6 +48,13 @@ public class CubeScanner {
         successful = true;
     }
 
+    /**
+     * Returns whether the scan was able to successfully find a colour for each of the squares. Note
+     * that a successful scan does not mean that the colours are correct, only that colours were
+     * able to be found. These colours can still be incorrectly identified.
+     *
+     * @return true if the scan was successful and the results can be used, false otherwise
+     */
     boolean wasSuccessful() {
         return successful;
     }
