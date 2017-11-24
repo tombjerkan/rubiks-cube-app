@@ -91,6 +91,13 @@ public class CubeScanner {
         return coloursImage;
     }
 
+    /**
+     * Returns the colours found for the cube face. Assumes the scan was successful and will return
+     * null if not. The list is in the order top-left, top-middle, top-right, middle-left, middle,
+     * middle-right, bottom-left, bottom-middle, bottom-right.
+     *
+     * @return A list of colours for the squares of the cube face scanned
+     */
     List<Colour> squareColours() {
         return squareColours;
     }
