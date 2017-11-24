@@ -50,10 +50,16 @@ public class DisplayResultFragment extends Fragment {
         updateImage();
     }
 
+    /**
+     * Interface to be implemented by parent activity so it can listen for when to show next step.
+     */
     public interface NextStepRequestListener {
+        /**
+         * Called to inform the listener that the next step should be shown.
+         */
         void nextStep();
     }
-
+    
     public void setResultImage(Bitmap resultImage) {
         this.resultImage = resultImage;
         updateImage();
