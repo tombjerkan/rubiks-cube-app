@@ -305,6 +305,14 @@ class RubiksCubeFace {
         return bottomRight;
     }
 
+    /**
+     * Returns whether this face and the object given are equivalent faces. Two RubiksCubeFaces are
+     * equivalent if their square colours are the same.
+     *
+     * @param other an object to compare for equality
+     * @return true if the other object is a RubiksCubeFace with the same square colours, false
+     * otherwise
+     */
     @Override
     public boolean equals(Object other) {
         if (other == null) {
