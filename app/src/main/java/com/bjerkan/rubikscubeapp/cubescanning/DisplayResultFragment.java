@@ -59,7 +59,12 @@ public class DisplayResultFragment extends Fragment {
          */
         void nextStep();
     }
-    
+
+    /**
+     * Sets the image that should be shown by the fragment.
+     *
+     * @param resultImage the result image to show
+     */
     public void setResultImage(Bitmap resultImage) {
         this.resultImage = resultImage;
         updateImage();
