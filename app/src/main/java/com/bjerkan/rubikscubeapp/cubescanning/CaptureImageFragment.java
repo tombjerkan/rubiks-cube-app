@@ -114,7 +114,15 @@ public class CaptureImageFragment extends Fragment implements CvCameraViewListen
         updateTitleText();
     }
 
+    /**
+     * Interface to be implemented by parent activity so it can listen for an image capture event.
+     */
     public interface OnImageCapturedListener {
+        /**
+         * Called to inform the listener that an image has been captured by this fragment.
+         *
+         * @param image the image that was captured
+         */
         void onImageCaptured(Mat image);
     }
 
