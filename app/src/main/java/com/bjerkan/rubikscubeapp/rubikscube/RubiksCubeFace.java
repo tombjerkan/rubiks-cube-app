@@ -188,18 +188,38 @@ class RubiksCubeFace {
         return replaceRightColumn(colours.get(0), colours.get(1), colours.get(2));
     }
 
+    /**
+     * Returns the colours of the top row of this face.
+     *
+     * @return a list of colours in the order top-left, top-middle, top-right
+     */
     List<Colour> topRow() {
         return Arrays.asList(topLeft, topMiddle, topRight);
     }
 
+    /**
+     * Returns the colours of the bottom row of this face.
+     *
+     * @return a list of colours in the order bottom-left, bottom-middle, bottom-right
+     */
     List<Colour> bottomRow() {
         return Arrays.asList(bottomLeft, bottomMiddle, bottomRight);
     }
 
+    /**
+     * Returns the colours of the left column of this face.
+     *
+     * @return a list of colours in the order top-left, middle-left, bottom-left
+     */
     List<Colour> leftColumn() {
         return Arrays.asList(topLeft, middleLeft, bottomLeft);
     }
 
+    /**
+     * Returns the colours of the right column of this face.
+     *
+     * @return a list of colours in the order top-right, middle-right, bottom-right
+     */
     List<Colour> rightColumn() {
         return Arrays.asList(topRight, middleRight, bottomRight);
     }
