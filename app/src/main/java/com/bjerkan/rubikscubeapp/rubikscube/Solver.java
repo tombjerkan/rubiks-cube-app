@@ -8,6 +8,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * A class for solving a given Rubik's Cube.
+ *
+ * The package-private methods solveBottomEdges, solveBottomCorners, solveSecondRow,
+ * solveTopEdges and solveTopCorners are only package-private so that they can be accessed from
+ * tests. This allows the tests to test each step individually to diagnose where an error occurs.
+ * They should not be used directly outside of the tests.
+ */
 public class Solver {
     public static List<RubiksCube.Action> solve(RubiksCube cube) {
         solveBottomEdges(cube);
