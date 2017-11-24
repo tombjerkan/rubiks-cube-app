@@ -37,12 +37,22 @@ public class RubiksCube {
         bottom = new RubiksCubeFace(bottomColours);
     }
 
+    /**
+     * Rotates the cube clockwise to change which face is facing forwards.
+     *
+     * @return this cube after the rotation has been applied
+     */
     RubiksCube rotate() {
         rotateAction();
         history.add(Action.ROTATE);
         return this;
     }
 
+    /**
+     * Rotates the cube anti-clockwise to change which face is facing forwards.
+     *
+     * @return this cube after the rotation has been applied
+     */
     RubiksCube rotateInv() {
         rotateAction();
         rotateAction();
@@ -62,12 +72,22 @@ public class RubiksCube {
         bottom = bottom.rotatedInv();
     }
 
+    /**
+     * Turns the front face of the cube clockwise.
+     *
+     * @return this cube after the front face has been turned
+     */
     RubiksCube front() {
         frontAction();
         history.add(Action.FRONT);
         return this;
     }
 
+    /**
+     * Turns the front face of the cube anti-clockwise.
+     *
+     * @return this cube after the front face has been turned
+     */
     RubiksCube frontInv() {
         frontAction();
         frontAction();
@@ -86,12 +106,22 @@ public class RubiksCube {
         top = top.replaceBottomRow(Lists.reverse(previousLeft.rightColumn()));
     }
 
+    /**
+     * Turns the left face of the cube clockwise.
+     *
+     * @return this cube after the left face has been turned
+     */
     RubiksCube left() {
         leftAction();
         history.add(Action.LEFT);
         return this;
     }
 
+    /**
+     * Turns the left face of the cube anti-clockwise.
+     *
+     * @return this cube after the left face has been turned
+     */
     RubiksCube leftInv() {
         leftAction();
         leftAction();
@@ -110,12 +140,22 @@ public class RubiksCube {
         bottom = bottom.replaceLeftColumn(previousFront.leftColumn());
     }
 
+    /**
+     * Turns the right face of the cube clockwise.
+     *
+     * @return this cube after the right face has been turned
+     */
     RubiksCube right() {
         rightAction();
         history.add(Action.RIGHT);
         return this;
     }
 
+    /**
+     * Turns the right face of the cube anti-clockwise.
+     *
+     * @return this cube after the right face has been turned
+     */
     RubiksCube rightInv() {
         rightAction();
         rightAction();
@@ -134,12 +174,22 @@ public class RubiksCube {
         top = top.replaceRightColumn(previousFront.rightColumn());
     }
 
+    /**
+     * Turns the top face of this cube clockwise.
+     *
+     * @return this face after the top face has been turned
+     */
     RubiksCube top() {
         topAction();
         history.add(Action.TOP);
         return this;
     }
 
+    /**
+     * Turns the top face of this cube anti-clockwise.
+     *
+     * @return this face after the top face has been turned
+     */
     RubiksCube topInv() {
         topAction();
         topAction();
@@ -158,12 +208,22 @@ public class RubiksCube {
         left = left.replaceTopRow(previousFront.topRow());
     }
 
+    /**
+     * Turns the bottom face of this cube clockwise.
+     *
+     * @return this face after the bottom face has been turned
+     */
     RubiksCube bottom() {
         bottomAction();
         history.add(Action.BOTTOM);
         return this;
     }
 
+    /**
+     * Turns the bottom face of this cube anti-clockwise
+     *
+     * @return this face after the bottom face has been turned
+     */
     RubiksCube bottomInv() {
         bottomAction();
         bottomAction();
