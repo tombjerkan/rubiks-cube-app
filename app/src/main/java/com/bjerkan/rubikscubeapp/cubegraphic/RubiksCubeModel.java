@@ -296,10 +296,16 @@ class RubiksCubeModel {
         void animationFinished();
     }
 
+    /**
+     * An enum representing the different axes to rotate around during animations.
+     */
     public enum Axis {
         X, Y, Z
     }
 
+    /**
+     * An enum representing the directions to rotate around the axes during animations.
+     */
     public enum Direction {
         CLOCKWISE,
         ANTICLOCKWISE
