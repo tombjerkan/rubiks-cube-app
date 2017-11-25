@@ -277,11 +277,22 @@ class RubiksCubeModel {
         subCubes[2][1][1] = temp;
     }
 
+    /**
+     * Sets a listener to be informed when an animation is finished.
+     *
+     * @param animationListener the object to set as listener
+     */
     public void setAnimationFinishedListener(AnimationFinishedListener animationListener) {
         this.animationListener = animationListener;
     }
 
+    /**
+     * Interface to be implemented by objects that want to listen for when an animation is finished.
+     */
     public interface AnimationFinishedListener {
+        /**
+         * Called by RubiksCubeModel when an animation is finished.
+         */
         void animationFinished();
     }
 
