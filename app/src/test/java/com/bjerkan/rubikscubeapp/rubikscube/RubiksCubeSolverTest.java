@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import static com.bjerkan.javautils.Iterate.nTimes;
 import static org.junit.Assert.*;
 
 public class RubiksCubeSolverTest {
@@ -157,9 +158,7 @@ public class RubiksCubeSolverTest {
 
     private List<RubiksCube> randomCubeSet() {
         List<RubiksCube> randomCubes = new ArrayList<>(100);
-        for (int repeat = 0; repeat < 100; repeat++) {
-            randomCubes.add(randomCube());
-        }
+        nTimes(100, () -> randomCubes.add(randomCube()));
         return randomCubes;
     }
 
