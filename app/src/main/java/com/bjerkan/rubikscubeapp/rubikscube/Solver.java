@@ -1,12 +1,14 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static com.bjerkan.javautils.Iterate.nTimes;
+import static com.bjerkan.javautils.Arrays.allEqual;
 
 /**
  * A class for solving a given Rubik's Cube.
@@ -66,21 +68,19 @@ public class Solver {
             }
         }
 
-        for (int face = 0; face < 4; face++) {
+        nTimes(4, () -> {
             while (!frontTopEdgeAbovePosition(cube)) {
                 cube.top();
             }
 
             cube.front().front().rotate();
-        }
+        });
     }
 
     private static boolean bottomEdgesOnTop(RubiksCube cube) {
-        return allAreColour(
-                cube.bottomFace().middle(),
-                Arrays.asList(
-                        cube.topFace().topMiddle(), cube.topFace().middleLeft(),
-                        cube.topFace().middleRight(), cube.topFace().bottomMiddle()));
+        return allEqual(
+                cube.bottomFace().middle(), cube.topFace().topMiddle(), cube.topFace().middleLeft(),
+                cube.topFace().middleRight(), cube.topFace().bottomMiddle());
     }
 
     private static boolean frontTopEdgeAbovePosition(RubiksCube cube) {
@@ -98,11 +98,10 @@ public class Solver {
 
     private static boolean bottomFaceComplete(RubiksCube cube) {
         RubiksCubeFace face = cube.bottomFace();
-        boolean bottomFaceComplete = allAreColour(cube.bottomFace().middle(),
-                Arrays.asList(
-                        face.topLeft(), face.topMiddle(), face.topRight(), face.middleLeft(),
-                        face.middleRight(), face.bottomLeft(), face.bottomMiddle(),
-                        face.bottomRight()));
+        boolean bottomFaceComplete = allEqual(
+                cube.bottomFace().middle(), face.topLeft(), face.topMiddle(), face.topRight(),
+                face.middleLeft(), face.middleRight(), face.bottomLeft(), face.bottomMiddle(),
+                face.bottomRight());
 
         boolean frontCorrect = bottomRowCorrect(cube.frontFace());
         boolean leftCorrect = bottomRowCorrect(cube.leftFace());
@@ -113,8 +112,7 @@ public class Solver {
     }
 
     private static boolean bottomRowCorrect(RubiksCubeFace face) {
-        return allAreColour(face.middle(),
-                Arrays.asList(face.bottomLeft(), face.bottomMiddle(), face.bottomRight()));
+        return allEqual(face.middle(), face.bottomLeft(), face.bottomMiddle(), face.bottomRight());
     }
 
     // Moves the bottom, left, front corner to the top row if it is a bottom corner in the wrong
@@ -152,9 +150,7 @@ public class Solver {
             } else if (cube.leftFace().topRight() == cube.bottomFace().middle()) {
                 cube.top().front().topInv().frontInv();
             } else if (cube.topFace().bottomLeft() == cube.bottomFace().middle()) {
-                for (int repeat = 0; repeat < 3; repeat++) {
-                    cube.top().front().topInv().frontInv();
-                }
+                nTimes(3, () -> cube.top().front().topInv().frontInv());
             }
         }
     }
@@ -176,7 +172,7 @@ public class Solver {
     }
 
     static void solveSecondRow(RubiksCube cube) {
-        for (int face = 0; face < 4; face++) {
+        nTimes(4, () -> {
             if (secondRowBelongsOnRow(cube)) {
                 while (topEdgeBelongsInSecondRow(cube)) {
                     cube.top();
@@ -185,9 +181,9 @@ public class Solver {
             }
 
             cube.rotate();
-        }
+        });
 
-        for (int face = 0; face < 4; face++) {
+        nTimes(4, () -> {
             while (!topEdgeInPosition(cube)) {
                 cube.top();
             }
@@ -199,7 +195,7 @@ public class Solver {
             }
 
             cube.rotate();
-        }
+        });
     }
 
     // Returns true if the left, front edge belongs somewhere on the second row (rather than the top
@@ -259,19 +255,19 @@ public class Solver {
     }
 
     private static boolean hasTopCross(RubiksCube cube) {
-        return allAreColour(cube.topFace().middle(), Arrays.asList(
-                cube.topFace().topMiddle(), cube.topFace().middleLeft(),
-                cube.topFace().middleRight(), cube.topFace().bottomMiddle()));
+        return allEqual(
+                cube.topFace().middle(), cube.topFace().topMiddle(), cube.topFace().middleLeft(),
+                cube.topFace().middleRight(), cube.topFace().bottomMiddle());
     }
 
     private static boolean hasTopReverseL(RubiksCube cube) {
-        return allAreColour(cube.topFace().middle(), Arrays.asList(
-                cube.topFace().topMiddle(), cube.topFace().middleLeft()));
+        return allEqual(
+                cube.topFace().middle(), cube.topFace().topMiddle(), cube.topFace().middleLeft());
     }
 
     private static boolean hasTopLine(RubiksCube cube) {
-        return allAreColour(cube.topFace().middle(), Arrays.asList(
-                cube.topFace().middleLeft(), cube.topFace().middleRight()));
+        return allEqual(
+                cube.topFace().middle(), cube.topFace().middleLeft(), cube.topFace().middleRight());
     }
 
 
@@ -410,9 +406,9 @@ public class Solver {
     }
 
     private static boolean topCornersComplete(RubiksCube cube) {
-        return allAreColour(cube.topFace().middle(), Arrays.asList(
-                cube.topFace().topLeft(), cube.topFace().topRight(), cube.topFace().bottomLeft(),
-                cube.topFace().bottomRight()));
+        return allEqual(
+                cube.topFace().middle(), cube.topFace().topLeft(), cube.topFace().topRight(),
+                cube.topFace().bottomLeft(), cube.topFace().bottomRight());
     }
 
     private static void correctRows(RubiksCube cube) {
@@ -423,9 +419,5 @@ public class Solver {
         while (cube.frontFace().bottomMiddle() != cube.frontFace().middle()) {
             cube.bottom();
         }
-    }
-
-    private static boolean allAreColour(Colour matchColour, List<Colour> colours) {
-        return colours.stream().allMatch(colour -> colour == matchColour);
     }
 }
