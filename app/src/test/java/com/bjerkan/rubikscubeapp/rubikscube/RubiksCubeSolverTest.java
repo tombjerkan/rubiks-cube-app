@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 import static com.bjerkan.javautils.Iterate.nTimes;
-import static com.bjerkan.javautils.Lists.allEqual;
+import static com.bjerkan.javautils.Arrays.allEqual;
 import static org.junit.Assert.*;
 
 public class RubiksCubeSolverTest {
@@ -32,10 +32,10 @@ public class RubiksCubeSolverTest {
         randomCubeSet().forEach(cube -> {
             Solver.solveBottomEdges(cube);
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.bottomFace().middle(), cube.bottomFace().topMiddle(),
                     cube.bottomFace().middleLeft(), cube.bottomFace().middleRight(),
-                    cube.bottomFace().bottomMiddle())));
+                    cube.bottomFace().bottomMiddle()));
 
             assertTrue(cube.frontFace().bottomMiddle() == cube.frontFace().middle());
             assertTrue(cube.leftFace().bottomMiddle() == cube.leftFace().middle());
@@ -50,26 +50,26 @@ public class RubiksCubeSolverTest {
             Solver.solveBottomEdges(cube);
             Solver.solveBottomCorners(cube);
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.bottomFace().middle(), cube.bottomFace().topMiddle(),
                     cube.bottomFace().middleLeft(), cube.bottomFace().middleRight(),
-                    cube.bottomFace().bottomMiddle())));
+                    cube.bottomFace().bottomMiddle()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.frontFace().middle(), cube.frontFace().bottomMiddle(),
-                    cube.frontFace().bottomLeft(), cube.frontFace().bottomRight())));
+                    cube.frontFace().bottomLeft(), cube.frontFace().bottomRight()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.leftFace().middle(), cube.leftFace().bottomMiddle(),
-                    cube.leftFace().bottomLeft(), cube.leftFace().bottomRight())));
+                    cube.leftFace().bottomLeft(), cube.leftFace().bottomRight()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.backFace().middle(), cube.backFace().bottomMiddle(),
-                    cube.backFace().bottomLeft(), cube.backFace().bottomRight())));
+                    cube.backFace().bottomLeft(), cube.backFace().bottomRight()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.rightFace().middle(), cube.rightFace().bottomMiddle(),
-                    cube.rightFace().bottomLeft(), cube.rightFace().bottomRight())));
+                    cube.rightFace().bottomLeft(), cube.rightFace().bottomRight()));
         });
     }
 
@@ -80,30 +80,30 @@ public class RubiksCubeSolverTest {
             Solver.solveBottomCorners(cube);
             Solver.solveSecondRow(cube);
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.bottomFace().middle(), cube.bottomFace().topMiddle(),
                     cube.bottomFace().middleLeft(), cube.bottomFace().middleRight(),
-                    cube.bottomFace().bottomMiddle())));
+                    cube.bottomFace().bottomMiddle()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.frontFace().middle(), cube.frontFace().middleLeft(),
                     cube.frontFace().middleRight(), cube.frontFace().bottomMiddle(),
-                    cube.frontFace().bottomLeft(), cube.frontFace().bottomRight())));
+                    cube.frontFace().bottomLeft(), cube.frontFace().bottomRight()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.leftFace().middle(), cube.leftFace().middleLeft(),
                     cube.leftFace().middleRight(), cube.leftFace().bottomMiddle(),
-                    cube.leftFace().bottomLeft(), cube.leftFace().bottomRight())));
+                    cube.leftFace().bottomLeft(), cube.leftFace().bottomRight()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.backFace().middle(), cube.backFace().middleLeft(),
                     cube.backFace().middleRight(), cube.backFace().bottomMiddle(),
-                    cube.backFace().bottomLeft(), cube.backFace().bottomRight())));
+                    cube.backFace().bottomLeft(), cube.backFace().bottomRight()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.rightFace().middle(), cube.rightFace().middleLeft(),
                     cube.rightFace().middleRight(), cube.rightFace().bottomMiddle(),
-                    cube.rightFace().bottomLeft(), cube.rightFace().bottomRight())));
+                    cube.rightFace().bottomLeft(), cube.rightFace().bottomRight()));
         });
     }
 
@@ -115,42 +115,42 @@ public class RubiksCubeSolverTest {
             Solver.solveSecondRow(cube);
             Solver.solveTopEdges(cube);
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.bottomFace().middle(), cube.bottomFace().topMiddle(),
                     cube.bottomFace().middleLeft(), cube.bottomFace().middleRight(),
-                    cube.bottomFace().bottomMiddle())));
+                    cube.bottomFace().bottomMiddle()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.frontFace().middle(), cube.frontFace().middleLeft(),
                     cube.frontFace().middleRight(), cube.frontFace().bottomMiddle(),
                     cube.frontFace().bottomLeft(), cube.frontFace().bottomRight(),
-                    cube.frontFace().topMiddle())));
+                    cube.frontFace().topMiddle()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.leftFace().middle(), cube.leftFace().middleLeft(),
                     cube.leftFace().middleRight(), cube.leftFace().bottomMiddle(),
                     cube.leftFace().bottomLeft(), cube.leftFace().bottomRight(),
-                    cube.leftFace().topMiddle())));
+                    cube.leftFace().topMiddle()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.backFace().middle(), cube.backFace().middleLeft(),
                     cube.backFace().middleRight(), cube.backFace().bottomMiddle(),
                     cube.backFace().bottomLeft(), cube.backFace().bottomRight(),
-                    cube.backFace().topMiddle())));
+                    cube.backFace().topMiddle()));
 
-            assertTrue(allEqual(Arrays.asList(
+            assertTrue(allEqual(
                     cube.rightFace().middle(), cube.rightFace().middleLeft(),
                     cube.rightFace().middleRight(), cube.rightFace().bottomMiddle(),
                     cube.rightFace().bottomLeft(), cube.rightFace().bottomRight(),
-                    cube.rightFace().topMiddle())));
+                    cube.rightFace().topMiddle()));
         });
     }
 
     private boolean faceSolved(RubiksCubeFace face) {
-        return allEqual(Arrays.asList(
+        return allEqual(
                 face.topLeft(), face.topMiddle(), face.topRight(),
                 face.middleLeft(), face.middle(), face.middleRight(),
-                face.bottomLeft(), face.bottomMiddle(), face.bottomRight()));
+                face.bottomLeft(), face.bottomMiddle(), face.bottomRight());
     }
 
     private List<RubiksCube> randomCubeSet() {
