@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.bjerkan.javautils.Iterate.nTimes;
+
 /**
  * A class for solving a given Rubik's Cube.
  *
@@ -66,13 +68,13 @@ public class Solver {
             }
         }
 
-        for (int face = 0; face < 4; face++) {
+        nTimes(4, () -> {
             while (!frontTopEdgeAbovePosition(cube)) {
                 cube.top();
             }
 
             cube.front().front().rotate();
-        }
+        });
     }
 
     private static boolean bottomEdgesOnTop(RubiksCube cube) {
@@ -152,9 +154,7 @@ public class Solver {
             } else if (cube.leftFace().topRight() == cube.bottomFace().middle()) {
                 cube.top().front().topInv().frontInv();
             } else if (cube.topFace().bottomLeft() == cube.bottomFace().middle()) {
-                for (int repeat = 0; repeat < 3; repeat++) {
-                    cube.top().front().topInv().frontInv();
-                }
+                nTimes(3, () -> cube.top().front().topInv().frontInv());
             }
         }
     }
@@ -176,7 +176,7 @@ public class Solver {
     }
 
     static void solveSecondRow(RubiksCube cube) {
-        for (int face = 0; face < 4; face++) {
+        nTimes(4, () -> {
             if (secondRowBelongsOnRow(cube)) {
                 while (topEdgeBelongsInSecondRow(cube)) {
                     cube.top();
@@ -185,9 +185,9 @@ public class Solver {
             }
 
             cube.rotate();
-        }
+        });
 
-        for (int face = 0; face < 4; face++) {
+        nTimes(4, () -> {
             while (!topEdgeInPosition(cube)) {
                 cube.top();
             }
@@ -199,7 +199,7 @@ public class Solver {
             }
 
             cube.rotate();
-        }
+        });
     }
 
     // Returns true if the left, front edge belongs somewhere on the second row (rather than the top
