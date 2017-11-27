@@ -5,7 +5,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import static com.bjerkan.javautils.Iterate.nTimes;
@@ -176,33 +178,15 @@ public class RubiksCubeSolverTest {
     }
 
     private void shuffleCube(RubiksCube cube) {
+        List<Runnable> cubeActions = Arrays.asList(
+                cube::rotate, cube::rotateInv,
+                cube::front, cube::frontInv,
+                cube::left, cube::leftInv,
+                cube::right, cube::rightInv,
+                cube::top, cube::topInv,
+                cube::bottom, cube::bottomInv);
+
         new Random().ints(100, 0, 12)
-            .forEach(randomActionIndex -> {
-                if (randomActionIndex == 0) {
-                    cube.rotate();
-                } else if (randomActionIndex == 1) {
-                    cube.rotateInv();
-                } else if (randomActionIndex == 2) {
-                    cube.front();
-                } else if (randomActionIndex == 3) {
-                    cube.frontInv();
-                } else if (randomActionIndex == 4) {
-                    cube.left();
-                } else if (randomActionIndex == 5) {
-                    cube.leftInv();
-                } else if (randomActionIndex == 6) {
-                    cube.right();
-                } else if (randomActionIndex == 7) {
-                    cube.rightInv();
-                } else if (randomActionIndex == 8) {
-                    cube.top();
-                } else if (randomActionIndex == 9) {
-                    cube.topInv();
-                } else if (randomActionIndex == 10) {
-                    cube.bottom();
-                } else if (randomActionIndex == 11) {
-                    cube.bottomInv();
-                }
-            });
+            .forEach(randomActionIndex -> cubeActions.get(randomActionIndex).run());
     }
 }
