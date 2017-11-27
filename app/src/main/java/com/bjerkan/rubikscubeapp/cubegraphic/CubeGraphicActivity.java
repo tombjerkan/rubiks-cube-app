@@ -8,7 +8,11 @@ import com.bjerkan.rubikscubeapp.rubikscube.Colour;
 import com.bjerkan.rubikscubeapp.rubikscube.RubiksCube;
 import com.bjerkan.rubikscubeapp.rubikscube.Solver;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 import java.util.stream.Collectors;
 
 import static com.bjerkan.rubikscubeapp.cubegraphic.RubiksCubeModel.AnimationFinishedListener;
@@ -45,8 +49,8 @@ public class CubeGraphicActivity extends Activity implements AnimationFinishedLi
         RubiksCube cube = new RubiksCube(frontColours, leftColours, backColours, rightColours,
                 topColours, bottomColours);
 
-        solvingActions = Solver.solve(cube);
-        nextActionIndex = 0;
+        List<RubiksCube.Action> solvingActions = Solver.solve(cube);
+        prepareCubeModelActions(solvingActions);
         // Make animations begin as logic to start new animation is in method for animation ending
         animationFinished();
 
@@ -65,50 +69,8 @@ public class CubeGraphicActivity extends Activity implements AnimationFinishedLi
      */
     @Override
     public void animationFinished() {
-        if (nextActionIndex >= solvingActions.size()) {
-            return;
-        }
-
-        RubiksCube.Action nextAction = solvingActions.get(nextActionIndex);
-        nextActionIndex++;
-
-        switch (nextAction) {
-            case FRONT:
-                rubiksCubeModel.front();
-                break;
-            case FRONT_INV:
-                rubiksCubeModel.frontInv();
-                break;
-            case LEFT:
-                rubiksCubeModel.left();
-                break;
-            case LEFT_INV:
-                rubiksCubeModel.leftInv();
-                break;
-            case RIGHT:
-                rubiksCubeModel.right();
-                break;
-            case RIGHT_INV:
-                rubiksCubeModel.rightInv();
-                break;
-            case TOP:
-                rubiksCubeModel.top();
-                break;
-            case TOP_INV:
-                rubiksCubeModel.topInv();
-                break;
-            case BOTTOM:
-                rubiksCubeModel.bottom();
-                break;
-            case BOTTOM_INV:
-                rubiksCubeModel.bottomInv();
-                break;
-            case ROTATE:
-                rubiksCubeModel.rotate();
-                break;
-            case ROTATE_INV:
-                rubiksCubeModel.rotateInv();
-                break;
+        if (!modelSolvingActions.isEmpty()) {
+            modelSolvingActions.remove().run();
         }
     }
 
@@ -148,8 +110,25 @@ public class CubeGraphicActivity extends Activity implements AnimationFinishedLi
      */
     public static final String BOTTOM_COLOURS_ARGUMENT = "com.bjerkan.BOTTOM_COLOURS_ARGUMENT";
 
+    private void prepareCubeModelActions(List<RubiksCube.Action> cubeActions) {
+        Map<RubiksCube.Action, Runnable> actionToModelMethod = new HashMap<>();
+        actionToModelMethod.put(RubiksCube.Action.FRONT, rubiksCubeModel::front);
+        actionToModelMethod.put(RubiksCube.Action.FRONT_INV, rubiksCubeModel::frontInv);
+        actionToModelMethod.put(RubiksCube.Action.LEFT, rubiksCubeModel::left);
+        actionToModelMethod.put(RubiksCube.Action.LEFT_INV, rubiksCubeModel::leftInv);
+        actionToModelMethod.put(RubiksCube.Action.RIGHT, rubiksCubeModel::right);
+        actionToModelMethod.put(RubiksCube.Action.RIGHT_INV, rubiksCubeModel::rightInv);
+        actionToModelMethod.put(RubiksCube.Action.TOP, rubiksCubeModel::top);
+        actionToModelMethod.put(RubiksCube.Action.TOP_INV, rubiksCubeModel::topInv);
+        actionToModelMethod.put(RubiksCube.Action.BOTTOM, rubiksCubeModel::bottom);
+        actionToModelMethod.put(RubiksCube.Action.BOTTOM_INV, rubiksCubeModel::bottomInv);
+        actionToModelMethod.put(RubiksCube.Action.ROTATE, rubiksCubeModel::rotate);
+        actionToModelMethod.put(RubiksCube.Action.ROTATE_INV, rubiksCubeModel::rotateInv);
+
+        cubeActions.forEach(action -> modelSolvingActions.add(actionToModelMethod.get(action)));
+    }
+
     private RubiksCubeModel rubiksCubeModel;
 
-    private List<RubiksCube.Action> solvingActions;
-    private int nextActionIndex;
+    private Queue<Runnable> modelSolvingActions = new LinkedList<>();
 }
