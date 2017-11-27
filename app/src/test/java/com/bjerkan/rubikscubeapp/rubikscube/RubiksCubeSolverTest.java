@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 import static com.bjerkan.javautils.Iterate.nTimes;
+import static com.bjerkan.javautils.Lists.allEqual;
 import static org.junit.Assert.*;
 
 public class RubiksCubeSolverTest {
@@ -31,7 +32,7 @@ public class RubiksCubeSolverTest {
         randomCubeSet().forEach(cube -> {
             Solver.solveBottomEdges(cube);
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.bottomFace().middle(), cube.bottomFace().topMiddle(),
                     cube.bottomFace().middleLeft(), cube.bottomFace().middleRight(),
                     cube.bottomFace().bottomMiddle())));
@@ -49,24 +50,24 @@ public class RubiksCubeSolverTest {
             Solver.solveBottomEdges(cube);
             Solver.solveBottomCorners(cube);
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.bottomFace().middle(), cube.bottomFace().topMiddle(),
                     cube.bottomFace().middleLeft(), cube.bottomFace().middleRight(),
                     cube.bottomFace().bottomMiddle())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.frontFace().middle(), cube.frontFace().bottomMiddle(),
                     cube.frontFace().bottomLeft(), cube.frontFace().bottomRight())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.leftFace().middle(), cube.leftFace().bottomMiddle(),
                     cube.leftFace().bottomLeft(), cube.leftFace().bottomRight())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.backFace().middle(), cube.backFace().bottomMiddle(),
                     cube.backFace().bottomLeft(), cube.backFace().bottomRight())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.rightFace().middle(), cube.rightFace().bottomMiddle(),
                     cube.rightFace().bottomLeft(), cube.rightFace().bottomRight())));
         });
@@ -79,27 +80,27 @@ public class RubiksCubeSolverTest {
             Solver.solveBottomCorners(cube);
             Solver.solveSecondRow(cube);
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.bottomFace().middle(), cube.bottomFace().topMiddle(),
                     cube.bottomFace().middleLeft(), cube.bottomFace().middleRight(),
                     cube.bottomFace().bottomMiddle())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.frontFace().middle(), cube.frontFace().middleLeft(),
                     cube.frontFace().middleRight(), cube.frontFace().bottomMiddle(),
                     cube.frontFace().bottomLeft(), cube.frontFace().bottomRight())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.leftFace().middle(), cube.leftFace().middleLeft(),
                     cube.leftFace().middleRight(), cube.leftFace().bottomMiddle(),
                     cube.leftFace().bottomLeft(), cube.leftFace().bottomRight())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.backFace().middle(), cube.backFace().middleLeft(),
                     cube.backFace().middleRight(), cube.backFace().bottomMiddle(),
                     cube.backFace().bottomLeft(), cube.backFace().bottomRight())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.rightFace().middle(), cube.rightFace().middleLeft(),
                     cube.rightFace().middleRight(), cube.rightFace().bottomMiddle(),
                     cube.rightFace().bottomLeft(), cube.rightFace().bottomRight())));
@@ -114,30 +115,30 @@ public class RubiksCubeSolverTest {
             Solver.solveSecondRow(cube);
             Solver.solveTopEdges(cube);
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.bottomFace().middle(), cube.bottomFace().topMiddle(),
                     cube.bottomFace().middleLeft(), cube.bottomFace().middleRight(),
                     cube.bottomFace().bottomMiddle())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.frontFace().middle(), cube.frontFace().middleLeft(),
                     cube.frontFace().middleRight(), cube.frontFace().bottomMiddle(),
                     cube.frontFace().bottomLeft(), cube.frontFace().bottomRight(),
                     cube.frontFace().topMiddle())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.leftFace().middle(), cube.leftFace().middleLeft(),
                     cube.leftFace().middleRight(), cube.leftFace().bottomMiddle(),
                     cube.leftFace().bottomLeft(), cube.leftFace().bottomRight(),
                     cube.leftFace().topMiddle())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.backFace().middle(), cube.backFace().middleLeft(),
                     cube.backFace().middleRight(), cube.backFace().bottomMiddle(),
                     cube.backFace().bottomLeft(), cube.backFace().bottomRight(),
                     cube.backFace().topMiddle())));
 
-            assertTrue(allSame(Arrays.asList(
+            assertTrue(allEqual(Arrays.asList(
                     cube.rightFace().middle(), cube.rightFace().middleLeft(),
                     cube.rightFace().middleRight(), cube.rightFace().bottomMiddle(),
                     cube.rightFace().bottomLeft(), cube.rightFace().bottomRight(),
@@ -145,12 +146,8 @@ public class RubiksCubeSolverTest {
         });
     }
 
-    private boolean allSame(List<Colour> colours) {
-        return colours.stream().distinct().count() == 1;
-    }
-
     private boolean faceSolved(RubiksCubeFace face) {
-        return allSame(Arrays.asList(
+        return allEqual(Arrays.asList(
                 face.topLeft(), face.topMiddle(), face.topRight(),
                 face.middleLeft(), face.middle(), face.middleRight(),
                 face.bottomLeft(), face.bottomMiddle(), face.bottomRight()));
