@@ -29,21 +29,19 @@ public class CubeScanner {
      * @param cubeImage an image of the cube face to be scanned
      */
     public CubeScanner(Mat cubeImage) {
-        originalImage = cubeImage;
-
-        findEdges();
-        findLines();
-        findOrthogonalLines();
-        combineLines();
-        findCentreLines();
+        Mat edgeImage = findEdges(cubeImage);
+        List<Line> allHoughLines = findLines(edgeImage);
+        List<Line> orthogonalLines = findOrthogonalLines(allHoughLines);
+        List<Line> combinedLines = combineLines(orthogonalLines);
+        List<Line> centreLines = findCentreLines(combinedLines);
 
         if (centreLines == null) {
             successful = false;
             return;
         }
 
-        findCentrePoints();
-        findColours();
+        List<Point> centrePoints = findCentrePoints(centreLines);
+        findColours(cubeImage, centrePoints);
 
         successful = true;
     }
@@ -71,133 +69,48 @@ public class CubeScanner {
     }
 
     /**
-     * Returns an image showing the result for a certain step of the cube face processing.
+     * Returns the Mat image showing a 3x3 grid of squares with the scanned colours.
      *
-     * @param step the step to get the resulting image for
-     * @return an image showing the result of the step
+     * @return a Mat image representing the scanned cube face
      */
-    Mat stepImage(Step step) {
-        switch(step) {
-            case EDGES:
-                return edgeImage();
-            case LINES:
-                return lineImage();
-            case ORTHOGONAL_LINES:
-                return orthogonalLineImage();
-            case COMBINED_LINES:
-                return combinedLineImage();
-            case CENTRE_LINES:
-                return centreLineImage();
-            case CENTRE_POINTS:
-                return centrePointImage();
-            case CENTRE_COLOURS:
-                return coloursImage();
-            default:
-                return originalImage();
-        }
-    }
-
-    /**
-     * An enum for the different steps of processing performed whilst scanning a cube face.
-     */
-    enum Step {
-        EDGES,
-        LINES,
-        ORTHOGONAL_LINES,
-        COMBINED_LINES,
-        CENTRE_LINES,
-        CENTRE_POINTS,
-        CENTRE_COLOURS;
-
-        private Step nextStep;
-
-        static {
-            EDGES.nextStep = LINES;
-            LINES.nextStep = ORTHOGONAL_LINES;
-            ORTHOGONAL_LINES.nextStep = COMBINED_LINES;
-            COMBINED_LINES.nextStep = CENTRE_LINES;
-            CENTRE_LINES.nextStep = CENTRE_POINTS;
-            CENTRE_POINTS.nextStep = CENTRE_COLOURS;
-            CENTRE_COLOURS.nextStep = null;
-        }
-
-        /**
-         * Returns the next step performed after this step.
-         *
-         * @return the next step performed, or null if this is last step
-         */
-        Step nextStep() {
-            return nextStep;
-        }
-    }
-
-    private Mat originalImage() {
-        return originalImage;
-    }
-
-    private Mat edgeImage() {
-        return edgeImage;
-    }
-
-    private Mat lineImage() {
-        return lineImage;
-    }
-
-    private Mat orthogonalLineImage() {
-        return orthogonalLineImage;
-    }
-
-    private Mat combinedLineImage() {
-        return combinedLineImage;
-    }
-
-    private Mat centreLineImage() {
-        return centreLineImage;
-    }
-
-    private Mat centrePointImage() {
-        return centrePointImage;
-    }
-
-    private Mat coloursImage() {
+    Mat coloursImage() {
         return coloursImage;
     }
 
-    private void findEdges() {
-        edgeImage = new Mat(originalImage.size(), CvType.CV_8UC1);
+    private Mat findEdges(Mat originalImage) {
+        Mat edgeImage = new Mat(originalImage.size(), CvType.CV_8UC1);
         Imgproc.cvtColor(originalImage, edgeImage, Imgproc.COLOR_BGR2GRAY, 4);
         Imgproc.GaussianBlur(edgeImage, edgeImage, new Size(5, 5), 0);
         Imgproc.Canny(edgeImage, edgeImage, CANNY_THRESHOLD_1, CANNY_THRESHOLD_2);
+        return edgeImage;
     }
 
-    private void findLines() {
+    private List<Line> findLines(Mat edgeImage) {
         Mat linesMatrix = new Mat();
         Imgproc.HoughLines(edgeImage, linesMatrix, 1, Math.PI/180, HOUGH_THRESHOLD);
 
-        allHoughLines = new LinkedList<>();
+        List<Line> allHoughLines = new LinkedList<>();
         for (int lineIndex = 0; lineIndex < linesMatrix.rows(); lineIndex++) {
             double[] matrixLine = linesMatrix.get(lineIndex, 0);
             allHoughLines.add(new Line(matrixLine[0], matrixLine[1]));
         }
 
-        lineImage = drawLines(allHoughLines);
+        return allHoughLines;
     }
 
-    private void findOrthogonalLines() {
-        orthogonalLines = allHoughLines.stream()
+    private List<Line> findOrthogonalLines(List<Line> allHoughLines) {
+        return allHoughLines.stream()
                 .filter(Line::isOrthogonal)
                 .collect(Collectors.toList());
-
-        orthogonalLineImage = drawLines(orthogonalLines);
     }
 
-    private void combineLines() {
+    private List<Line> combineLines(List<Line> orthogonalLines) {
         boolean[] lineHandled = new boolean[orthogonalLines.size()];
         for (int i = 0; i < lineHandled.length; ++i) {
             lineHandled[i] = false;
         }
 
-        combinedLines = new LinkedList<>();
+        List<Line> combinedLines = new LinkedList<>();
         for (int lineIndex = 0; lineIndex < orthogonalLines.size(); lineIndex++) {
             if (!lineHandled[lineIndex]) {
                 List<Line> similarLines = new LinkedList<>();
@@ -219,10 +132,10 @@ public class CubeScanner {
             }
         }
 
-        combinedLineImage = drawLines(combinedLines);
+        return combinedLines;
     }
 
-    private void findCentreLines() {
+    private List<Line> findCentreLines(List<Line> combinedLines) {
         List<Line> horizontalLines = combinedLines.stream()
                 .filter(Line::isHorizontal)
                 .collect(Collectors.toList());
@@ -232,7 +145,7 @@ public class CubeScanner {
                 .collect(Collectors.toList());
 
         if (horizontalLines.size() != 4 || verticalLines.size() != 4) {
-            return;
+            return null;
         }
 
         // Sorts lines by distance away from origin to get left-to-right and top-to-bottom order
@@ -247,11 +160,9 @@ public class CubeScanner {
         Line middleCentreVertical = averageLines(verticalLines.get(1), verticalLines.get(2));
         Line rightCentreVertical = averageLines(verticalLines.get(2), verticalLines.get(3));
 
-        centreLines = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 topCentreHorizontal, middleCentreHorizontal, bottomCentreHorizontal,
                 leftCentreVertical, middleCentreVertical, rightCentreVertical));
-
-        centreLineImage = drawLines(centreLines);
     }
 
     private Line averageLines(List<Line> lines) {
@@ -264,24 +175,7 @@ public class CubeScanner {
         return averageLines(Arrays.asList(line1, line2));
     }
 
-    private Mat drawLines(List<Line> lines) {
-        Mat image = originalImage.clone();
-
-        for (Line line : lines) {
-            double a = Math.cos(line.theta());
-            double b = Math.sin(line.theta());
-            double x0 = a * line.rho();
-            double y0 = b * line.rho();
-            Point start = new Point(x0 + (3000 * -b), y0 + (3000 * a));
-            Point end = new Point(x0 - (3000 * -b), y0 - (3000 * a));
-
-            Imgproc.line(image, start, end, new Scalar(255, 0, 0), 3);
-        }
-
-        return image;
-    }
-
-    private void findCentrePoints() {
+    private List<Point> findCentrePoints(List<Line> centreLines) {
         Point topLeftCentre = centreLines.get(0).intersection(centreLines.get(3));
         Point topMiddleCentre = centreLines.get(0).intersection(centreLines.get(4));
         Point topRightCentre = centreLines.get(0).intersection(centreLines.get(5));
@@ -294,24 +188,13 @@ public class CubeScanner {
         Point bottomMiddleCentre = centreLines.get(2).intersection(centreLines.get(4));
         Point bottomRightCentre = centreLines.get(2).intersection(centreLines.get(5));
 
-        centrePoints = new ArrayList<>(Arrays.asList(
+        return new ArrayList<>(Arrays.asList(
                 topLeftCentre, topMiddleCentre, topRightCentre,
                 middleLeftCentre, middleMiddleCentre, middleRightCentre,
                 bottomLeftCentre, bottomMiddleCentre, bottomRightCentre));
-
-        centrePointImage = drawPoints(centrePoints);
     }
 
-    private Mat drawPoints(List<Point> points) {
-        Mat image = originalImage.clone();
-        for (Point point : points) {
-            Imgproc.circle(image, point, 5, new Scalar(255, 0, 255));
-        }
-
-        return image;
-    }
-
-    private void findColours() {
+    private void findColours(Mat originalImage, List<Point> centrePoints) {
         final Mat hsvImage = new Mat(originalImage.size(), CvType.CV_8UC3);
         Imgproc.cvtColor(originalImage, hsvImage, Imgproc.COLOR_RGB2HSV, 3);
 
@@ -388,20 +271,8 @@ public class CubeScanner {
 
     private boolean successful;
 
-    private Mat originalImage;
-    private Mat edgeImage;
-    private Mat lineImage;
-    private Mat orthogonalLineImage;
-    private Mat combinedLineImage;
-    private Mat centreLineImage;
-    private Mat centrePointImage;
     private Mat coloursImage;
 
-    private List<Line> allHoughLines;
-    private List<Line> orthogonalLines;
-    private List<Line> combinedLines;
-    private List<Line> centreLines;
-    private List<Point> centrePoints;
     private List<Colour> squareColours;
 
     private static final int CANNY_THRESHOLD_1 = 10;

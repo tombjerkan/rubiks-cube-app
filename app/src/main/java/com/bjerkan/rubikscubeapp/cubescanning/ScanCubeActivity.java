@@ -58,20 +58,15 @@ public class ScanCubeActivity extends FragmentActivity
 
         faceColours.put(currentFace, cubeScanner.squareColours());
 
-        currentStep = CubeScanner.Step.EDGES;
         showResultFragment();
     }
 
     /**
-     * Shows the next result image for the cube face being scanned, or moves on to the next face
-     * if all results shown.
+     * Moves on to scanning the next face, or shows cube graphic activity if all faces scanned.
      */
     @Override
     public void nextStep() {
-        if (currentStep.nextStep() != null) {
-            currentStep = currentStep.nextStep();
-            showResultFragment();
-        } else if (currentFace.nextFace != null) {
+        if (currentFace.nextFace != null) {
             currentFace = currentFace.nextFace;
             showCaptureImageFragment();
         } else {
@@ -94,7 +89,7 @@ public class ScanCubeActivity extends FragmentActivity
     }
 
     private void showResultFragment() {
-        resultFragment.setResultImage(matToBitmap(cubeScanner.stepImage(currentStep)));
+        resultFragment.setResultImage(matToBitmap(cubeScanner.coloursImage()));
         setFragment(resultFragment);
     }
 
@@ -137,7 +132,6 @@ public class ScanCubeActivity extends FragmentActivity
 
     private CubeScanner cubeScanner;
     private CubeFace currentFace;
-    private CubeScanner.Step currentStep;
 
     private enum CubeFace {
         FRONT,
