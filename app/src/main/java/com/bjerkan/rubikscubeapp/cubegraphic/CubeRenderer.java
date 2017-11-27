@@ -6,6 +6,12 @@ import android.opengl.GLU;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * An OpenGL renderer to handle drawing graphical objects to a CubeSurfaceView.
+ *
+ * The public methods onSurfaceCreated, onDrawFrame and onSurfaceChanged are for use by the Android
+ * SurfaceView and should not be called directly.
+ */
 class CubeRenderer implements GLSurfaceView.Renderer {
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -45,6 +51,11 @@ class CubeRenderer implements GLSurfaceView.Renderer {
         gl.glLoadIdentity();
     }
 
+    /**
+     * Sets the model to be drawn to the view.
+     *
+     * @param model the model that the renderer will draw
+     */
     void setModel(RubiksCubeModel model) {
         this.model = model;
     }

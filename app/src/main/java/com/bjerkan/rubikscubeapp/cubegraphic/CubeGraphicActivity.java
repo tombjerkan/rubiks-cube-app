@@ -13,6 +13,11 @@ import java.util.stream.Collectors;
 
 import static com.bjerkan.rubikscubeapp.cubegraphic.RubiksCubeModel.AnimationFinishedListener;
 
+/**
+ * An activity for showing a Rubik's Cube graphic and animating the moves needed to solve it. Must
+ * be started using an intent with the *_COLOURS_ARGUMENT arguments to give the starting square
+ * colours for the cube. These colours must represent a valid Rubik's Cube.
+ */
 public class CubeGraphicActivity extends Activity implements AnimationFinishedListener {
 
     @Override
@@ -55,6 +60,9 @@ public class CubeGraphicActivity extends Activity implements AnimationFinishedLi
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Called when an animation has finished and the next animation should be initiated.
+     */
     @Override
     public void animationFinished() {
         if (nextActionIndex >= solvingActions.size()) {
@@ -104,11 +112,40 @@ public class CubeGraphicActivity extends Activity implements AnimationFinishedLi
         }
     }
 
+    /**
+     * The name of the intent argument with the colours of the front face. The argument should be
+     * an ArrayList of the String names for the enum colours.
+     */
     public static final String FRONT_COLOURS_ARGUMENT = "com.bjerkan.FRONT_COLOURS_ARGUMENT";
+
+    /**
+     * The name of the intent argument with the colours of the left face. The argument should be
+     * an ArrayList of the String names for the enum colours.
+     */
     public static final String LEFT_COLOURS_ARGUMENT = "com.bjerkan.LEFT_COLOURS_ARGUMENT";
+
+    /**
+     * The name of the intent argument with the colours of the back face. The argument should be
+     * an ArrayList of the String names for the enum colours.
+     */
     public static final String BACK_COLOURS_ARGUMENT = "com.bjerkan.BACK_COLOURS_ARGUMENT";
+
+    /**
+     * The name of the intent argument with the colours of the right face. The argument should be
+     * an ArrayList of the String names for the enum colours.
+     */
     public static final String RIGHT_COLOURS_ARGUMENT = "com.bjerkan.RIGHT_COLOURS_ARGUMENT";
+
+    /**
+     * The name of the intent argument with the colours of the top face. The argument should be
+     * an ArrayList of the String names for the enum colours.
+     */
     public static final String TOP_COLOURS_ARGUMENT = "com.bjerkan.TOP_COLOURS_ARGUMENT";
+
+    /**
+     * The name of the intent argument with the colours of the bottom face. The argument should be
+     * an ArrayList of the String names for the enum colours.
+     */
     public static final String BOTTOM_COLOURS_ARGUMENT = "com.bjerkan.BOTTOM_COLOURS_ARGUMENT";
 
     private RubiksCubeModel rubiksCubeModel;

@@ -9,8 +9,23 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * A class representing the graphical model of a Rubik's Cube.
+ */
 class RubiksCubeModel {
 
+    /**
+     * Creates a graphical Rubik's Cube model with the given square colours. All colour lists are in
+     * the order top-left, top-middle, top-right, middle-left, middle, middle-right, bottom-left,
+     * bottom-middle, bottom-right.
+     *
+     * @param frontColours the colours for the front face
+     * @param leftColours the colours for the left face
+     * @param backColours the colours for the back face
+     * @param rightColours the colours for the right face
+     * @param topColours the colours for the top face
+     * @param bottomColours the colours for the bottom face
+     */
     RubiksCubeModel(
             List<Colour> frontColours,
             List<Colour> leftColours,
@@ -41,6 +56,11 @@ class RubiksCubeModel {
         }
     }
 
+    /**
+     * Draws the Rubik's Cube graphic to the OpenGL context.
+     *
+     * @param gl the OpenGL context to draw to
+     */
     void draw(GL10 gl) {
         long timeElapsed = SystemClock.uptimeMillis() - startTime;
 
@@ -59,11 +79,17 @@ class RubiksCubeModel {
         }
     }
 
+    /**
+     * Animates the turning of the front face of the cube graphic clockwise.
+     */
     void front() {
         startAnimation(frontSubCubes(), Axis.Z, Direction.CLOCKWISE);
         frontCubeSwap();
     }
 
+    /**
+     * Animates the turning of the front face of the cube graphic anti-clockwise.
+     */
     void frontInv() {
         startAnimation(frontSubCubes(), Axis.Z, Direction.ANTICLOCKWISE);
         frontCubeSwap();
@@ -85,11 +111,17 @@ class RubiksCubeModel {
         subCubes[2][1][0] = temp;
     }
 
+    /**
+     * Animates the turning of the left face of the cube graphic clockwise.
+     */
     void left() {
         startAnimation(leftSubCubes(), Axis.X, Direction.ANTICLOCKWISE);
         leftCubeSwap();
     }
 
+    /**
+     * Animates the turning of the front face of the cube graphic anti-clockwise.
+     */
     void leftInv() {
         startAnimation(leftSubCubes(), Axis.X, Direction.CLOCKWISE);
         leftCubeSwap();
@@ -111,11 +143,17 @@ class RubiksCubeModel {
         subCubes[0][1][0] = temp;
     }
 
+    /**
+     * Animates the turning of the right face of the cube graphic clockwise.
+     */
     void right() {
         startAnimation(rightSubCubes(), Axis.X, Direction.CLOCKWISE);
         rightCubeSwap();
     }
 
+    /**
+     * Animates the turning of the left face of the cube graphic anti-clockwise.
+     */
     void rightInv() {
         startAnimation(rightSubCubes(), Axis.X, Direction.ANTICLOCKWISE);
         rightCubeSwap();
@@ -137,11 +175,17 @@ class RubiksCubeModel {
         subCubes[2][1][2] = temp;
     }
 
+    /**
+     * Animates the turning of the top face of the cube graphic clockwise.
+     */
     void top() {
         startAnimation(topSubCubes(), Axis.Y, Direction.CLOCKWISE);
         topCubeSwap();
     }
 
+    /**
+     * Animates the turning of the top face of the cube graphic anti-clockwise.
+     */
     void topInv() {
         startAnimation(topSubCubes(), Axis.Y, Direction.ANTICLOCKWISE);
         topCubeSwap();
@@ -163,11 +207,17 @@ class RubiksCubeModel {
         subCubes[2][0][1] = temp;
     }
 
+    /**
+     * Animates the turning of the bottom face of the cube graphic clockwise.
+     */
     void bottom() {
         startAnimation(bottomSubCubes(), Axis.Y, Direction.ANTICLOCKWISE);
         bottomCubeSwap();
     }
 
+    /**
+     * Animates the turning of the bottom face of the cube graphic anti-clockwise.
+     */
     void bottomInv() {
         startAnimation(bottomSubCubes(), Axis.Y, Direction.CLOCKWISE);
         bottomCubeSwap();
@@ -189,11 +239,17 @@ class RubiksCubeModel {
         subCubes[2][2][1] = temp;
     }
 
+    /**
+     * Animates the rotating of the cube graphic clockwise.
+     */
     void rotate() {
         startAnimation(allSubCubes(), Axis.Y, Direction.CLOCKWISE);
         rotateCubeSwap();
     }
 
+    /**
+     * Animates the rotating of the cube graphic anti-clockwise.
+     */
     void rotateInv() {
         startAnimation(allSubCubes(), Axis.Y, Direction.ANTICLOCKWISE);
         rotateCubeSwap();
@@ -221,18 +277,35 @@ class RubiksCubeModel {
         subCubes[2][1][1] = temp;
     }
 
+    /**
+     * Sets a listener to be informed when an animation is finished.
+     *
+     * @param animationListener the object to set as listener
+     */
     public void setAnimationFinishedListener(AnimationFinishedListener animationListener) {
         this.animationListener = animationListener;
     }
 
+    /**
+     * Interface to be implemented by objects that want to listen for when an animation is finished.
+     */
     public interface AnimationFinishedListener {
+        /**
+         * Called by RubiksCubeModel when an animation is finished.
+         */
         void animationFinished();
     }
 
+    /**
+     * An enum representing the different axes to rotate around during animations.
+     */
     public enum Axis {
         X, Y, Z
     }
 
+    /**
+     * An enum representing the directions to rotate around the axes during animations.
+     */
     public enum Direction {
         CLOCKWISE,
         ANTICLOCKWISE

@@ -19,7 +19,15 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Scans an image of a cube face to find the colours of the individual squares.
+ */
 public class CubeScanner {
+    /**
+     * Creates an object representing a scan of the cube face image given.
+     *
+     * @param cubeImage an image of the cube face to be scanned
+     */
     public CubeScanner(Mat cubeImage) {
         originalImage = cubeImage;
 
@@ -40,8 +48,87 @@ public class CubeScanner {
         successful = true;
     }
 
+    /**
+     * Returns whether the scan was able to successfully find a colour for each of the squares. Note
+     * that a successful scan does not mean that the colours are correct, only that colours were
+     * able to be found. These colours can still be incorrectly identified.
+     *
+     * @return true if the scan was successful and the results can be used, false otherwise
+     */
     boolean wasSuccessful() {
         return successful;
+    }
+
+    /**
+     * Returns the colours found for the cube face. Assumes the scan was successful and will return
+     * null if not. The list is in the order top-left, top-middle, top-right, middle-left, middle,
+     * middle-right, bottom-left, bottom-middle, bottom-right.
+     *
+     * @return A list of colours for the squares of the cube face scanned
+     */
+    List<Colour> squareColours() {
+        return squareColours;
+    }
+
+    /**
+     * Returns an image showing the result for a certain step of the cube face processing.
+     *
+     * @param step the step to get the resulting image for
+     * @return an image showing the result of the step
+     */
+    Mat stepImage(Step step) {
+        switch(step) {
+            case EDGES:
+                return edgeImage();
+            case LINES:
+                return lineImage();
+            case ORTHOGONAL_LINES:
+                return orthogonalLineImage();
+            case COMBINED_LINES:
+                return combinedLineImage();
+            case CENTRE_LINES:
+                return centreLineImage();
+            case CENTRE_POINTS:
+                return centrePointImage();
+            case CENTRE_COLOURS:
+                return coloursImage();
+            default:
+                return originalImage();
+        }
+    }
+
+    /**
+     * An enum for the different steps of processing performed whilst scanning a cube face.
+     */
+    enum Step {
+        EDGES,
+        LINES,
+        ORTHOGONAL_LINES,
+        COMBINED_LINES,
+        CENTRE_LINES,
+        CENTRE_POINTS,
+        CENTRE_COLOURS;
+
+        private Step nextStep;
+
+        static {
+            EDGES.nextStep = LINES;
+            LINES.nextStep = ORTHOGONAL_LINES;
+            ORTHOGONAL_LINES.nextStep = COMBINED_LINES;
+            COMBINED_LINES.nextStep = CENTRE_LINES;
+            CENTRE_LINES.nextStep = CENTRE_POINTS;
+            CENTRE_POINTS.nextStep = CENTRE_COLOURS;
+            CENTRE_COLOURS.nextStep = null;
+        }
+
+        /**
+         * Returns the next step performed after this step.
+         *
+         * @return the next step performed, or null if this is last step
+         */
+        Step nextStep() {
+            return nextStep;
+        }
     }
 
     private Mat originalImage() {
@@ -74,57 +161,6 @@ public class CubeScanner {
 
     private Mat coloursImage() {
         return coloursImage;
-    }
-
-    List<Colour> squareColours() {
-        return squareColours;
-    }
-
-    Mat stepImage(Step step) {
-        switch(step) {
-            case EDGES:
-                return edgeImage();
-            case LINES:
-                return lineImage();
-            case ORTHOGONAL_LINES:
-                return orthogonalLineImage();
-            case COMBINED_LINES:
-                return combinedLineImage();
-            case CENTRE_LINES:
-                return centreLineImage();
-            case CENTRE_POINTS:
-                return centrePointImage();
-            case CENTRE_COLOURS:
-                return coloursImage();
-            default:
-                return originalImage();
-        }
-    }
-
-    enum Step {
-        EDGES,
-        LINES,
-        ORTHOGONAL_LINES,
-        COMBINED_LINES,
-        CENTRE_LINES,
-        CENTRE_POINTS,
-        CENTRE_COLOURS;
-
-        private Step nextStep;
-
-        static {
-            EDGES.nextStep = LINES;
-            LINES.nextStep = ORTHOGONAL_LINES;
-            ORTHOGONAL_LINES.nextStep = COMBINED_LINES;
-            COMBINED_LINES.nextStep = CENTRE_LINES;
-            CENTRE_LINES.nextStep = CENTRE_POINTS;
-            CENTRE_POINTS.nextStep = CENTRE_COLOURS;
-            CENTRE_COLOURS.nextStep = null;
-        }
-
-        Step nextStep() {
-            return nextStep;
-        }
     }
 
     private void findEdges() {

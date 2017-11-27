@@ -2,6 +2,9 @@ package com.bjerkan.rubikscubeapp.rubikscube;
 
 import org.opencv.core.Scalar;
 
+/**
+ * An enum for the different colours present on a Rubik's cube.
+ */
 public enum Colour {
     WHITE,
     GREEN,
@@ -10,7 +13,14 @@ public enum Colour {
     ORANGE,
     YELLOW;
 
+    /**
+     * The hue value to use when comparing similarity of colours when scanning.
+     */
     public double hue;
+
+    /**
+     * The RGB value to use when rendering the cube squares.
+     */
     public Scalar rgb;
 
     static {

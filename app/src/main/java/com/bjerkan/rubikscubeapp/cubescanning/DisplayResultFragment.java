@@ -12,7 +12,36 @@ import android.widget.ImageView;
 
 import com.bjerkan.rubikscubeapp.R;
 
+/**
+ * A fragment for displaying the result image for a step in processing the cube face image. The
+ * parent activity is informed that the next step should be shown through the OnNextStepListener,
+ * which must be implemented by the parent.
+ *
+ * Public life-cycle methods (onCreateView, onAttach and onResume) are for use by the Android system
+ * and should not be called directly.
+ */
 public class DisplayResultFragment extends Fragment {
+
+    /**
+     * Interface to be implemented by parent activity so it can listen for when to show next step.
+     */
+    public interface NextStepRequestListener {
+        /**
+         * Called to inform the listener that the next step should be shown.
+         */
+        void nextStep();
+    }
+
+    /**
+     * Sets the image that should be shown by the fragment.
+     *
+     * @param resultImage the result image to show
+     */
+    public void setResultImage(Bitmap resultImage) {
+        this.resultImage = resultImage;
+        updateImage();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -39,15 +68,6 @@ public class DisplayResultFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        updateImage();
-    }
-
-    public interface NextStepRequestListener {
-        void nextStep();
-    }
-
-    public void setResultImage(Bitmap resultImage) {
-        this.resultImage = resultImage;
         updateImage();
     }
 

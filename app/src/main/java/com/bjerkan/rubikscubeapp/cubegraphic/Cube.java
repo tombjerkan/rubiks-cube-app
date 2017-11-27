@@ -9,7 +9,16 @@ import java.util.List;
 
 import javax.microedition.khronos.opengles.GL10;
 
+/**
+ * A class for a cube graphic.
+ */
 class Cube {
+    /**
+     * Creates a cube graphic with the given properties.
+     *
+     * @param centre the position of the cube's centre
+     * @param sideLength the length of the cube's sides
+     */
     Cube(Vertex centre, float sideLength) {
         float leftX = centre.x() - (sideLength / 2f);
         float rightX = centre.x() + (sideLength / 2f);
@@ -36,6 +45,12 @@ class Cube {
                 backBottomRight);
     }
 
+    /**
+     * Draws the cube to the given OpenGL context.
+     *
+     * @param gl the OpenGL context to draw to
+     * @param timeElapsed the time elapsed since the last draw for use with animation
+     */
     void draw(GL10 gl, long timeElapsed) {
         gl.glPushMatrix();
 
@@ -53,11 +68,21 @@ class Cube {
         gl.glPopMatrix();
     }
 
+    /**
+     * Starts animating the cube by rotating it in the given direction around the given axis. Should
+     * not start an animation if an animation is already being performed.
+     *
+     * @param axis the axis to rotate the cube around
+     * @param direction the direction around the axis to rotate the cube
+     */
     void startAnimation(RubiksCubeModel.Axis axis, RubiksCubeModel.Direction direction) {
         animating = true;
         currentAnimation = new Animation(axis, direction);
     }
 
+    /**
+     * Finish the animation currently being performed.
+     */
     void finishAnimation() {
         if (animating) {
             animating = false;
@@ -65,30 +90,65 @@ class Cube {
         }
     }
 
+    /**
+     * Sets the colour of the front side.
+     *
+     * @param colour the new colour for the front side
+     */
     void setFrontColour(Colour colour) {
         frontSquare.setColour(colour);
     }
 
+    /**
+     * Sets the colour of the left side.
+     *
+     * @param colour the new colour for the left side
+     */
     void setLeftColour(Colour colour) {
         leftSquare.setColour(colour);
     }
 
+    /**
+     * Sets the colour of the back side.
+     *
+     * @param colour the new colour for the back side
+     */
     void setBackColour(Colour colour) {
         backSquare.setColour(colour);
     }
 
+    /**
+     * Sets the colour of the right side.
+     *
+     * @param colour the new colour for the right side
+     */
     void setRightColour(Colour colour) {
         rightSquare.setColour(colour);
     }
 
+    /**
+     * Sets the colour of the top side.
+     *
+     * @param colour the new colour for the top side
+     */
     void setTopColour(Colour colour) {
         topSquare.setColour(colour);
     }
 
+    /**
+     * Sets the colour of the bottom side.
+     *
+     * @param colour the new colour for the bottom side
+     */
     void setBottomColour(Colour colour) {
         bottomSquare.setColour(colour);
     }
 
+    /**
+     * Sets the time taken for a single animation.
+     *
+     * @param animationTime the number of milliseconds per animation
+     */
     void setAnimationTime(int animationTime) {
         this.animationTime = animationTime;
     }
