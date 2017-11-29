@@ -11,6 +11,31 @@ import java.util.List;
 public class RubiksCube {
 
     /**
+     * Create a Rubik's Cube with the given faces.
+     *
+     * @param frontFace the front face of the cube
+     * @param leftFace the left face of the cube
+     * @param backFace the back face of the cube
+     * @param rightFace the right face of the cube
+     * @param topFace the top face of the cube
+     * @param bottomFace the bottom face of the cube
+     */
+    public RubiksCube(
+            RubiksCubeFace frontFace,
+            RubiksCubeFace leftFace,
+            RubiksCubeFace backFace,
+            RubiksCubeFace rightFace,
+            RubiksCubeFace topFace,
+            RubiksCubeFace bottomFace) {
+        front = frontFace;
+        left = leftFace;
+        back = backFace;
+        right = rightFace;
+        top = topFace;
+        bottom = bottomFace;
+    }
+
+    /**
      * Create a Rubik's Cube with the given face colours. All colour lists are in the order
      * top-left, top-middle, top-right, middle-left, middle, middle-right, bottom-left,
      * bottom-middle, bottom-right.
@@ -29,12 +54,13 @@ public class RubiksCube {
             List<Colour> rightColours,
             List<Colour> topColours,
             List<Colour> bottomColours) {
-        front = new RubiksCubeFace(frontColours);
-        left = new RubiksCubeFace(leftColours);
-        back = new RubiksCubeFace(backColours);
-        right = new RubiksCubeFace(rightColours);
-        top = new RubiksCubeFace(topColours);
-        bottom = new RubiksCubeFace(bottomColours);
+        this(
+                new RubiksCubeFace(frontColours),
+                new RubiksCubeFace(leftColours),
+                new RubiksCubeFace(backColours),
+                new RubiksCubeFace(rightColours),
+                new RubiksCubeFace(topColours),
+                new RubiksCubeFace(bottomColours));
     }
 
     /**
