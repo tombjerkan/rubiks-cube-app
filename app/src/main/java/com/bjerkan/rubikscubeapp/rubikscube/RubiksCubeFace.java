@@ -1,12 +1,13 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * A class representing a single face of a Rubik's Cube.
  */
-class RubiksCubeFace {
+public class RubiksCubeFace implements Serializable {
     /**
      * Create a RubiksCubeFace with the square colours given.
      *
@@ -20,7 +21,7 @@ class RubiksCubeFace {
      * @param bottomMiddle the colour of the bottom-middle square
      * @param bottomRight the colour of the bottom-right square
      */
-    RubiksCubeFace(
+    public RubiksCubeFace(
             Colour topLeft,
             Colour topMiddle,
             Colour topRight,
@@ -48,7 +49,7 @@ class RubiksCubeFace {
      *
      * @param colours a list of colours to give the face's squares
      */
-    RubiksCubeFace(List<Colour> colours) {
+    public RubiksCubeFace(List<Colour> colours) {
         this(colours.get(0), colours.get(1), colours.get(2), colours.get(3), colours.get(4),
                 colours.get(5), colours.get(6), colours.get(7), colours.get(8));
     }
@@ -58,7 +59,7 @@ class RubiksCubeFace {
      *
      * @param face the face for which this new face will be a copy of
      */
-    RubiksCubeFace(RubiksCubeFace face) {
+    public RubiksCubeFace(RubiksCubeFace face) {
         this(face.topLeft, face.topMiddle, face.topRight, face.middleLeft, face.middle,
                 face.middleRight, face.bottomLeft, face.bottomMiddle, face.bottomRight);
     }
@@ -68,7 +69,7 @@ class RubiksCubeFace {
      *
      * @return a new RubiksCubeFace for the current face rotated clockwise
      */
-    RubiksCubeFace rotated() {
+    public RubiksCubeFace rotated() {
         return new RubiksCubeFace(
                 bottomLeft(), middleLeft(), topLeft(),
                 bottomMiddle(), middle(), topMiddle(),
@@ -80,7 +81,7 @@ class RubiksCubeFace {
      *
      * @return a new RubiksCubeFace for the current face rotated anti-clockwise
      */
-    RubiksCubeFace rotatedInv() {
+    public RubiksCubeFace rotatedInv() {
         return rotated().rotated().rotated();
     }
 
@@ -92,7 +93,7 @@ class RubiksCubeFace {
      * @param newTopRight new colour for top-right square
      * @return a new RubiksCubeFace of this face with the top row colours replaced
      */
-    RubiksCubeFace replaceTopRow(
+    public RubiksCubeFace replaceTopRow(
             Colour newTopLeft, Colour newTopMiddle, Colour newTopRight) {
         return new RubiksCubeFace(
                 newTopLeft, newTopMiddle, newTopRight,
@@ -106,7 +107,7 @@ class RubiksCubeFace {
      * @param colours list of new colours for the top row in the order left, middle, right
      * @return a new RubiksCubeFace of this face with the top row colours replaced
      */
-    RubiksCubeFace replaceTopRow(List<Colour> colours) {
+    public RubiksCubeFace replaceTopRow(List<Colour> colours) {
         return replaceTopRow(colours.get(0), colours.get(1), colours.get(2));
     }
 
@@ -118,7 +119,7 @@ class RubiksCubeFace {
      * @param newBottomRight new colour for bottom-right square
      * @return a new RubiksCubeFace of this face with the bottom row colours replaced
      */
-    RubiksCubeFace replaceBottomRow(
+    public RubiksCubeFace replaceBottomRow(
             Colour newBottomLeft, Colour newBottomMiddle, Colour newBottomRight) {
         return new RubiksCubeFace(
                 topLeft, topMiddle, topRight,
@@ -132,7 +133,7 @@ class RubiksCubeFace {
      * @param colours list of new colours for the bottom row in the order left, middle, right
      * @return a new RubiksCubeFace of this face with the bottom row colours replaced
      */
-    RubiksCubeFace replaceBottomRow(List<Colour> colours) {
+    public RubiksCubeFace replaceBottomRow(List<Colour> colours) {
         return replaceBottomRow(colours.get(0), colours.get(1), colours.get(2));
     }
 
@@ -144,7 +145,7 @@ class RubiksCubeFace {
      * @param newBottomLeft new colour for bottom-left square
      * @return a new RubiksCubeFace of this face with the left column colours replaced
      */
-    RubiksCubeFace replaceLeftColumn(
+    public RubiksCubeFace replaceLeftColumn(
             Colour newTopLeft, Colour newMiddleLeft, Colour newBottomLeft) {
         return new RubiksCubeFace(
                 newTopLeft, topMiddle, topRight,
@@ -158,7 +159,7 @@ class RubiksCubeFace {
      * @param colours list of new colours for the left column in the order top, middle, bottom
      * @return a new RubiksCubeFace of this face with the left column colours replaced
      */
-    RubiksCubeFace replaceLeftColumn(List<Colour> colours) {
+    public RubiksCubeFace replaceLeftColumn(List<Colour> colours) {
         return replaceLeftColumn(colours.get(0), colours.get(1), colours.get(2));
     }
 
@@ -170,7 +171,7 @@ class RubiksCubeFace {
      * @param newBottomRight new colour for bottom-right square
      * @return a new RubiksCubeFace of this face with the right column colours replaced
      */
-    RubiksCubeFace replaceRightColumn(
+    public RubiksCubeFace replaceRightColumn(
             Colour newTopRight, Colour newMiddleRight, Colour newBottomRight) {
         return new RubiksCubeFace(
                 topLeft, topMiddle, newTopRight,
@@ -184,8 +185,22 @@ class RubiksCubeFace {
      * @param colours list of new colours for the right column in the order top, middle, bottom
      * @return a new RubiksCubeFace of this face with the right column colours replaced
      */
-    RubiksCubeFace replaceRightColumn(List<Colour> colours) {
+    public RubiksCubeFace replaceRightColumn(List<Colour> colours) {
         return replaceRightColumn(colours.get(0), colours.get(1), colours.get(2));
+    }
+
+    /**
+     * Returns the colours of the face. The order of the colours in the list is top-left,
+     * top-middle, top-right, middle-left, middle, middle-right, bottom-left, bottom-middle,
+     * bottom-right.
+     *
+     * @return a list of the colours of the face
+     */
+    public List<Colour> colours() {
+        return Arrays.asList(
+                topLeft, topMiddle, topRight,
+                middleLeft, middle, middleRight,
+                bottomLeft, bottomMiddle, bottomRight);
     }
 
     /**
@@ -193,7 +208,7 @@ class RubiksCubeFace {
      *
      * @return a list of colours in the order top-left, top-middle, top-right
      */
-    List<Colour> topRow() {
+    public List<Colour> topRow() {
         return Arrays.asList(topLeft, topMiddle, topRight);
     }
 
@@ -202,7 +217,7 @@ class RubiksCubeFace {
      *
      * @return a list of colours in the order bottom-left, bottom-middle, bottom-right
      */
-    List<Colour> bottomRow() {
+    public List<Colour> bottomRow() {
         return Arrays.asList(bottomLeft, bottomMiddle, bottomRight);
     }
 
@@ -211,7 +226,7 @@ class RubiksCubeFace {
      *
      * @return a list of colours in the order top-left, middle-left, bottom-left
      */
-    List<Colour> leftColumn() {
+    public List<Colour> leftColumn() {
         return Arrays.asList(topLeft, middleLeft, bottomLeft);
     }
 
@@ -220,7 +235,7 @@ class RubiksCubeFace {
      *
      * @return a list of colours in the order top-right, middle-right, bottom-right
      */
-    List<Colour> rightColumn() {
+    public List<Colour> rightColumn() {
         return Arrays.asList(topRight, middleRight, bottomRight);
     }
 
@@ -229,7 +244,7 @@ class RubiksCubeFace {
      *
      * @return the colour of the top-left square
      */
-    Colour topLeft() {
+    public Colour topLeft() {
         return topLeft;
     }
 
@@ -238,7 +253,7 @@ class RubiksCubeFace {
      *
      * @return the colour of the top-middle square
      */
-    Colour topMiddle() {
+    public Colour topMiddle() {
         return topMiddle;
     }
 
@@ -247,7 +262,7 @@ class RubiksCubeFace {
      *
      * @return the colour of the top-right square
      */
-    Colour topRight() {
+    public Colour topRight() {
         return topRight;
     }
 
@@ -256,7 +271,7 @@ class RubiksCubeFace {
      *
      * @return the colour of the middle-left square
      */
-    Colour middleLeft() {
+    public Colour middleLeft() {
         return middleLeft;
     }
 
@@ -265,7 +280,7 @@ class RubiksCubeFace {
      *
      * @return the colour of the middle square
      */
-    Colour middle() {
+    public Colour middle() {
         return middle;
     }
 
@@ -274,7 +289,7 @@ class RubiksCubeFace {
      *
      * @return the colour of the middle-right square
      */
-    Colour middleRight() {
+    public Colour middleRight() {
         return middleRight;
     }
 
@@ -283,7 +298,7 @@ class RubiksCubeFace {
      *
      * @return the colour of the bottom-left square
      */
-    Colour bottomLeft() {
+    public Colour bottomLeft() {
         return bottomLeft;
     }
 
@@ -292,7 +307,7 @@ class RubiksCubeFace {
      *
      * @return the colour of the bottom-middle square
      */
-    Colour bottomMiddle() {
+    public Colour bottomMiddle() {
         return bottomMiddle;
     }
 
@@ -301,7 +316,7 @@ class RubiksCubeFace {
      *
      * @return the colour of the bottom-right square
      */
-    Colour bottomRight() {
+    public Colour bottomRight() {
         return bottomRight;
     }
 

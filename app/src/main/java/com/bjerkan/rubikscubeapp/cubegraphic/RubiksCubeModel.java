@@ -3,6 +3,7 @@ package com.bjerkan.rubikscubeapp.cubegraphic;
 import android.os.SystemClock;
 
 import com.bjerkan.rubikscubeapp.rubikscube.Colour;
+import com.bjerkan.rubikscubeapp.rubikscube.RubiksCubeFace;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,37 @@ import javax.microedition.khronos.opengles.GL10;
  * A class representing the graphical model of a Rubik's Cube.
  */
 class RubiksCubeModel {
+
+    public RubiksCubeModel(
+            RubiksCubeFace frontFace,
+            RubiksCubeFace leftFace,
+            RubiksCubeFace backFace,
+            RubiksCubeFace rightFace,
+            RubiksCubeFace topFace,
+            RubiksCubeFace bottomFace) {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                for (int z = 0; z < 3; z++) {
+                    float centreX = (x - 1) * SUBCUBE_SIZE;
+                    float centreY = (1 - y) * SUBCUBE_SIZE;
+                    float centreZ = (1 - z) * SUBCUBE_SIZE;
+                    subCubes[x][y][z] = new Cube(new Vertex(centreX, centreY, centreZ),
+                            SUBCUBE_SIZE);
+                    subCubes[x][y][z].setAnimationTime(ANIMATION_TIME);
+                }
+            }
+        }
+
+        for (int colourIndex = 0; colourIndex < 3 * 3; colourIndex++) {
+            frontSubCubes().get(colourIndex).setFrontColour(frontFace.colours().get(colourIndex));
+            leftSubCubes().get(colourIndex).setLeftColour(leftFace.colours().get(colourIndex));
+            backSubCubes().get(colourIndex).setBackColour(backFace.colours().get(colourIndex));
+            rightSubCubes().get(colourIndex).setRightColour(rightFace.colours().get(colourIndex));
+            topSubCubes().get(colourIndex).setTopColour(topFace.colours().get(colourIndex));
+            bottomSubCubes().get(colourIndex).setBottomColour(
+                    bottomFace.colours().get(colourIndex));
+        }
+    }
 
     /**
      * Creates a graphical Rubik's Cube model with the given square colours. All colour lists are in
@@ -33,27 +65,6 @@ class RubiksCubeModel {
             List<Colour> rightColours,
             List<Colour> topColours,
             List<Colour> bottomColours) {
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                for (int z = 0; z < 3; z++) {
-                    float centreX = (x - 1) * SUBCUBE_SIZE;
-                    float centreY = (1 - y) * SUBCUBE_SIZE;
-                    float centreZ = (1 - z) * SUBCUBE_SIZE;
-                    subCubes[x][y][z] = new Cube(new Vertex(centreX, centreY, centreZ),
-                            SUBCUBE_SIZE);
-                    subCubes[x][y][z].setAnimationTime(ANIMATION_TIME);
-                }
-            }
-        }
-
-        for (int colourIndex = 0; colourIndex < 3 * 3; colourIndex++) {
-            frontSubCubes().get(colourIndex).setFrontColour(frontColours.get(colourIndex));
-            leftSubCubes().get(colourIndex).setLeftColour(leftColours.get(colourIndex));
-            backSubCubes().get(colourIndex).setBackColour(backColours.get(colourIndex));
-            rightSubCubes().get(colourIndex).setRightColour(rightColours.get(colourIndex));
-            topSubCubes().get(colourIndex).setTopColour(topColours.get(colourIndex));
-            bottomSubCubes().get(colourIndex).setBottomColour(bottomColours.get(colourIndex));
-        }
     }
 
     /**

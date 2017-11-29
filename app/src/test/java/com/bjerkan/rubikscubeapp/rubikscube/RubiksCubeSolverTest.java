@@ -169,12 +169,12 @@ public class RubiksCubeSolverTest {
 
     private RubiksCube solvedCube() {
         return new RubiksCube(
-                Collections.nCopies(9, Colour.WHITE),
-                Collections.nCopies(9, Colour.RED),
-                Collections.nCopies(9, Colour.YELLOW),
-                Collections.nCopies(9, Colour.ORANGE),
-                Collections.nCopies(9, Colour.GREEN),
-                Collections.nCopies(9, Colour.BLUE));
+                new RubiksCubeFace(Collections.nCopies(9, Colour.WHITE)),
+                new RubiksCubeFace(Collections.nCopies(9, Colour.RED)),
+                new RubiksCubeFace(Collections.nCopies(9, Colour.YELLOW)),
+                new RubiksCubeFace(Collections.nCopies(9, Colour.ORANGE)),
+                new RubiksCubeFace(Collections.nCopies(9, Colour.GREEN)),
+                new RubiksCubeFace(Collections.nCopies(9, Colour.BLUE)));
     }
 
     private void shuffleCube(RubiksCube cube) {
