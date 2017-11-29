@@ -36,34 +36,6 @@ public class RubiksCube {
     }
 
     /**
-     * Create a Rubik's Cube with the given face colours. All colour lists are in the order
-     * top-left, top-middle, top-right, middle-left, middle, middle-right, bottom-left,
-     * bottom-middle, bottom-right.
-     *
-     * @param frontColours the colours for the front face
-     * @param leftColours the colours for the left face
-     * @param backColours the colours for the back face
-     * @param rightColours the colours for the right face
-     * @param topColours the colours of the top face
-     * @param bottomColours the colours of the bottom face
-     */
-    public RubiksCube(
-            List<Colour> frontColours,
-            List<Colour> leftColours,
-            List<Colour> backColours,
-            List<Colour> rightColours,
-            List<Colour> topColours,
-            List<Colour> bottomColours) {
-        this(
-                new RubiksCubeFace(frontColours),
-                new RubiksCubeFace(leftColours),
-                new RubiksCubeFace(backColours),
-                new RubiksCubeFace(rightColours),
-                new RubiksCubeFace(topColours),
-                new RubiksCubeFace(bottomColours));
-    }
-
-    /**
      * Rotates the cube clockwise to change which face is facing forwards.
      *
      * @return this cube after the rotation has been applied
