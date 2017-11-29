@@ -38,25 +38,11 @@ public class CubeScanner {
         List<Line> centreLines = findCentreLines(combinedLines);
 
         if (centreLines == null) {
-            successful = false;
             return;
         }
 
         List<Point> centrePoints = findCentrePoints(centreLines);
         findColours(cubeImage, centrePoints);
-
-        successful = true;
-    }
-
-    /**
-     * Returns whether the scan was able to successfully find a colour for each of the squares. Note
-     * that a successful scan does not mean that the colours are correct, only that colours were
-     * able to be found. These colours can still be incorrectly identified.
-     *
-     * @return true if the scan was successful and the results can be used, false otherwise
-     */
-    boolean wasSuccessful() {
-        return successful;
     }
 
     /**
@@ -271,8 +257,6 @@ public class CubeScanner {
         // Hue wraps around from 180. to 0. so must take this into account
         return 90. - Math.min(Math.abs(hue1 - hue2), 180. - Math.abs(hue1 - hue2));
     }
-
-    private boolean successful;
 
     private Mat faceImage;
 
