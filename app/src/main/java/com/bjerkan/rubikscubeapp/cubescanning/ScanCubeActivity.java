@@ -88,10 +88,10 @@ public class ScanCubeActivity extends FragmentActivity
     }
 
     private void showResultFragment() {
-        if (cubeScanner.faceImage().isPresent()) {
-            resultFragment.setResultImage(matToBitmap(cubeScanner.faceImage().get()));
+        cubeScanner.faceImage().ifPresent(faceImage -> {
+            resultFragment.setResultImage(matToBitmap(faceImage));
             setFragment(resultFragment);
-        }
+        });
     }
 
     private void showCubeGraphic() {
