@@ -2,6 +2,8 @@ package com.bjerkan.rubikscubeapp.cubescanning;
 
 import org.opencv.core.Point;
 
+import java.util.Optional;
+
 /**
  * A polar representation of a line (ρ = x cosθ + y sinθ).
  */
@@ -87,12 +89,12 @@ class Line {
 
     /**
      * Returns the point whether this line intersects with the given line. If the lines are parallel
-     * and do not intersect, null is returned.
+     * and do not intersect, an empty Optional is returned.
      *
      * @param otherLine the line to find the intersection with
-     * @return the point of intersection, or null if the lines do not intersect
+     * @return an Optional with the point of intersection, or empty if the lines do not intersect
      */
-    Point intersection(Line otherLine) {
+    Optional<Point> intersection(Line otherLine) {
         double cosTheta = Math.cos(theta);
         double sinTheta = Math.sin(theta);
         double otherCosTheta = Math.cos(otherLine.theta);
@@ -101,13 +103,13 @@ class Line {
         double det = cosTheta * otherSinTheta - sinTheta * otherCosTheta;
 
         if (det == 0) {
-            return null;
+            return Optional.empty();
         }
 
         double x = (otherSinTheta * rho - sinTheta * otherLine.rho) / det;
         double y = (cosTheta * otherLine.rho - otherCosTheta * rho) / det;
 
-        return new Point(x, y);
+        return Optional.of(new Point(x, y));
     }
 
     private final double rho;

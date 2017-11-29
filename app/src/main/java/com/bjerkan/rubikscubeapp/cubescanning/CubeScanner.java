@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,44 +38,30 @@ public class CubeScanner {
         List<Line> centreLines = findCentreLines(combinedLines);
 
         if (centreLines == null) {
-            successful = false;
             return;
         }
 
         List<Point> centrePoints = findCentrePoints(centreLines);
         findColours(cubeImage, centrePoints);
-
-        successful = true;
     }
 
     /**
-     * Returns whether the scan was able to successfully find a colour for each of the squares. Note
-     * that a successful scan does not mean that the colours are correct, only that colours were
-     * able to be found. These colours can still be incorrectly identified.
+     * Returns the scanned RubiksCubeFace.
      *
-     * @return true if the scan was successful and the results can be used, false otherwise
+     * @return an Optional containing the scanned face, or empty if scan was not successful
      */
-    boolean wasSuccessful() {
-        return successful;
-    }
-
-    /**
-     * Returns the scanned RubiksCubeFace. Assumes the scan was successful and will return null if
-     * not.
-     *
-     * @return the scanned RubiksCubeFace result
-     */
-    RubiksCubeFace scannedFace() {
-        return scannedFace;
+    Optional<RubiksCubeFace> scannedFace() {
+        return Optional.ofNullable(scannedFace);
     }
 
     /**
      * Returns the Mat image showing the scanned face colours.
      *
-     * @return a Mat image representing the scanned cube face
+     * @return an Optional containing a Mat image representing the scanned cube face, or empty if
+     * scan was not successful
      */
-    Mat faceImage() {
-        return faceImage;
+    Optional<Mat> faceImage() {
+        return Optional.ofNullable(faceImage);
     }
 
     private Mat findEdges(Mat originalImage) {
@@ -270,8 +257,6 @@ public class CubeScanner {
         // Hue wraps around from 180. to 0. so must take this into account
         return 90. - Math.min(Math.abs(hue1 - hue2), 180. - Math.abs(hue1 - hue2));
     }
-
-    private boolean successful;
 
     private Mat faceImage;
 
