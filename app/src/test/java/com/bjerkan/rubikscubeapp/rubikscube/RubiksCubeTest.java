@@ -470,38 +470,38 @@ public class RubiksCubeTest {
     }
 
     private RubiksCube createCube() {
-        List<Colour> frontColours = Arrays.asList(
+        RubiksCubeFace frontFace = new RubiksCubeFace(
                 YELLOW, GREEN, WHITE,
                 WHITE, BLUE, ORANGE,
                 GREEN, YELLOW, GREEN);
 
-        List<Colour> leftColours = Arrays.asList(
+        RubiksCubeFace leftFace = new RubiksCubeFace(
                 WHITE, WHITE, RED,
                 RED, ORANGE, ORANGE,
                 ORANGE, YELLOW, YELLOW);
 
-        List<Colour> backColours = Arrays.asList(
+        RubiksCubeFace backFace = new RubiksCubeFace(
                 GREEN, BLUE, BLUE,
                 BLUE, GREEN, WHITE,
                 WHITE, RED, BLUE);
 
-        List<Colour> rightColours = Arrays.asList(
+        RubiksCubeFace rightFace = new RubiksCubeFace(
                 BLUE, RED, YELLOW,
                 YELLOW, RED, WHITE,
                 ORANGE, YELLOW, GREEN);
 
-        List<Colour> topColours = Arrays.asList(
+        RubiksCubeFace topFace = new RubiksCubeFace(
                 RED, ORANGE, ORANGE,
                 GREEN, YELLOW, GREEN,
                 BLUE, ORANGE, ORANGE);
 
-        List<Colour> bottomColours = Arrays.asList(
+        RubiksCubeFace bottomFace = new RubiksCubeFace(
                 RED, GREEN, WHITE,
                 BLUE, WHITE, RED,
                 YELLOW, BLUE, RED);
 
         return new RubiksCube(
-                frontColours, leftColours, backColours,
-                rightColours, topColours, bottomColours);
+                frontFace, leftFace, backFace,
+                rightFace, topFace, bottomFace);
     }
 }
