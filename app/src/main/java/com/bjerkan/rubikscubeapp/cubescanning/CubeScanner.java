@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -59,22 +60,22 @@ public class CubeScanner {
     }
 
     /**
-     * Returns the scanned RubiksCubeFace. Assumes the scan was successful and will return null if
-     * not.
+     * Returns the scanned RubiksCubeFace.
      *
-     * @return the scanned RubiksCubeFace result
+     * @return an Optional containing the scanned face, or empty if scan was not successful
      */
-    RubiksCubeFace scannedFace() {
-        return scannedFace;
+    Optional<RubiksCubeFace> scannedFace() {
+        return Optional.ofNullable(scannedFace);
     }
 
     /**
      * Returns the Mat image showing the scanned face colours.
      *
-     * @return a Mat image representing the scanned cube face
+     * @return an Optional containing a Mat image representing the scanned cube face, or empty if
+     * scan was not successful
      */
-    Mat faceImage() {
-        return faceImage;
+    Optional<Mat> faceImage() {
+        return Optional.ofNullable(faceImage);
     }
 
     private Mat findEdges(Mat originalImage) {

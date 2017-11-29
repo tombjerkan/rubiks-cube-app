@@ -52,14 +52,12 @@ public class ScanCubeActivity extends FragmentActivity
     public void onImageCaptured(Mat image) {
         cubeScanner = new CubeScanner(image);
 
-        if (!cubeScanner.wasSuccessful()) {
+        if (cubeScanner.scannedFace().isPresent()) {
+            scannedFaces.put(currentFace, cubeScanner.scannedFace().get());
+            showResultFragment();
+        } else {
             Toast.makeText(this, "Scan Failed", Toast.LENGTH_SHORT).show();
-            return;
         }
-
-        scannedFaces.put(currentFace, cubeScanner.scannedFace());
-
-        showResultFragment();
     }
 
     /**
@@ -90,8 +88,10 @@ public class ScanCubeActivity extends FragmentActivity
     }
 
     private void showResultFragment() {
-        resultFragment.setResultImage(matToBitmap(cubeScanner.faceImage()));
-        setFragment(resultFragment);
+        if (cubeScanner.faceImage().isPresent()) {
+            resultFragment.setResultImage(matToBitmap(cubeScanner.faceImage().get()));
+            setFragment(resultFragment);
+        }
     }
 
     private void showCubeGraphic() {
