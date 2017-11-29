@@ -1,12 +1,13 @@
 package com.bjerkan.rubikscubeapp.rubikscube;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
 /**
  * A class representing a single face of a Rubik's Cube.
  */
-public class RubiksCubeFace {
+public class RubiksCubeFace implements Serializable {
     /**
      * Create a RubiksCubeFace with the square colours given.
      *

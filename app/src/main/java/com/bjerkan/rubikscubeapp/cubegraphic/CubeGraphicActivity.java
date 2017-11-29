@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import com.bjerkan.rubikscubeapp.R;
-import com.bjerkan.rubikscubeapp.rubikscube.Colour;
 import com.bjerkan.rubikscubeapp.rubikscube.RubiksCube;
+import com.bjerkan.rubikscubeapp.rubikscube.RubiksCubeFace;
 import com.bjerkan.rubikscubeapp.rubikscube.Solver;
 
 import java.util.HashMap;
@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.stream.Collectors;
 
 import static com.bjerkan.rubikscubeapp.cubegraphic.RubiksCubeModel.AnimationFinishedListener;
 
@@ -29,25 +28,25 @@ public class CubeGraphicActivity extends Activity implements AnimationFinishedLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cube_graphic);
 
-        List<Colour> frontColours = asColourList(
-                getIntent().getStringArrayListExtra(FRONT_COLOURS_ARGUMENT));
-        List<Colour> leftColours = asColourList(
-                getIntent().getStringArrayListExtra(LEFT_COLOURS_ARGUMENT));
-        List<Colour> backColours = asColourList(
-                getIntent().getStringArrayListExtra(BACK_COLOURS_ARGUMENT));
-        List<Colour> rightColours = asColourList(
-                getIntent().getStringArrayListExtra(RIGHT_COLOURS_ARGUMENT));
-        List<Colour> topColours = asColourList(
-                getIntent().getStringArrayListExtra(TOP_COLOURS_ARGUMENT));
-        List<Colour> bottomColours = asColourList(
-                getIntent().getStringArrayListExtra(BOTTOM_COLOURS_ARGUMENT));
+        RubiksCubeFace frontFace = (RubiksCubeFace) getIntent().getSerializableExtra(
+                FRONT_COLOURS_ARGUMENT);
+        RubiksCubeFace leftFace = (RubiksCubeFace) getIntent().getSerializableExtra(
+                LEFT_COLOURS_ARGUMENT);
+        RubiksCubeFace backFace = (RubiksCubeFace) getIntent().getSerializableExtra(
+                BACK_COLOURS_ARGUMENT);
+        RubiksCubeFace rightFace = (RubiksCubeFace) getIntent().getSerializableExtra(
+                RIGHT_COLOURS_ARGUMENT);
+        RubiksCubeFace topFace = (RubiksCubeFace) getIntent().getSerializableExtra(
+                TOP_COLOURS_ARGUMENT);
+        RubiksCubeFace bottomFace = (RubiksCubeFace) getIntent().getSerializableExtra(
+                BOTTOM_COLOURS_ARGUMENT);
 
-        rubiksCubeModel = new RubiksCubeModel(frontColours, leftColours, backColours, rightColours,
-                topColours, bottomColours);
+        rubiksCubeModel = new RubiksCubeModel(
+                frontFace, leftFace, backFace, rightFace, topFace, bottomFace);
         rubiksCubeModel.setAnimationFinishedListener(this);
 
-        RubiksCube cube = new RubiksCube(frontColours, leftColours, backColours, rightColours,
-                topColours, bottomColours);
+        RubiksCube cube = new RubiksCube(
+                frontFace, leftFace, backFace, rightFace, topFace, bottomFace);
 
         List<RubiksCube.Action> solvingActions = Solver.solve(cube);
         prepareCubeModelActions(solvingActions);
@@ -56,12 +55,6 @@ public class CubeGraphicActivity extends Activity implements AnimationFinishedLi
 
         CubeSurfaceView cubeSurfaceView = findViewById(R.id.cubeSurfaceView);
         cubeSurfaceView.setModel(rubiksCubeModel);
-    }
-
-    private List<Colour> asColourList(List<String> colourNames) {
-        return colourNames.stream()
-                .map(Colour::valueOf)
-                .collect(Collectors.toList());
     }
 
     /**

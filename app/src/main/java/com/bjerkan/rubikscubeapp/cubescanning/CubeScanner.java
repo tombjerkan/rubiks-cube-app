@@ -1,6 +1,7 @@
 package com.bjerkan.rubikscubeapp.cubescanning;
 
 import com.bjerkan.rubikscubeapp.rubikscube.Colour;
+import com.bjerkan.rubikscubeapp.rubikscube.RubiksCubeFace;
 
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
@@ -58,23 +59,22 @@ public class CubeScanner {
     }
 
     /**
-     * Returns the colours found for the cube face. Assumes the scan was successful and will return
-     * null if not. The list is in the order top-left, top-middle, top-right, middle-left, middle,
-     * middle-right, bottom-left, bottom-middle, bottom-right.
+     * Returns the scanned RubiksCubeFace. Assumes the scan was successful and will return null if
+     * not.
      *
-     * @return A list of colours for the squares of the cube face scanned
+     * @return the scanned RubiksCubeFace result
      */
-    List<Colour> squareColours() {
-        return squareColours;
+    RubiksCubeFace scannedFace() {
+        return scannedFace;
     }
 
     /**
-     * Returns the Mat image showing a 3x3 grid of squares with the scanned colours.
+     * Returns the Mat image showing the scanned face colours.
      *
      * @return a Mat image representing the scanned cube face
      */
-    Mat coloursImage() {
-        return coloursImage;
+    Mat faceImage() {
+        return faceImage;
     }
 
     private Mat findEdges(Mat originalImage) {
@@ -198,7 +198,7 @@ public class CubeScanner {
         final Mat hsvImage = new Mat(originalImage.size(), CvType.CV_8UC3);
         Imgproc.cvtColor(originalImage, hsvImage, Imgproc.COLOR_RGB2HSV, 3);
 
-        squareColours = centrePoints.stream().map(centre -> {
+        List<Colour> squareColours = centrePoints.stream().map(centre -> {
             List<Point> votingPoints = votingPoints(centre);
 
             Map<Colour, Integer> colourVotes = new HashMap<>();
@@ -213,7 +213,9 @@ public class CubeScanner {
                     .get().getKey();
         }).collect(Collectors.toList());
 
-        drawColourImage();
+        scannedFace = new RubiksCubeFace(squareColours);
+
+        drawFaceImage();
     }
 
     private List<Point> votingPoints(Point centre) {
@@ -250,16 +252,16 @@ public class CubeScanner {
                 .get();
     }
 
-    private void drawColourImage() {
-        coloursImage = new Mat(300, 300, CvType.CV_8UC4);
+    private void drawFaceImage() {
+        faceImage = new Mat(300, 300, CvType.CV_8UC4);
 
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 Point start = new Point(x * 100, y * 100);
                 Point end = new Point((x + 1) * 100 - 1, (y + 1) * 100 - 1);
-                Scalar colour = squareColours.get((y * 3) + x).rgb;
+                Scalar colour = scannedFace.colours().get((y * 3) + x).rgb;
 
-                Imgproc.rectangle(coloursImage, start, end, colour, -1);
+                Imgproc.rectangle(faceImage, start, end, colour, -1);
             }
         }
     }
@@ -271,9 +273,9 @@ public class CubeScanner {
 
     private boolean successful;
 
-    private Mat coloursImage;
+    private Mat faceImage;
 
-    private List<Colour> squareColours;
+    private RubiksCubeFace scannedFace;
 
     private static final int CANNY_THRESHOLD_1 = 10;
     private static final int CANNY_THRESHOLD_2 = 25;
