@@ -189,6 +189,20 @@ public class RubiksCubeFace {
     }
 
     /**
+     * Returns the colours of the face. The order of the colours in the list is top-left,
+     * top-middle, top-right, middle-left, middle, middle-right, bottom-left, bottom-middle,
+     * bottom-right.
+     *
+     * @return a list of the colours of the face
+     */
+    public List<Colour> colours() {
+        return Arrays.asList(
+                topLeft, topMiddle, topRight,
+                middleLeft, middle, middleRight,
+                bottomLeft, bottomMiddle, bottomRight);
+    }
+
+    /**
      * Returns the colours of the top row of this face.
      *
      * @return a list of colours in the order top-left, top-middle, top-right
