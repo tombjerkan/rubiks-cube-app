@@ -163,17 +163,19 @@ public class CubeScanner {
     }
 
     private List<Point> findCentrePoints(List<Line> centreLines) {
-        Point topLeftCentre = centreLines.get(0).intersection(centreLines.get(3));
-        Point topMiddleCentre = centreLines.get(0).intersection(centreLines.get(4));
-        Point topRightCentre = centreLines.get(0).intersection(centreLines.get(5));
+        // Do not need to check that Optional not empty as centre lines always 3 horizontal and
+        // 3 vertical lines. A horizontal and a vertical line always have an intersection.
+        Point topLeftCentre = centreLines.get(0).intersection(centreLines.get(3)).get();
+        Point topMiddleCentre = centreLines.get(0).intersection(centreLines.get(4)).get();
+        Point topRightCentre = centreLines.get(0).intersection(centreLines.get(5)).get();
 
-        Point middleLeftCentre = centreLines.get(1).intersection(centreLines.get(3));
-        Point middleMiddleCentre = centreLines.get(1).intersection(centreLines.get(4));
-        Point middleRightCentre = centreLines.get(1).intersection(centreLines.get(5));
+        Point middleLeftCentre = centreLines.get(1).intersection(centreLines.get(3)).get();
+        Point middleMiddleCentre = centreLines.get(1).intersection(centreLines.get(4)).get();
+        Point middleRightCentre = centreLines.get(1).intersection(centreLines.get(5)).get();
 
-        Point bottomLeftCentre = centreLines.get(2).intersection(centreLines.get(3));
-        Point bottomMiddleCentre = centreLines.get(2).intersection(centreLines.get(4));
-        Point bottomRightCentre = centreLines.get(2).intersection(centreLines.get(5));
+        Point bottomLeftCentre = centreLines.get(2).intersection(centreLines.get(3)).get();
+        Point bottomMiddleCentre = centreLines.get(2).intersection(centreLines.get(4)).get();
+        Point bottomRightCentre = centreLines.get(2).intersection(centreLines.get(5)).get();
 
         return new ArrayList<>(Arrays.asList(
                 topLeftCentre, topMiddleCentre, topRightCentre,
